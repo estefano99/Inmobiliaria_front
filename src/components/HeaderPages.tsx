@@ -1,3 +1,5 @@
+import { ModeToggle } from "./mode-toggle"
+
 type TitleProps = {
   title: string
 }
@@ -11,6 +13,7 @@ const HeaderPages = ({title}: TitleProps) => {
         {title}
       </h2>
       <div className="absolute top-2 right-2">
+        <ModeToggle/>
       </div>
     </header>
   )
