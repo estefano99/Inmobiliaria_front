@@ -9,13 +9,37 @@ import {
 } from "@/components/ui/table";
 import { SquarePen, Trash } from "lucide-react";
 import FormAlta from "./FormAlta";
+import { LocatarioType } from "@/types/types";
+import { useState } from "react";
+import FormEditar from "./FormEditar";
 
-export function LocLotTable() {
+interface props {
+  locatarios: LocatarioType[];
+}
+
+export function LocLotTable({ locatarios }: props) {
+  const [isEdit, setIsEdit] = useState(false);
+  const [locatarioEditar, setLocatarioEditar] = useState<LocatarioType | null>(
+    null
+  );
+
+  const handleEditar = async (locatario: LocatarioType) => {
+    setLocatarioEditar(locatario);
+    setIsEdit(true);
+  };
   return (
     <div className="md:w-[90%] mx-auto mt-5">
       {/* BOTON crear locatario que llama al form */}
       <div className="w-full my-5 flex justify-end">
         <FormAlta />
+        {isEdit && locatarioEditar && (
+          <FormEditar
+            locatario={locatarioEditar}
+            setIsEdit={setIsEdit}
+            isEdit={isEdit}
+            setLocatarioEditar={setLocatarioEditar}
+          />
+        )}
       </div>
       <Table>
         <TableHeader>
@@ -28,16 +52,29 @@ export function LocLotTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell>$250.00</TableCell>
-            <TableCell className="flex gap-4">
-              <SquarePen color="green" className="hover:cursor-pointer" />{" "}
-              <Trash color="red" className="hover:cursor-pointer" />
-            </TableCell>
-          </TableRow>
+          {locatarios.length > 0 ? (
+            locatarios.map((locatario) => (
+              <TableRow key={locatario.id}>
+                <TableCell>{locatario.nombre}</TableCell>
+                <TableCell>{locatario.apellido}</TableCell>
+                <TableCell>{locatario.dni}</TableCell>
+                <TableCell>{locatario.telefono}</TableCell>
+                <TableCell className="flex gap-4">
+                  <SquarePen
+                    color="green"
+                    onClick={() => handleEditar(locatario)}
+                    className="hover:cursor-pointer"
+                  />{" "}
+                  <Trash color="red" className="hover:cursor-pointer" />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <p className="mt-5">
+              Aún no ha creado Locatarios, presione en crear Locatario para
+              cargarlos.
+            </p>
+          )}
         </TableBody>
       </Table>
     </div>

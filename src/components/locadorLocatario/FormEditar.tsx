@@ -15,17 +15,17 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { crearLocatario } from "@/api/LocatarioApi";
-import { useMutation } from "@tanstack/react-query";
+import { editarLocatario } from "@/api/LocatarioApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { LocatarioType } from "@/types/types";
 
 const formSchema = z.object({
   nombre: z.string().min(1, {
@@ -42,29 +42,39 @@ const formSchema = z.object({
   }),
 });
 
-const FormAlta = () => {
-  const [open, setOpen] = useState(false);
+interface props {
+  locatario: LocatarioType;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+  isEdit: boolean;
+  setLocatarioEditar: Dispatch<SetStateAction<LocatarioType | null>>;
+}
+
+const FormEditar = ({
+  locatario,
+  setIsEdit,
+  isEdit,
+  setLocatarioEditar,
+}: props) => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: "",
-      apellido: "",
-      dni: "",
-      telefono: "",
+      nombre: locatario.nombre,
+      apellido: locatario.apellido,
+      dni: locatario.dni,
+      telefono: locatario.telefono,
     },
   });
 
   const mutation = useMutation({
-    mutationFn: crearLocatario, //Funcion que realiza la mutacion(POST) y debemos pasarle como parametro la funcion
+    mutationFn: editarLocatario, //Funcion que realiza la mutacion(POST) y debemos pasarle como parametro la funcion en  carpeta api
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       toast({
-        title: `Error al crear el locatario`,
+        title: `Error al editar el locatario`,
         variant: "destructive",
-        description:
-          error.message ||
-          "Error inoportuno al crear un locatario",
+        description: error.message || "Error inoportuno al editar un locatario",
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
@@ -74,7 +84,7 @@ const FormAlta = () => {
         title: respuesta.message,
         description: (
           <span>
-            Se ha creado{" "}
+            Se ha editado{" "}
             <span className="underline underline-offset-2">
               {respuesta.locatario.nombre}
             </span>
@@ -83,24 +93,32 @@ const FormAlta = () => {
         className:
           "from-green-600 to-green-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
-      form.reset();
-      setOpen(false); //Cierra modal
+      queryClient.invalidateQueries({ queryKey: ["locatarios"] }); // Invalidar la consulta "locatarios" para actualizar la lista, osea hace un get de todos nuevamente
+      setTimeout(() => {
+        setLocatarioEditar(null);
+        setIsEdit(true);
+      }, 500);
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await mutation.mutateAsync(values); //Esto seria como cuando haciamos con context const respuesta = await crearLocatario(values), esta funcion llama a useMutation declarado arriba
+    //Junto el id con los values del form
+    const data = {
+      id: locatario.id,
+      nombre: values.nombre,
+      apellido: values.apellido,
+      dni: values.dni,
+      telefono: values.telefono,
+    };
+    await mutation.mutateAsync(data);
   }
   return (
-    <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Crear Locatario</Button>
-      </AlertDialogTrigger>
+    <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Crear Locatario</AlertDialogTitle>
+          <AlertDialogTitle>Editar Locatario</AlertDialogTitle>
           <AlertDialogDescription>
-            Completa los campos para crear un nuevo Locatario.
+            Edita los campos que deseas modificar.
           </AlertDialogDescription>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -158,7 +176,9 @@ const FormAlta = () => {
               />
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Cargando..." : "Guardar"}</Button>
+                <Button type="submit" disabled={mutation.isPending}>
+                  {mutation.isPending ? "Cargando..." : "Guardar"}
+                </Button>
               </AlertDialogFooter>
             </form>
           </Form>
@@ -168,4 +188,4 @@ const FormAlta = () => {
   );
 };
 
-export default FormAlta;
+export default FormEditar;

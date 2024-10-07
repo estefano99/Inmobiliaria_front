@@ -1,4 +1,5 @@
 import Sidebar from "@/components/sidebar/Sidebar"
+import { Toaster } from "@/components/ui/toaster"
 import { Outlet } from "react-router-dom"
 
 const AdminLayout = () => {
@@ -6,6 +7,7 @@ const AdminLayout = () => {
     <main className="flex w-full min-h-screen">
       <Sidebar/>
       <Outlet/>
+      <Toaster/>
     </main>
   )
 }

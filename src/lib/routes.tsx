@@ -1,13 +1,13 @@
-const inicio: string = '/inicio';
-const locador: string = '/locador';
-const locatario: string = 'locatario';
-const imnuebles: string = 'imnuebles';
-const contratos: string = 'contratos';
+const inicioRoute: string = '/inicio';
+const locadorRoute: string = '/locador';
+const locatarioRoute: string = '/locatario';
+const imnueblesRoute: string = '/imnuebles';
+const contratosRoute: string = '/contratos';
 
 export {
-  inicio,
-  locador,
-  locatario,
-  imnuebles,
-  contratos
+  inicioRoute,
+  locadorRoute,
+  locatarioRoute,
+  imnueblesRoute,
+  contratosRoute
 }
