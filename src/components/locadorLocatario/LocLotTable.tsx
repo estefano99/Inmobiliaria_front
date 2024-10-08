@@ -7,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SquarePen, Trash } from "lucide-react";
+import { SquarePen } from "lucide-react";
 import FormAlta from "./FormAlta";
 import { LocatarioType } from "@/types/types";
 import { useState } from "react";
 import FormEditar from "./FormEditar";
+import Delete from "./Delete";
 
 interface props {
   locatarios: LocatarioType[];
@@ -19,6 +20,8 @@ interface props {
 
 export function LocLotTable({ locatarios }: props) {
   const [isEdit, setIsEdit] = useState(false);
+    // const [locatarioEliminar, setLocatarioEliminar] =
+  //   useState<LocatarioType | null>(null);
   const [locatarioEditar, setLocatarioEditar] = useState<LocatarioType | null>(
     null
   );
@@ -27,6 +30,7 @@ export function LocLotTable({ locatarios }: props) {
     setLocatarioEditar(locatario);
     setIsEdit(true);
   };
+
   return (
     <div className="md:w-[90%] mx-auto mt-5">
       {/* BOTON crear locatario que llama al form */}
@@ -59,13 +63,13 @@ export function LocLotTable({ locatarios }: props) {
                 <TableCell>{locatario.apellido}</TableCell>
                 <TableCell>{locatario.dni}</TableCell>
                 <TableCell>{locatario.telefono}</TableCell>
-                <TableCell className="flex gap-4">
+                <TableCell className="flex items-center gap-4">
                   <SquarePen
                     color="green"
                     onClick={() => handleEditar(locatario)}
                     className="hover:cursor-pointer"
                   />{" "}
-                  <Trash color="red" className="hover:cursor-pointer" />
+                    <Delete locatario={locatario} />
                 </TableCell>
               </TableRow>
             ))
@@ -75,6 +79,7 @@ export function LocLotTable({ locatarios }: props) {
               cargarlos.
             </p>
           )}
+          {/* Dialog para confirmacion de eliminar */}
         </TableBody>
       </Table>
     </div>

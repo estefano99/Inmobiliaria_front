@@ -40,8 +40,23 @@ const editarLocatario = async (locatario: LocatarioType) => {
   }
 }
 
+const eliminarLocatario = async (locatario: LocatarioType) => {
+  const {id} = locatario;
+  console.log(id)
+  try {
+    const { data } = await clienteAxios.delete(`${locatarioRoute}/${id}`);
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+}
+
 export {
   crearLocatario,
   obtenerLocatarios,
-  editarLocatario
+  editarLocatario,
+  eliminarLocatario
 }
