@@ -13,6 +13,7 @@ import { LocatarioType } from "@/types/types";
 import { useState } from "react";
 import FormEditar from "./FormEditar";
 import Delete from "./Delete";
+import { Input } from "../ui/input";
 
 interface props {
   locatarios: LocatarioType[];
@@ -20,21 +21,33 @@ interface props {
 
 export function LocLotTable({ locatarios }: props) {
   const [isEdit, setIsEdit] = useState(false);
-    // const [locatarioEliminar, setLocatarioEliminar] =
-  //   useState<LocatarioType | null>(null);
   const [locatarioEditar, setLocatarioEditar] = useState<LocatarioType | null>(
     null
   );
+  const [filter, setFilter] = useState(""); // Estado para el filtro
 
   const handleEditar = async (locatario: LocatarioType) => {
     setLocatarioEditar(locatario);
     setIsEdit(true);
   };
 
+  // Filtrar los locatarios según el término de búsqueda
+  const filteredLocatarios = locatarios.filter((locatario) =>
+    `${locatario.nombre} ${locatario.apellido} ${locatario.dni} ${locatario.telefono}`
+      .toLowerCase()
+      .includes(filter.toLowerCase())
+  );
+
   return (
     <div className="md:w-[90%] mx-auto mt-5">
       {/* BOTON crear locatario que llama al form */}
-      <div className="w-full my-5 flex justify-end">
+      <div className="w-full my-5 flex justify-between">
+        <Input
+          className="w-1/4"
+          placeholder="Filtrar..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
         <FormAlta />
         {isEdit && locatarioEditar && (
           <FormEditar
@@ -56,8 +69,8 @@ export function LocLotTable({ locatarios }: props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {locatarios.length > 0 ? (
-            locatarios.map((locatario) => (
+        {filteredLocatarios.length > 0 ? (
+            filteredLocatarios.map((locatario) => (
               <TableRow key={locatario.id}>
                 <TableCell>{locatario.nombre}</TableCell>
                 <TableCell>{locatario.apellido}</TableCell>
@@ -68,15 +81,14 @@ export function LocLotTable({ locatarios }: props) {
                     color="green"
                     onClick={() => handleEditar(locatario)}
                     className="hover:cursor-pointer"
-                  />{" "}
-                    <Delete locatario={locatario} />
+                  />
+                  <Delete locatario={locatario} />
                 </TableCell>
               </TableRow>
             ))
           ) : (
             <p className="mt-5">
-              Aún no ha creado Locatarios, presione en crear Locatario para
-              cargarlos.
+              No se encontraron locatarios que coincidan con el filtro.
             </p>
           )}
           {/* Dialog para confirmacion de eliminar */}
