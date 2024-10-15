@@ -25,7 +25,8 @@ import { Dispatch, SetStateAction } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { editarLocatario } from "@/api/LocatarioApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LocatarioType } from "@/types/types";
+import { LocadorType, LocatarioType } from "@/types/types";
+import { editarLocador } from "@/api/LocadorApi";
 
 const formSchema = z.object({
   nombre: z.string().min(1, {
@@ -43,10 +44,12 @@ const formSchema = z.object({
 });
 
 interface props {
-  locatario: LocatarioType;
+  locatario: LocatarioType | null;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isEdit: boolean;
   setLocatarioEditar: Dispatch<SetStateAction<LocatarioType | null>>;
+  locador: LocadorType | null;
+  setLocadorEditar: Dispatch<SetStateAction<LocatarioType | null>>;
 }
 
 const FormEditar = ({
@@ -54,27 +57,29 @@ const FormEditar = ({
   setIsEdit,
   isEdit,
   setLocatarioEditar,
+  locador,
+  setLocadorEditar,
 }: props) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: locatario.nombre,
-      apellido: locatario.apellido,
-      dni: locatario.dni,
-      telefono: locatario.telefono,
+      nombre: locatario ? locatario.nombre : locador?.nombre,
+      apellido: locatario ? locatario.apellido : locador?.apellido,
+      dni: locatario ? locatario.dni : locador?.dni,
+      telefono: locatario ? locatario.telefono : locador?.telefono,
     },
   });
 
   const mutation = useMutation({
-    mutationFn: editarLocatario, //Funcion que realiza la mutacion(POST) y debemos pasarle como parametro la funcion en  carpeta api
+    mutationFn: locatario ? editarLocatario : editarLocador, //Funcion que realiza la mutacion(POST) y debemos pasarle como parametro la funcion en  carpeta api
     onError: (error) => {
       console.log(error);
       toast({
-        title: `Error al editar el locatario`,
+        title: `Error al editar el ${locatario ? 'locatario' : 'locador'}`,
         variant: "destructive",
-        description: error.message || "Error inoportuno al editar un locatario",
+        description: error.message || `Error inoportuno al editar un ${locatario ? 'locatario' : 'locador'}`,
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
@@ -86,16 +91,18 @@ const FormEditar = ({
           <span>
             Se ha editado{" "}
             <span className="underline underline-offset-2">
-              {respuesta.locatario.nombre}
+              {locatario ? respuesta.locatario.nombre : respuesta.locador.nombre}
             </span>
           </span>
         ),
         className:
           "from-green-600 to-green-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
-      queryClient.invalidateQueries({ queryKey: ["locatarios"] }); // Invalidar la consulta "locatarios" para actualizar la lista, osea hace un get de todos nuevamente
+      const invalidarQuery = locador ? "locadores" : "locatarios"
+      queryClient.invalidateQueries({ queryKey: [invalidarQuery] }); // Invalidar la consulta "locatarios" para actualizar la lista, osea hace un get de todos nuevamente
       setTimeout(() => {
         setLocatarioEditar(null);
+        setLocadorEditar(null);
         setIsEdit(true);
       }, 500);
     },
@@ -103,20 +110,31 @@ const FormEditar = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     //Junto el id con los values del form
-    const data = {
-      id: locatario.id,
-      nombre: values.nombre,
-      apellido: values.apellido,
-      dni: values.dni,
-      telefono: values.telefono,
-    };
+    let data: LocatarioType;
+    if (locatario) {
+      data = {
+        id: locatario.id,
+        nombre: values.nombre,
+        apellido: values.apellido,
+        dni: values.dni,
+        telefono: values.telefono,
+      };
+    } else {
+      data = {
+        id: locador?.id,
+        nombre: values.nombre,
+        apellido: values.apellido,
+        dni: values.dni,
+        telefono: values.telefono,
+      };
+    }
     await mutation.mutateAsync(data);
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Editar Locatario</AlertDialogTitle>
+          <AlertDialogTitle>{`${locatario ? "Editar Locatario" : "Editar Locador"}`}</AlertDialogTitle>
           <AlertDialogDescription>
             Edita los campos que deseas modificar.
           </AlertDialogDescription>

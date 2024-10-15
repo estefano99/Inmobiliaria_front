@@ -25,7 +25,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { crearLocatario } from "@/api/LocatarioApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { crearLocador } from "@/api/LocadorApi";
 
 const formSchema = z.object({
   nombre: z.string().min(1, {
@@ -42,9 +43,14 @@ const formSchema = z.object({
   }),
 });
 
-const FormAlta = () => {
+interface props {
+  isLocatario: boolean;
+}
+
+const FormAlta = ({ isLocatario }: props) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,15 +62,17 @@ const FormAlta = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: crearLocatario, //Funcion que realiza la mutacion(POST) y debemos pasarle como parametro la funcion
+    mutationFn: isLocatario ? crearLocatario : crearLocador,
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       toast({
-        title: `Error al crear el locatario`,
+        title: `Error al crear el ${isLocatario ? "locatario" : "locador"}`,
         variant: "destructive",
         description:
           error.message ||
-          "Error inoportuno al crear un locatario",
+          `Error inoportuno al crear un ${
+            isLocatario ? "locatario" : "locador"
+          }`,
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
@@ -76,13 +84,17 @@ const FormAlta = () => {
           <span>
             Se ha creado{" "}
             <span className="underline underline-offset-2">
-              {respuesta.locatario.nombre}
+              {isLocatario
+                ? respuesta.locatario.nombre
+                : respuesta.locador.nombre}
             </span>
           </span>
         ),
         className:
           "from-green-600 to-green-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
+      const invalidarQuery = isLocatario ? "locatarios" : "locadores";
+      queryClient.invalidateQueries({ queryKey: [invalidarQuery] });
       form.reset();
       setOpen(false); //Cierra modal
     },
@@ -94,13 +106,19 @@ const FormAlta = () => {
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Crear Locatario</Button>
+        <Button variant="outline">
+          {isLocatario ? "Crear Locatario" : "Crear Locador"}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Crear Locatario</AlertDialogTitle>
+          <AlertDialogTitle>
+            {isLocatario ? "Crear Locatario" : "Crear Locador"}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            Completa los campos para crear un nuevo Locatario.
+            {isLocatario
+              ? "Completa los campos para crear un nuevo Locatario."
+              : "Completa los campos para crear un nuevo Locador."}
           </AlertDialogDescription>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -158,7 +176,9 @@ const FormAlta = () => {
               />
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Cargando..." : "Guardar"}</Button>
+                <Button type="submit" disabled={mutation.isPending}>
+                  {mutation.isPending ? "Cargando..." : "Guardar"}
+                </Button>
               </AlertDialogFooter>
             </form>
           </Form>

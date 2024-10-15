@@ -1,0 +1,97 @@
+import { Button } from "@/components/ui/button";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { z } from "zod";
+
+const formSchema = z.object({
+  nombre: z.string().min(1, {
+    message: "Nombre es requerido",
+  }),
+  password: z.string().min(1, {
+    message: "Contraseña es requerida",
+  }),
+});
+
+export function Login() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      nombre: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    // await mutation.mutateAsync(values);
+  }
+  return (
+    <div className="w-full lg:grid lg:grid-cols-2">
+      <div className="flex items-center justify-center py-12">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold">Iniciar Sesión</h1>
+            <p className="text-balance text-muted-foreground">
+              Ingresa nombre de usuario y contraseña para ingresar al sistema.
+            </p>
+          </div>
+          <FormProvider {...form}>
+            <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+              {/* Campo para Nombre */}
+              <FormField
+                control={form.control}
+                name="nombre"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nombre</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ingresar nombre" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Campo para Contraseña */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contraseña</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ingresar contraseña"
+                        {...field}
+                        type="password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" className="w-full">
+                Iniciar Sesión
+              </Button>
+            </form>
+          </FormProvider>
+        </div>
+      </div>
+      <div className="hidden bg-muted lg:block">
+        <img
+          src="inmobiliaria.jpeg"
+          alt="Inmobiliaria"
+          className="h-full w-full dark:brightness-[0.8]"
+        />
+      </div>
+    </div>
+  );
+}

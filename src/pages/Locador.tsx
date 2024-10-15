@@ -1,21 +1,21 @@
 import HeaderPages from "@/components/HeaderPages";
 import { LocLotTable } from "@/components/locadorLocatario/LocLotTable";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerLocatarios } from "@/api/LocatarioApi";
+import { obtenerLocadores } from "@/api/LocadorApi";
 import { LocatarioType } from "@/types/types";
 
-const Locatario = () => {
+const Locador = () => {
   const { data, isLoading } = useQuery<LocatarioType[]>({
-    queryKey: ["locatarios"],
-    queryFn: obtenerLocatarios,
+    queryKey: ["locadores"],
+    queryFn: obtenerLocadores,
   });
 
   return (
     <div className="w-full">
-      <HeaderPages title="Locatario" />
-      {isLoading ? "Cargando..." :  data && <LocLotTable locadores={[]} locatarios={data} isLocatario={true} />}
+      <HeaderPages title="Locador" />
+      {isLoading ? "Cargando..." :  data && <LocLotTable locatarios={[]} locadores={data} isLocatario={false} />}
     </div>
   );
 };
 
-export default Locatario;
+export default Locador;

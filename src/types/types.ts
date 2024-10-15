@@ -5,3 +5,11 @@ export type LocatarioType = {
   dni: string;
   telefono: string;
 }
+
+export type LocadorType = {
+  id?: number;
+  nombre: string;
+  apellido: string;
+  dni: string;
+  telefono: string;
+}
