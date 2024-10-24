@@ -13,3 +13,9 @@ export type LocadorType = {
   dni: string;
   telefono: string;
 }
+
+export type UserType = {
+  id?: number;
+  nombre: string;
+  password: string;
+}

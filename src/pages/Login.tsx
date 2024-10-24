@@ -1,3 +1,4 @@
+import { login } from "@/api/Auth";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -7,7 +8,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -29,9 +32,32 @@ export function Login() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: login,
+    onError: (error) => {
+      console.log(error);
+      toast({
+        title: error.message || "Hubo un error al iniciar sesion",
+        variant: "destructive",
+        description:
+          `Intente iniciar sesion nuevamente, o revise sus credenciales`,
+        className:
+          "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Credenciales correctas",
+        description: "Iniciando sesion...",
+        className:
+          "from-green-600 to-green-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
+      });
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    // await mutation.mutateAsync(values);
+    await mutation.mutateAsync(values);
   }
   return (
     <div className="w-full lg:grid lg:grid-cols-2">
@@ -71,6 +97,7 @@ export function Login() {
                         placeholder="Ingresar contraseña"
                         {...field}
                         type="password"
+                        autoComplete="off"
                       />
                     </FormControl>
                     <FormMessage />
