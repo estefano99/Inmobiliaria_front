@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type LocatarioType = {
   id?: number;
   nombre: string;

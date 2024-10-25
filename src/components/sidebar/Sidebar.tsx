@@ -6,6 +6,7 @@ import {
   Package2,
   ShoppingCart,
   Users,
+  LogOut
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
@@ -30,6 +31,7 @@ const Sidebar = () => {
               { title: "Locatario", icon: Package },
               { title: "Inmuebles", icon: LineChart },
               { title: "Contratos", icon: Users },
+              { title: "Cerrar sesion", icon: LogOut  },
             ]}
           />
         </div>
@@ -56,6 +58,7 @@ const Sidebar = () => {
                   { title: "Locatario", icon: Package },
                   { title: "Inmuebles", icon: LineChart },
                   { title: "Contratos", icon: Users },
+                  { title: "Cerrar sesion", icon: LogOut  },
                 ]}
               />
             </SheetContent>

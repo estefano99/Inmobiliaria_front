@@ -1,7 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import SidebarLink from "./SidebarLink";
 
-
 type Link = {
   title: string,
   icon: LucideIcon
