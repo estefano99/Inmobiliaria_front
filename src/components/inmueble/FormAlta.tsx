@@ -56,7 +56,6 @@ const FormAlta = () => {
       localidad: "",
       piso: "",
       departamento: "",
-      // locador: {},
     },
   });
 
@@ -67,9 +66,7 @@ const FormAlta = () => {
       toast({
         title: `Error al crear el Inmueble"}`,
         variant: "destructive",
-        description:
-          error.message ||
-          `Error inoportuno al crear un Inmueble`,
+        description: error.message || `Error inoportuno al crear un Inmueble`,
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
@@ -81,7 +78,8 @@ const FormAlta = () => {
           <span>
             Se ha creado{" "}
             <span className="underline underline-offset-2">
-              {respuesta.inmueble.localidad} - {respuesta.inmueble.calle} - {respuesta.inmueble.altura}
+              {respuesta.inmueble.localidad} - {respuesta.inmueble.calle} -{" "}
+              {respuesta.inmueble.altura}
             </span>
           </span>
         ),
@@ -96,114 +94,114 @@ const FormAlta = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await mutation.mutateAsync(values); //Esto seria como cuando haciamos con context const respuesta = await crearLocatario(values), esta funcion llama a useMutation declarado arriba
+    await mutation.mutateAsync(values);
   }
   return (
-    <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">
-          Crear Inmueble
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            Crear Inmueble
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            Complete los campos para crear un nuevo Inmueble
-          </AlertDialogDescription>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="localidad"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Localidad</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar localidad" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="calle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Calle</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar calle" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="altura"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Altura</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar altura" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="piso"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Piso</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar piso" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="departamento"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Departamento</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar departamento" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="locadorId"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Locador</FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxLocador />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <Button type="submit" disabled={mutation.isPending}>
-                  {mutation.isPending ? "Cargando..." : "Guardar"}
-                </Button>
-              </AlertDialogFooter>
-            </form>
-          </Form>
-        </AlertDialogHeader>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog onOpenChange={setOpen} open={open}>
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">Crear Inmueble</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Crear Inmueble</AlertDialogTitle>
+            <AlertDialogDescription>
+              Complete los campos para crear un nuevo Inmueble
+            </AlertDialogDescription>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="localidad"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Localidad</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar localidad" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="calle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Calle</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar calle" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="altura"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Altura</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar altura" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="piso"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Piso</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar piso" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="departamento"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Departamento</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar departamento" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="locadorId"
+                  render={() => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Locador</FormLabel>
+                      <FormControl className="w-full">
+                        <ComboboxLocador setValue={form.setValue} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <Button type="submit" disabled={mutation.isPending}>
+                    {mutation.isPending ? "Cargando..." : "Guardar"}
+                  </Button>
+                </AlertDialogFooter>
+              </form>
+            </Form>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
   );
 };
 

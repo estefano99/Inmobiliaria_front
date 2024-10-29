@@ -21,30 +21,23 @@ import {
 import { obtenerLocadores } from "@/api/LocadorApi";
 import { LocadorType } from "@/types/types";
 
-export function ComboboxLocador() {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const [selectedLocadorId, setSelectedLocadorId] = React.useState<number | null>(null);
+interface ComboboxLocadorProps {
+  setValue: (name: "locadorId", value: number) => void;
+}
 
+// Cambiar el tipo de setValue en ComboboxLocador
+export function ComboboxLocador({ setValue }: ComboboxLocadorProps) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setInternalValue] = React.useState("");
   const { data: locadores, isLoading, isError } = useQuery<LocadorType[]>({
-    queryKey: ["inmuebles"],
+    queryKey: ["locadores"],
     queryFn: obtenerLocadores,
   });
 
   const handleSelect = (currentValue: string, locadorId: number) => {
-    setValue(currentValue === value ? "" : currentValue);
-    setSelectedLocadorId(currentValue === value ? null : locadorId);
+    setInternalValue(currentValue === value ? "" : currentValue);
+    setValue("locadorId", locadorId); // Actualiza el valor en el formulario
     setOpen(false);
-  };
-
-  const handleAlta = () => {
-    if (selectedLocadorId !== null) {
-      // Lógica para dar de alta el inmueble con el ID del locador seleccionado
-      console.log("ID del locador seleccionado:", selectedLocadorId);
-      // Aquí puedes hacer la llamada a la API para dar de alta el inmueble
-    } else {
-      console.error("No se ha seleccionado ningún locador");
-    }
   };
 
   return (
@@ -57,20 +50,18 @@ export function ComboboxLocador() {
             aria-expanded={open}
             className="w-[200px] justify-between"
           >
-            {value
-              ? value
-              : "Seleccionar locador..."}
+            {value ? value : "Seleccionar locador..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search locador..." />
+            <CommandInput placeholder="Buscar locador..." />
             <CommandList>
-              {isLoading && <CommandEmpty>Loading...</CommandEmpty>}
-              {isError && <CommandEmpty>Error loading locadores.</CommandEmpty>}
+              {isLoading && <CommandEmpty>Cargando...</CommandEmpty>}
+              {isError && <CommandEmpty>Error cargando locadores.</CommandEmpty>}
               {!isLoading && !isError && locadores?.length === 0 && (
-                <CommandEmpty>No locador found.</CommandEmpty>
+                <CommandEmpty>No se encontraron locadores.</CommandEmpty>
               )}
               <CommandGroup>
                 {locadores?.map((locador) => (
@@ -93,7 +84,7 @@ export function ComboboxLocador() {
           </Command>
         </PopoverContent>
       </Popover>
-      <Button onClick={handleAlta}>Dar de Alta</Button>
     </div>
   );
 }
+

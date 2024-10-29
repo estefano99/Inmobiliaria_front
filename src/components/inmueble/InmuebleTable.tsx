@@ -40,15 +40,13 @@ export function InmuebleTable({ inmuebles }: props) {
   return (
     <div className="md:w-[90%] mx-auto mt-5">
       <div className="w-full my-5 flex justify-between">
-
-          <Input
-            className="w-1/4"
-            placeholder="Filtrar..."
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          />
-
-        <FormAlta  />
+        <Input
+          className="w-1/4"
+          placeholder="Filtrar..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+        <FormAlta />
         {isEdit && inmuebleEditar && (
           <FormEditar
             inmueble={inmuebleEditar}
@@ -79,7 +77,7 @@ export function InmuebleTable({ inmuebles }: props) {
                 <TableCell>{inmueble.altura}</TableCell>
                 <TableCell>{inmueble.piso}</TableCell>
                 <TableCell>{inmueble.departamento}</TableCell>
-                <TableCell>{inmueble.locador.nombre}</TableCell>
+                <TableCell>{inmueble.locador?.nombre}</TableCell>
                 <TableCell className="flex items-center gap-4">
                   <SquarePen
                     color="green"

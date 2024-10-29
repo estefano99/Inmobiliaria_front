@@ -24,7 +24,7 @@ export type UserType = {
 
 // Este usarlo para el post, que contendria el id del locador solo
 export type InmuebleType = {
-  id: number;
+  id?: number;
   calle: string;
   altura?: string;
   localidad: string;
@@ -37,3 +37,5 @@ export type InmuebleType = {
 export type InmuebleJoin = Omit<InmuebleType, 'locadorId'> & {
   locador: LocadorType;
 };
+
+export type inmuebleSinId = Omit<InmuebleType, 'id'>
