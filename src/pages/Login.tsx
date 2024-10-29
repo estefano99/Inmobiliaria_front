@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -31,6 +32,7 @@ export function Login() {
       password: "",
     },
   });
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: login,
@@ -46,12 +48,8 @@ export function Login() {
       });
     },
     onSuccess: () => {
-      toast({
-        title: "Credenciales correctas",
-        description: "Iniciando sesion...",
-        className:
-          "from-green-600 to-green-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
-      });
+      console.log("success")
+      navigate("/inicio");
     },
   });
 
