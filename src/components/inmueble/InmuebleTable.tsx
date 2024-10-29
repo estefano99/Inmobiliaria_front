@@ -8,24 +8,24 @@ import {
 } from "@/components/ui/table";
 import { SquarePen } from "lucide-react";
 import FormAlta from "./FormAlta";
-import { InmuebleType } from "@/types/types";
+import { InmuebleJoin } from "@/types/types";
 import { useState } from "react";
 import FormEditar from "./FormEditar";
 import Delete from "./Delete";
 import { Input } from "../ui/input";
 
 interface props {
-  inmuebles: InmuebleType[];
+  inmuebles: InmuebleJoin[];
 }
 
-export function LocLotTable({ inmuebles }: props) {
+export function InmuebleTable({ inmuebles }: props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [inmuebleEditar, setInmuebleEditar] = useState<InmuebleType | null>(
+  const [inmuebleEditar, setInmuebleEditar] = useState<InmuebleJoin | null>(
     null
   );
   const [filter, setFilter] = useState("");
 
-  const handleEditar = async (inmueble: InmuebleType) => {
+  const handleEditar = async (inmueble: InmuebleJoin) => {
     setInmuebleEditar(inmueble);
     setIsEdit(true);
   };
@@ -66,6 +66,7 @@ export function LocLotTable({ inmuebles }: props) {
             <TableHead>Altura</TableHead>
             <TableHead>Piso</TableHead>
             <TableHead>Departamento</TableHead>
+            <TableHead>Locador</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -78,6 +79,7 @@ export function LocLotTable({ inmuebles }: props) {
                 <TableCell>{inmueble.altura}</TableCell>
                 <TableCell>{inmueble.piso}</TableCell>
                 <TableCell>{inmueble.departamento}</TableCell>
+                <TableCell>{inmueble.locador.nombre}</TableCell>
                 <TableCell className="flex items-center gap-4">
                   <SquarePen
                     color="green"

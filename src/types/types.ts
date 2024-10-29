@@ -22,8 +22,9 @@ export type UserType = {
   password: string;
 }
 
+// Este usarlo para el post, que contendria el id del locador solo
 export type InmuebleType = {
-  id?: number;
+  id: number;
   calle: string;
   altura?: string;
   localidad: string;
@@ -31,3 +32,8 @@ export type InmuebleType = {
   departamento?: string;
   locadorId: number;
 }
+
+//Este se usa para cuando hacemos el get(join) con locador, saca el campo id y agrega el objeto Locador
+export type InmuebleJoin = Omit<InmuebleType, 'locadorId'> & {
+  locador: LocadorType;
+};

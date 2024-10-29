@@ -24,7 +24,7 @@ import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { InmuebleType } from "@/types/types";
+import { InmuebleJoin, InmuebleType } from "@/types/types";
 import { editarInmueble } from "@/api/InmuebleApi";
 
 const formSchema = z.object({
@@ -44,10 +44,10 @@ const formSchema = z.object({
 });
 
 interface props {
-  inmueble: InmuebleType;
+  inmueble: InmuebleJoin;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   isEdit: boolean;
-  setInmuebleEditar: Dispatch<SetStateAction<InmuebleType | null>>;
+  setInmuebleEditar: Dispatch<SetStateAction<InmuebleJoin | null>>;
 }
 
 const FormEditar = ({

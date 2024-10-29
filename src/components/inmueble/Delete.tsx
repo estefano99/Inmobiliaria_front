@@ -9,14 +9,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { InmuebleType } from "@/types/types";
+import { InmuebleJoin } from "@/types/types";
 import { Trash } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { eliminarInmueble } from "@/api/InmuebleApi";
 
 interface props {
-  inmueble: InmuebleType
+  inmueble: InmuebleJoin
 }
 
 const Delete = ({ inmueble }: props) => {
@@ -53,7 +53,8 @@ const Delete = ({ inmueble }: props) => {
     },
   });
 
-  const handleDelete = async (data: InmuebleType) => {
+  const handleDelete = async (data: any) => {
+    console.log(data)
     await mutation.mutateAsync(data);
   };
   return (
