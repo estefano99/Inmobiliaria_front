@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom"
 
 const AdminLayout = () => {
   return (
-    <main className="flex w-full min-h-screen">
+    <main className="flex w-full h-screen">
       <Sidebar/>
       <Outlet/>
       <Toaster/>

@@ -14,8 +14,8 @@ import { Button } from "../ui/button";
 
 const Sidebar = () => {
   return (
-    <div className="h-14 md:min-h-screen md:border-r md:bg-muted/40 md:block">
-      <div className="hidden md:flex h-full max-h-screen w-[300px] flex-col gap-2">
+    <div className="h-14 md:h-full md:border-r md:bg-muted/40 md:block">
+      <div className="hidden md:flex h-full w-[300px] flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
@@ -35,7 +35,7 @@ const Sidebar = () => {
         </div>
       </div>
       {/* Menu hamburguesa para mobile */}
-      <div className="flex flex-col">
+      <div className="flex flex-col md:hidden">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>
