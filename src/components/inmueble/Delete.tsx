@@ -53,7 +53,7 @@ const Delete = ({ inmueble }: props) => {
     },
   });
 
-  const handleDelete = async (data: any) => {
+  const handleDelete = async (data: InmuebleJoin) => {
     console.log(data)
     await mutation.mutateAsync(data);
   };
@@ -65,17 +65,26 @@ const Delete = ({ inmueble }: props) => {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              {`¿Estás seguro que deseas eliminar a ${inmueble.localidad} - ${inmueble.calle} ${inmueble.altura}?`}
+            <AlertDialogTitle className="text-xl mb-2">
+              ¿Estás seguro que deseas eliminar el siguiente inmueble?
             </AlertDialogTitle>
-            <AlertDialogDescription>
-              Al eliminarlo se borrara de la base de datos de forma permanente.
+            <AlertDialogDescription className="flex flex-col gap-0.5">
+              <span className="block"><span className="font-bold text-slate-400 mr-1">Localidad:</span> {`${inmueble.localidad || "Sin Localidad"}`}</span>
+              <span className="block"><span className="font-bold text-slate-400 mr-1">Calle:</span> {`${inmueble.calle || "Sin Calle"}`}</span>
+              <span className="block"><span className="font-bold text-slate-400 mr-1">Altura:</span> {`${inmueble.altura || "Sin Altura"}`}</span>
+              <span className="block"><span className="font-bold text-slate-400 mr-1">Piso:</span> {`${inmueble.piso || "Sin Piso"}`}</span>
+              <span className="block"><span className="font-bold text-slate-400 mr-1">Departamento:</span> {`${inmueble.departamento || "Sin departamento"}`}</span>
+              <span className="block">
+              <span className="font-bold text-slate-400 mr-1">Locador:</span> 
+                {`${inmueble.locador.apellido || "Sin Apellido"} ${inmueble.locador.nombre || "Sin Nombre"}`}
+              </span>
+              <span className="block mt-6 text-red-300/80">Al eliminarlo se borrará de la base de datos de forma permanente.</span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {handleDelete(inmueble)}}
-          >
+            <AlertDialogAction onClick={() => { handleDelete(inmueble) }}
+            >
               Continuar
             </AlertDialogAction>
           </AlertDialogFooter>

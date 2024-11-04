@@ -38,7 +38,7 @@ export function InmuebleTable({ inmuebles }: props) {
   );
 
   return (
-    <div className="md:w-[90%] mx-auto mt-5">
+    <div className="md:w-[90%] mx-auto mt-5 bg-red-300">
       <div className="w-full my-5 flex justify-between">
         <Input
           className="w-1/4"
@@ -56,45 +56,49 @@ export function InmuebleTable({ inmuebles }: props) {
           />
         )}
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Localidad</TableHead>
-            <TableHead>Calle</TableHead>
-            <TableHead>Altura</TableHead>
-            <TableHead>Piso</TableHead>
-            <TableHead>Departamento</TableHead>
-            <TableHead>Locador</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredInmuebles.length > 0 ? (
-            filteredInmuebles.map((inmueble) => (
-              <TableRow key={inmueble.id}>
-                <TableCell>{inmueble.localidad}</TableCell>
-                <TableCell>{inmueble.calle}</TableCell>
-                <TableCell>{inmueble.altura}</TableCell>
-                <TableCell>{inmueble.piso}</TableCell>
-                <TableCell>{inmueble.departamento}</TableCell>
-                <TableCell>{inmueble.locador?.nombre}</TableCell>
-                <TableCell className="flex items-center gap-4">
-                  <SquarePen
-                    color="green"
-                    onClick={() => handleEditar(inmueble)}
-                    className="hover:cursor-pointer"
-                  />
-                  <Delete inmueble={inmueble} />
+      <div className="overflow-hidden">
+        <Table className="bg-blue-400">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Localidad</TableHead>
+              <TableHead>Calle</TableHead>
+              <TableHead>Altura</TableHead>
+              <TableHead>Piso</TableHead>
+              <TableHead>Departamento</TableHead>
+              <TableHead>Locador</TableHead>
+              <TableHead>Acciones</TableHead>
+            </TableRow>
+          </TableHeader>
+          <div className="overflow-y-auto max-h-96">
+            <TableBody>
+              {filteredInmuebles.length > 0 ? (
+                filteredInmuebles.map((inmueble) => (
+                  <TableRow key={inmueble.id}>
+                    <TableCell>{inmueble.localidad || "Sin localidad"}</TableCell>
+                    <TableCell>{inmueble.calle || "Sin calle"}</TableCell>
+                    <TableCell>{inmueble.altura || "Sin altura"}</TableCell>
+                    <TableCell>{inmueble.piso || "Sin piso"}</TableCell>
+                    <TableCell>{inmueble.departamento || "Sin departamento"}</TableCell>
+                    <TableCell>{`${inmueble.locador?.apellido || "Sin Apellido"} ${inmueble.locador?.nombre || "Sin Nombre"}`}</TableCell>
+                    <TableCell className="flex items-center gap-4">
+                      <SquarePen
+                        color="green"
+                        onClick={() => handleEditar(inmueble)}
+                        className="hover:cursor-pointer"
+                      />
+                      <Delete inmueble={inmueble} />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableCell colSpan={7} className="text-center">
+                  No se encontraron inmuebles.
                 </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableCell colSpan={5} className="text-center">
-              No se encontraron inmuebles.
-            </TableCell>
-          )}
-        </TableBody>
-      </Table>
+              )}
+            </TableBody>
+          </div>
+        </Table>
+      </div>
     </div>
   );
 }

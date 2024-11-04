@@ -1,6 +1,6 @@
 import clienteAxios from "@/config/axios";
 import { inmueblesRoute } from "@/lib/routes";
-import { InmuebleType } from "@/types/types";
+import { InmuebleJoin, InmuebleType } from "@/types/types";
 import { isAxiosError } from "axios";
 
 const obtenerInmuebles = async () => {
@@ -41,7 +41,7 @@ const editarInmueble = async (inmueble: InmuebleType) => {
   }
 }
 
-const eliminarInmueble = async (inmueble: InmuebleType) => {
+const eliminarInmueble = async (inmueble: InmuebleJoin) => {
   const {id} = inmueble;
   try {
     const {data} = await clienteAxios.delete(`${inmueblesRoute}/${id}`)

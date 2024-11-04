@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
 import SidebarNav from "./SidebarNav";
 import { Button } from "../ui/button";
+import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
   return (
@@ -31,10 +32,17 @@ const Sidebar = () => {
               { title: "Locatario", icon: Package },
               { title: "Inmuebles", icon: LineChart },
               { title: "Contratos", icon: Users },
-              { title: "Cerrar sesion", icon: LogOut  },
             ]}
           />
         </div>
+        <div className="w-full flex flex-col justify-center h-20">
+          <SidebarLink
+              key={`cerrar-sesion`}
+              linkTitle={`Cerrar sesión`}
+              linkIcon={LogOut}
+              redirectTo={`cerrar-sesion`}
+            />
+          </div>
       </div>
       {/* Menu hamburguesa para mobile */}
       <div className="flex flex-col md:hidden">
@@ -58,11 +66,11 @@ const Sidebar = () => {
                   { title: "Locatario", icon: Package },
                   { title: "Inmuebles", icon: LineChart },
                   { title: "Contratos", icon: Users },
-                  { title: "Cerrar sesion", icon: LogOut  },
                 ]}
               />
             </SheetContent>
           </Sheet>
+      
         </header>
       </div>
     </div>
