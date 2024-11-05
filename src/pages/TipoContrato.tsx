@@ -1,18 +1,19 @@
 import HeaderPages from "@/components/HeaderPages";
 import { useQuery } from "@tanstack/react-query";
-import { obtenerLocatarios } from "@/api/LocatarioApi";
-import { LocatarioType } from "@/types/types";
+import { TipoContratoType } from "@/types/types";
+import { obtenerTipoContratos } from "@/api/TipoContratoApi";
+import { TipoContratoTable } from "@/components/tipoContrato/tipoContratoTable";
 
 const TipoContrato = () => {
-  const { data, isLoading } = useQuery<LocatarioType[]>({
+  const { data, isLoading } = useQuery<TipoContratoType[]>({
     queryKey: ["tipoContratos"],
-    queryFn: obtenerLocatarios,
+    queryFn: obtenerTipoContratos,
   });
 
   return (
     <div className="w-full">
       <HeaderPages title="Tipo contrato" />
-      {isLoading ? "Cargando..." :  data && <LocLotTable locadores={[]} locatarios={data} isLocatario={true} />}
+      {isLoading ? "Cargando..." :  data && <TipoContratoTable tipoContratos={data} />}
     </div>
   );
 };

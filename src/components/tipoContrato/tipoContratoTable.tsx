@@ -7,32 +7,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { SquarePen } from "lucide-react";
-// import FormAlta from "./FormAlta";
-import { InmuebleJoin } from "@/types/types";
+import FormAlta from "./FormAlta";
+import { TipoContratoType } from "@/types/types";
 import { useState } from "react";
-// import FormEditar from "./FormEditar";
+import FormEditar from "./FormEditar";
 // import Delete from "./Delete";
 import { Input } from "../ui/input";
+import { formatDuracion } from "@/lib/funciones";
 
 interface props {
-  inmuebles: InmuebleJoin[];
+  tipoContratos: TipoContratoType[];
 }
 
-export function InmuebleTable({ inmuebles }: props) {
+export function TipoContratoTable({ tipoContratos }: props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [inmuebleEditar, setInmuebleEditar] = useState<InmuebleJoin | null>(
+  const [tipoContratoEditar, setTipoContratoEditar] = useState<TipoContratoType | null>(
     null
   );
   const [filter, setFilter] = useState("");
 
-  const handleEditar = async (inmueble: InmuebleJoin) => {
-    setInmuebleEditar(inmueble);
+  const handleEditar = async (tipoContrato: TipoContratoType) => {
+    setTipoContratoEditar(tipoContrato);  
     setIsEdit(true);
   };
 
   // Filtrar los inmuebles según el término de búsqueda
-  const filteredInmuebles = inmuebles.filter((inmueble) =>
-    `${inmueble.calle} ${inmueble.altura} ${inmueble.localidad} ${inmueble.piso} ${inmueble.departamento}`
+  const filteredTipoContratos = tipoContratos.filter((tipoContrato) =>
+    `${tipoContrato.duracion}`
       .toLowerCase()
       .includes(filter.toLowerCase())
   );
@@ -46,38 +47,35 @@ export function InmuebleTable({ inmuebles }: props) {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
-        {/* <FormAlta /> */}
-        {/* {isEdit && inmuebleEditar && (
+        <FormAlta />
+        {isEdit && tipoContratoEditar && (
           <FormEditar
-            inmueble={inmuebleEditar}
+            tipoContrato={tipoContratoEditar}
             setIsEdit={setIsEdit}
             isEdit={isEdit}
-            setInmuebleEditar={setInmuebleEditar}
+            setTipoContratoEditar={setTipoContratoEditar}
           />
-        )} */}
+        )}
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>duracion</TableHead>
+            <TableHead>Duración</TableHead>
             <TableHead>Plazo aumento</TableHead>
-            <TableHead>alarma vencimiento</TableHead>
+            <TableHead>Alarma aumento</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredInmuebles.length > 0 ? (
-            filteredInmuebles.map((inmueble) => (
-              <TableRow key={inmueble.id}>
-                <TableCell>{inmueble.localidad}</TableCell>
-                <TableCell>{inmueble.calle}</TableCell>
-                <TableCell>{inmueble.altura}</TableCell>
-                <TableCell>{inmueble.piso}</TableCell>
-                <TableCell>{inmueble.departamento}</TableCell>
-                <TableCell>{inmueble.locador?.nombre}</TableCell>
+          {filteredTipoContratos.length > 0 ? (
+            filteredTipoContratos.map((tipoContrato) => (
+              <TableRow key={tipoContrato.id}>
+                <TableCell>{formatDuracion(tipoContrato.duracion)}</TableCell>
+                <TableCell>{tipoContrato.plazo_aumento} Meses</TableCell>
+                <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
                 <TableCell className="flex items-center gap-4">
                   <SquarePen
                     color="green"
-                    onClick={() => handleEditar(inmueble)}
+                    onClick={() => handleEditar(tipoContrato)}
                     className="hover:cursor-pointer"
                   />
                   {/* <Delete inmueble={inmueble} /> */}
@@ -86,7 +84,7 @@ export function InmuebleTable({ inmuebles }: props) {
             ))
           ) : (
             <TableCell colSpan={5} className="text-center">
-              No se encontraron inmuebles.
+              No se encontraron Tipo de contratos.
             </TableCell>
           )}
         </TableBody>

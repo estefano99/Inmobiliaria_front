@@ -45,3 +45,8 @@ export type TipoContratoType = {
   alarma_aumento: number;
 };
 
+export interface tipoContratoResponse {
+  message: string;
+  tipoContrato: TipoContratoType
+}
+
