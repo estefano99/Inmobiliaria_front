@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { InmuebleJoin } from "@/types/types";
 import { obtenerInmuebles } from "@/api/InmuebleApi";
-import { InmuebleTable } from "@/components/inmueble/InmuebleTable";
+import { InmuebleNewTable } from "@/components/inmueble/InmuebleNewTable";
 
 const Inmueble = () => {
   const { data, isLoading } = useQuery<InmuebleJoin[]>({
@@ -16,7 +16,7 @@ const Inmueble = () => {
   return (
     <div className="w-full">
       <HeaderPages title="Inmueble" />
-      {isLoading ? "Cargando..." : data && <InmuebleTable inmuebles={data} />}
+      {isLoading ? "Cargando..." : data && <InmuebleNewTable inmuebles={data} />}
     </div>
   );
 };

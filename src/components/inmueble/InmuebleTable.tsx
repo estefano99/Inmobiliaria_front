@@ -20,9 +20,7 @@ interface props {
 
 export function InmuebleTable({ inmuebles }: props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [inmuebleEditar, setInmuebleEditar] = useState<InmuebleJoin | null>(
-    null
-  );
+  const [inmuebleEditar, setInmuebleEditar] = useState<InmuebleJoin | null>(null);
   const [filter, setFilter] = useState("");
 
   const handleEditar = async (inmueble: InmuebleJoin) => {
@@ -30,7 +28,6 @@ export function InmuebleTable({ inmuebles }: props) {
     setIsEdit(true);
   };
 
-  // Filtrar los inmuebles según el término de búsqueda
   const filteredInmuebles = inmuebles.filter((inmueble) =>
     `${inmueble.calle} ${inmueble.altura} ${inmueble.localidad} ${inmueble.piso} ${inmueble.departamento}`
       .toLowerCase()
@@ -38,8 +35,8 @@ export function InmuebleTable({ inmuebles }: props) {
   );
 
   return (
-    <div className="md:w-[90%] mx-auto mt-5 bg-red-300">
-      <div className="w-full my-5 flex justify-between">
+    <div className="md:w-[90%] mx-auto mt-5 h-[85vh]">
+      <div className="w-full mb-3 flex justify-between">
         <Input
           className="w-1/4"
           placeholder="Filtrar..."
@@ -56,29 +53,30 @@ export function InmuebleTable({ inmuebles }: props) {
           />
         )}
       </div>
-      <div className="overflow-hidden">
-        <Table className="bg-blue-400">
-          <TableHeader>
+      <div className="h-full w-full">
+        <Table className="w-full">
+          <TableHeader className="w-full">
             <TableRow>
               <TableHead>Localidad</TableHead>
               <TableHead>Calle</TableHead>
-              <TableHead>Altura</TableHead>
-              <TableHead>Piso</TableHead>
-              <TableHead>Departamento</TableHead>
+              <TableHead className="text-center">Altura</TableHead>
+              <TableHead className="text-center">Piso</TableHead>
+              <TableHead className="text-center">Departamento</TableHead>
               <TableHead>Locador</TableHead>
               <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
-          <div className="overflow-y-auto max-h-96">
-            <TableBody>
+          {/* Contenedor scrollable */}
+          <div className="max-h-[79vh] w-full overflow-y-scroll">
+            <TableBody className="w-full">
               {filteredInmuebles.length > 0 ? (
                 filteredInmuebles.map((inmueble) => (
-                  <TableRow key={inmueble.id}>
+                  <TableRow key={inmueble.id} className="w-full">
                     <TableCell>{inmueble.localidad || "Sin localidad"}</TableCell>
                     <TableCell>{inmueble.calle || "Sin calle"}</TableCell>
-                    <TableCell>{inmueble.altura || "Sin altura"}</TableCell>
-                    <TableCell>{inmueble.piso || "Sin piso"}</TableCell>
-                    <TableCell>{inmueble.departamento || "Sin departamento"}</TableCell>
+                    <TableCell className="text-center">{inmueble.altura || "Sin altura"}</TableCell>
+                    <TableCell className="text-center">{inmueble.piso || "Sin piso"}</TableCell>
+                    <TableCell className="text-center">{inmueble.departamento || "Sin departamento"}</TableCell>
                     <TableCell>{`${inmueble.locador?.apellido || "Sin Apellido"} ${inmueble.locador?.nombre || "Sin Nombre"}`}</TableCell>
                     <TableCell className="flex items-center gap-4">
                       <SquarePen
@@ -91,9 +89,11 @@ export function InmuebleTable({ inmuebles }: props) {
                   </TableRow>
                 ))
               ) : (
-                <TableCell colSpan={7} className="text-center">
-                  No se encontraron inmuebles.
-                </TableCell>
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center">
+                    No se encontraron inmuebles.
+                  </TableCell>
+                </TableRow>
               )}
             </TableBody>
           </div>

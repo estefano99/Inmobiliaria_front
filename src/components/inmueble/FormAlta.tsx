@@ -27,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { crearInmueble } from "@/api/InmuebleApi";
 import { ComboboxLocador } from "./ComboboxLocador";
+import { HousePlus } from "lucide-react";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -37,6 +38,7 @@ const formSchema = z.object({
   localidad: z.string().min(1, {
     message: "La localidad no puede ser vacía.",
   }),
+  torre: z.string().optional(),
   piso: z.string().optional(),
   departamento: z.string().optional(),
   locadorId: z.number().min(1, {
@@ -53,6 +55,7 @@ const FormAlta = () => {
     defaultValues: {
       calle: "",
       altura: "",
+      torre: "",
       localidad: "",
       piso: "",
       departamento: "",
@@ -97,115 +100,130 @@ const FormAlta = () => {
     await mutation.mutateAsync(values);
   }
   return (
-      <AlertDialog onOpenChange={setOpen} open={open}>
-        <AlertDialogTrigger asChild>
-          <Button variant="outline">Crear Inmueble</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Crear Inmueble</AlertDialogTitle>
-            <AlertDialogDescription>
-              Complete los campos para crear un nuevo Inmueble
-            </AlertDialogDescription>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
+    <AlertDialog onOpenChange={setOpen} open={open}>
+      <AlertDialogTrigger asChild>
+        <Button className="flex gap-2" variant="outline">
+          <HousePlus />
+          Crear Inmueble</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Crear Inmueble</AlertDialogTitle>
+          <AlertDialogDescription>
+            Complete los campos para crear un nuevo Inmueble
+          </AlertDialogDescription>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+            >
+              <FormField
+                control={form.control}
+                name="localidad"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Localidad <span className="text-red-500">*</span></FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ingresar localidad" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-row gap-5 justify-between">
                 <FormField
                   control={form.control}
-                  name="localidad"
+                  name="calle"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Localidad</FormLabel>
+                    <FormItem className="grow">
+                      <FormLabel>Calle <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
-                        <Input placeholder="Ingresar localidad" {...field} />
+                        <Input placeholder="Ingresar calle" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-row gap-5 justify-between">
-                  <FormField
-                    control={form.control}
-                    name="calle"
-                    render={({ field }) => (
-                      <FormItem className="grow">
-                        <FormLabel>Calle</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ingresar calle" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="altura"
-                    render={({ field }) => (
-                      <FormItem className="grow">
-                        <FormLabel>Altura</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ingresar altura (opcional)" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex flex-row gap-5 justify-between">
-                  <FormField
-                    control={form.control}
-                    name="piso"
-                    render={({ field }) => (
-                      <FormItem className="grow">
-                        <FormLabel>Piso</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ingresar piso (opcional)" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="departamento"
-                    render={({ field }) => (
-                      <FormItem className="grow">
-                        <FormLabel>Departamento</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Ingresar departamento (opcional)" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
                 <FormField
                   control={form.control}
-                  name="locadorId"
-                  render={() => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Locador</FormLabel>
-                      <FormControl className="w-full">
-                        <ComboboxLocador setValue={form.setValue} />
+                  name="altura"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Altura</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingresar altura (opcional)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex flex-row gap-5 justify-between">
+              <FormField
+                  control={form.control}
+                  name="torre"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Torre</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingresar torre (opcional)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="piso"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Piso</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingresar piso (opcional)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="departamento"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Departamento</FormLabel>
+                      <FormControl>
+                        <Input className="text-ellipsis" placeholder="Ingresar departamento (opcional)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="locadorId"
+                render={() => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
+                    <FormControl className="w-full">
+                      <ComboboxLocador setValue={form.setValue} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <AlertDialogFooter>
-                  <AlertDialogCancel onClick={() => form.reset()}>Cancelar</AlertDialogCancel>
-                  <Button type="submit" disabled={mutation.isPending}>
-                    {mutation.isPending ? "Cargando..." : "Guardar"}
-                  </Button>
-                </AlertDialogFooter>
-              </form>
-            </Form>
-          </AlertDialogHeader>
-        </AlertDialogContent>
-      </AlertDialog>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => form.reset()}>Cancelar</AlertDialogCancel>
+                <Button type="submit" disabled={mutation.isPending}>
+                  {mutation.isPending ? "Cargando..." : "Guardar"}
+                </Button>
+              </AlertDialogFooter>
+            </form>
+          </Form>
+        </AlertDialogHeader>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

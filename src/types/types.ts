@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 export type LocatarioType = {
   id?: number;
   nombre: string;
@@ -27,6 +25,7 @@ export type InmuebleType = {
   id?: number;
   calle: string;
   altura?: string;
+  torre?: string;
   localidad: string;
   piso?: string;
   departamento?: string;

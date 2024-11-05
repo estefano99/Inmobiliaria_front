@@ -33,15 +33,17 @@ const SidebarLink = ({
             !isActive,
           "mx-3 flex justify-center items-center gap-3 bg-red-300 rounded-lg px-3 py-2 text-black transition-all hover:text-black hover:bg-red-400 cursor-pointer": redirectTo === "cerrar-sesion" && !isActive,
         },
-        "flex items-center gap-3 rounded-lg px-3 py-2 transition-all"
+        "flex items-center gap-3 rounded-lg px-3 py-2 text-lg transition-all"
       )}
       onClick={redirectTo === "cerrar-sesion" ? logout : undefined}
     >
-      <LinkIcon className="h-4 w-4" />
+      <LinkIcon className={clsx(
+        {"text-black": redirectTo === "cerrar-sesion"}
+      )} />
       {redirectTo !== "cerrar-sesion" && (
         <Link className="w-full" to={`/${redirectTo}`}>{linkTitle}</Link>
       )}
-      {redirectTo === "cerrar-sesion" && <span className="hover:cursor-pointer">{linkTitle}</span>}
+      {redirectTo === "cerrar-sesion" && <span className="hover:cursor-pointer text-black">{linkTitle}</span>}
     </div>
   );
 };
