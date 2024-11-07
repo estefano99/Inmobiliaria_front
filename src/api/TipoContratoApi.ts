@@ -52,4 +52,17 @@ const editarTipoContrato = async (
   }
 };
 
-export { crearTipoContrato, obtenerTipoContratos, editarTipoContrato };
+const eliminarTipoContrato = async (tipoContrato: TipoContratoType) => {
+  const {id} = tipoContrato;
+  try {
+    const {data} = await clienteAxios.delete(`${tipoContratoRoute}/${id}`)
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+}
+
+export { crearTipoContrato, obtenerTipoContratos, editarTipoContrato, eliminarTipoContrato };

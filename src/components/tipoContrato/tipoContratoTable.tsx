@@ -11,7 +11,7 @@ import FormAlta from "./FormAlta";
 import { TipoContratoType } from "@/types/types";
 import { useState } from "react";
 import FormEditar from "./FormEditar";
-// import Delete from "./Delete";
+import Delete from "./Delete";
 import { Input } from "../ui/input";
 import { formatDuracion } from "@/lib/funciones";
 
@@ -33,7 +33,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
 
   // Filtrar los inmuebles según el término de búsqueda
   const filteredTipoContratos = tipoContratos.filter((tipoContrato) =>
-    `${tipoContrato.duracion}`
+    `${tipoContrato.duracion / 365}`
       .toLowerCase()
       .includes(filter.toLowerCase())
   );
@@ -43,7 +43,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
       <div className="w-full my-5 flex justify-between">
         <Input
           className="w-1/4"
-          placeholder="Filtrar..."
+          placeholder="Filtrar por Duración..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         />
@@ -63,6 +63,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
             <TableHead>Duración</TableHead>
             <TableHead>Plazo aumento</TableHead>
             <TableHead>Alarma aumento</TableHead>
+            <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -78,7 +79,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
                     onClick={() => handleEditar(tipoContrato)}
                     className="hover:cursor-pointer"
                   />
-                  {/* <Delete inmueble={inmueble} /> */}
+                  <Delete tipoContrato={tipoContrato} />
                 </TableCell>
               </TableRow>
             ))

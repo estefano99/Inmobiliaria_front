@@ -77,9 +77,8 @@ const FormAlta = () => {
   const mutation = useMutation({
     mutationFn: crearTipoContrato,
     onError: (error) => {
-      console.log(error);
       toast({
-        title: `Error al crear el tipo de contrato"`,
+        title: `Error al crear el tipo de contrato`,
         variant: "destructive",
         description:
           error.message || `Error inoportuno al crear tipo de contrato`,
@@ -94,9 +93,9 @@ const FormAlta = () => {
           <span>
             Se ha creado{" "}
             <span className="underline underline-offset-2">
-              Duracion: {respuesta.tipoContrato.duracion} días -{" "}
-              Plazo aumento: {respuesta.tipoContrato.plazo_aumento} meses -{" "}
-              Alarma aumento: {respuesta.tipoContrato.alarma_aumento} días
+              Duracion: {respuesta.tipoContrato.duracion} días - Plazo aumento:{" "}
+              {respuesta.tipoContrato.plazo_aumento} meses - Alarma aumento:{" "}
+              {respuesta.tipoContrato.alarma_aumento} días
             </span>
           </span>
         ),
@@ -133,7 +132,12 @@ const FormAlta = () => {
                   <FormItem className="flex flex-col">
                     <FormLabel>Duracion</FormLabel>
                     <FormControl className="w-full">
-                      <ComboboxTipoContrato isDuracion={true} setValue={form.setValue} />
+                      <ComboboxTipoContrato
+                        isDuracion={true}
+                        setValue={form.setValue}
+                        initialValue={undefined}
+                        isEdit={false}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -146,7 +150,12 @@ const FormAlta = () => {
                   <FormItem className="flex flex-col">
                     <FormLabel>Plazo aumento</FormLabel>
                     <FormControl className="w-full">
-                      <ComboboxTipoContrato isDuracion={false} setValue={form.setValue}  />
+                      <ComboboxTipoContrato
+                        isDuracion={false}
+                        setValue={form.setValue}
+                        initialValue={undefined}
+                        isEdit={false}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

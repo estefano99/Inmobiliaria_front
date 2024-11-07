@@ -20,6 +20,8 @@ import {
 interface ComboboxTipoContratoProps {
   setValue: (name: "duracion" | "plazo_aumento", value: number) => void;
   isDuracion: boolean;
+  initialValue: number | undefined;
+  isEdit: boolean;
 }
 
 const duraciones = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -27,9 +29,23 @@ const duraciones = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 export function ComboboxTipoContrato({
   setValue,
   isDuracion,
+  initialValue,
+  isEdit,
 }: ComboboxTipoContratoProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<number | null>(null);
+
+  let initialDisplayValue = undefined; //Inicializa los select con los valores de la row seleccionada, ej: 2 anios, 3 meses, 
+
+  if (isEdit && initialValue) {
+    if (isDuracion) {
+      initialDisplayValue = initialValue / 365; // Convierte el valor inicial a años si es duración
+    } else {
+      initialDisplayValue = initialValue; // Usa el valor inicial tal cual si no es duración
+    }
+  }
+  const [selectedValue, setSelectedValue] = React.useState<number | undefined>(
+    initialDisplayValue
+  );
 
   // Maneja la selección de valor, convirtiendo solo los años a días antes de setear en el formulario
   const handleSelect = (actualValue: number) => {
@@ -63,10 +79,7 @@ export function ComboboxTipoContrato({
             <CommandList>
               <CommandGroup>
                 {duraciones.map((item, index) => (
-                  <CommandItem
-                    key={index}
-                    onSelect={() => handleSelect(item)}
-                  >
+                  <CommandItem key={index} onSelect={() => handleSelect(item)}>
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",

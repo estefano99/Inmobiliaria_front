@@ -80,6 +80,7 @@ const FormEditar = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: tipoContrato.id, 
       duracion: tipoContrato.duracion,
       plazo_aumento: tipoContrato.plazo_aumento,
       alarma_aumento: tipoContrato.alarma_aumento,
@@ -124,9 +125,7 @@ const FormEditar = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    return
-    // await mutation.mutateAsync(values);
+    await mutation.mutateAsync(values);
   }
 
   return (
@@ -149,6 +148,8 @@ const FormEditar = ({
                       <ComboboxTipoContrato
                         isDuracion={true}
                         setValue={form.setValue}
+                        initialValue={tipoContrato.duracion}
+                        isEdit={isEdit}
                       />
                     </FormControl>
                     <FormMessage />
@@ -163,8 +164,10 @@ const FormEditar = ({
                     <FormLabel>Plazo aumento</FormLabel>
                     <FormControl className="w-full">
                       <ComboboxTipoContrato
-                        isDuracion={true}
+                        isDuracion={false}
                         setValue={form.setValue}
+                        initialValue={tipoContrato.plazo_aumento}
+                        isEdit={isEdit}
                       />
                     </FormControl>
                     <FormMessage />
