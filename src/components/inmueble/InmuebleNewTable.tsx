@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowDown, BetweenVerticalStart, CircleEllipsis, Eye, Pencil, Trash2 } from "lucide-react"
+import { ArrowDown, BetweenVerticalStart, CircleEllipsis, Pencil } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -38,6 +38,8 @@ import {
 import { InmuebleJoin } from "@/types/types"
 import FormEditar from "./FormEditar"
 import FormAlta from "./FormAlta"
+import Delete from "./Delete"
+import DetailsModal from "./DetailsModal"
 
 const flipIcon = (iconName: string) => {
   const icon = document.getElementById(iconName)
@@ -62,10 +64,6 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
   const handleEdit = (inmueble: InmuebleJoin) => {
     setIsEdit(true);
     setInmuebleEditar(inmueble);
-  };
-
-  const handleDelete = (inmueble: InmuebleJoin) => {
-    console.log(inmueble);
   };
 
   const columns: ColumnDef<InmuebleJoin>[] = [
@@ -110,28 +108,28 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
       accessorKey: "altura",
       header: () => <div className="text-center">Altura</div>,
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("altura")}</div>
+        <div className="text-center">{row.getValue("altura") ? row.getValue("altura") : "-"}</div>
       ),
     },
     {
       accessorKey: "torre",
       header: () => <div className="text-center">Torre</div>,
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("torre")}</div>
+        <div className="text-center">{row.getValue("torre") ? row.getValue("torre") : "-"}</div>
       ),
     },
     {
       accessorKey: "piso",
       header: () => <div className="text-center">Piso</div>,
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("piso")}</div>
+        <div className="text-center">{row.getValue("piso") ? row.getValue("piso") : "-"}</div>
       ),
     },
     {
       accessorKey: "departamento",
       header: () => <div className="text-center">Departamento</div>,
       cell: ({ row }) => (
-        <div className="text-center">{row.getValue("departamento")}</div>
+        <div className="text-center">{row.getValue("departamento") ? row.getValue("departamento") : "-"}</div>
       ),
     },
     {
@@ -145,7 +143,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
       ),
       cell: ({ row }) => (
         <div>
-          {row.original.locador.nombre} {row.original.locador.apellido}
+          {row.original.locador.apellido} {row.original.locador.nombre}
         </div>
       ),
     },
@@ -169,10 +167,8 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="focus:bg-yellow-300/30 flex items-center gap-2"
-                onClick={() => console.log(inmueble)}
               >
-                <Eye className="w-5 h-5" />
-                Ver detalles
+                <DetailsModal inmueble={inmueble} />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="focus:bg-blue-500/30 flex items-center gap-2"
@@ -183,10 +179,8 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="focus:bg-red-500/30 flex items-center gap-2"
-                onClick={() => handleDelete(inmueble)}
               >
-                <Trash2 className="w-5 h-5" />
-                Eliminar inmueble
+                <Delete inmueble={inmueble} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -311,6 +305,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className=" 2xl:bg-yellow-500/20"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -326,7 +321,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="text-center"
                 >
                   No se encontraron resultados.
                 </TableCell>

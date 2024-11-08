@@ -30,6 +30,8 @@ export type InmuebleType = {
   piso?: string;
   departamento?: string;
   locadorId: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 //Este se usa para cuando hacemos el get(join) con locador, saca el campo id y agrega el objeto Locador

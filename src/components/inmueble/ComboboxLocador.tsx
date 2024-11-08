@@ -23,10 +23,11 @@ import { LocadorType } from "@/types/types";
 
 interface ComboboxLocadorProps {
   setValue: (name: "locadorId", value: number) => void;
+  defaultValue?: string;
 }
 
 // Cambiar el tipo de setValue en ComboboxLocador
-export function ComboboxLocador({ setValue }: ComboboxLocadorProps) {
+export function ComboboxLocador({ setValue, defaultValue }: ComboboxLocadorProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setInternalValue] = React.useState("");
   const { data: locadores, isLoading, isError } = useQuery<LocadorType[]>({
@@ -39,6 +40,12 @@ export function ComboboxLocador({ setValue }: ComboboxLocadorProps) {
     setValue("locadorId", locadorId); // Actualiza el valor en el formulario
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    if (defaultValue) {
+      setInternalValue(defaultValue);
+    }
+  }, [defaultValue]);
 
   return (
     <div>

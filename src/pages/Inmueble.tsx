@@ -11,7 +11,6 @@ const Inmueble = () => {
     queryKey: ["inmuebles"],
     queryFn: obtenerInmuebles,
   });
-  console.log(data)
 
   return (
     <div className="w-full">
