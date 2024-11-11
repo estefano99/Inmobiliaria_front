@@ -32,6 +32,7 @@ const Sidebar = () => {
               { title: "Locatario", icon: Package },
               { title: "Inmuebles", icon: LineChart },
               { title: "Contratos", icon: Users },
+              { title: "Tipo Contrato", icon: Users },
             ]}
           />
         </div>
@@ -66,6 +67,8 @@ const Sidebar = () => {
                   { title: "Locatario", icon: Package },
                   { title: "Inmuebles", icon: LineChart },
                   { title: "Contratos", icon: Users },
+                  { title: "Tipo Contrato", icon: Users },
+                  { title: "Cerrar sesion", icon: LogOut  },
                 ]}
               />
             </SheetContent>
