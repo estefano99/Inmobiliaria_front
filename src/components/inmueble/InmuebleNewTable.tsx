@@ -305,7 +305,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className=" 2xl:bg-yellow-500/20"
+                  className=""
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
