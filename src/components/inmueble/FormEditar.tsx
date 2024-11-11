@@ -26,6 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InmuebleJoin, InmuebleType } from "@/types/types";
 import { editarInmueble } from "@/api/InmuebleApi";
+import { ComboboxLocador } from "./ComboboxLocador";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -36,8 +37,12 @@ const formSchema = z.object({
   localidad: z.string().min(1, {
     message: "Localidad debe tener al menos 1 letra.",
   }),
+  torre: z.string().optional(),
   piso: z.string().optional(),
   departamento: z.string().optional(),
+  locador: z.string().min(1, {
+    message: "El locador debe ser seleccionado.",
+  }),
   locadorId: z.number().min(1, {
     message: "El locador debe ser seleccionado.",
   }),
@@ -61,11 +66,14 @@ const FormEditar = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      localidad: inmueble.localidad,
       calle: inmueble.calle,
       altura: inmueble.altura,
-      localidad: inmueble.localidad,
+      torre: inmueble.torre,
       piso: inmueble.piso,
       departamento: inmueble.departamento,
+      locador: `${inmueble.locador.apellido} ${inmueble.locador.nombre}`,
+      locadorId: inmueble.locador.id,
     },
   });
 
@@ -74,21 +82,22 @@ const FormEditar = ({
     onError: (error) => {
       console.log(error);
       toast({
-        title: "Error al editar el Inmueble",
+        title: "Error al editar el Inmueble.",
         variant: "destructive",
-        description: error.message || "Error inoportuno al editar un Inmueble",
+        description: error.message || "Error inoportuno en el servidor al editar un Inmueble",
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });
     },
     onSuccess: (respuesta) => {
+      console.log(respuesta);
       toast({
-        title: respuesta.message,
+        title: "Inmueble editado exitosamente!",
         description: (
           <span>
-            Se ha editado{" "}
+            Se ha editado el Inmueble{" "}
             <span className="underline underline-offset-2">
-              {respuesta.inmueble.localidad} - {respuesta.inmueble.calle} - {respuesta.inmueble.altura}
+              {inmueble.localidad} | {inmueble.calle} | {inmueble.altura ? inmueble.altura : "s/altura"} | {inmueble.torre ? inmueble.torre : "s/torre"} | {inmueble.piso ? inmueble.piso : "s/piso"} | {inmueble.departamento ? inmueble.departamento : "s/departamento"} 
             </span>
           </span>
         ),
@@ -105,7 +114,7 @@ const FormEditar = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const data: InmuebleType = {
+    const data: InmuebleType= {
       id: inmueble?.id,
       ...values
     };
@@ -135,66 +144,86 @@ const FormEditar = ({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="calle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Calle</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar calle" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="altura"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Altura</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar altura" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="piso"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Piso</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar piso" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="departamento"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Departamento</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar departamento" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-row gap-5 justify-between">
+                <FormField
+                  control={form.control}
+                  name="calle"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Calle</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar calle" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="altura"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Altura</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar altura" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-row gap-5 justify-between">
+                <FormField
+                  control={form.control}
+                  name="torre"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Torre</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar torre" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="piso"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Piso</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar piso" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="departamento"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Departamento</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar departamento" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="locadorId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Locador</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Seleccionar locador" {...field} />
+                render={() => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
+                    <FormControl className="w-full">
+                      <ComboboxLocador 
+                      setValue={form.setValue} 
+                      defaultValue={`${inmueble.locador.apellido} ${inmueble.locador.nombre}`}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

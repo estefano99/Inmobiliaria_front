@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 export type LocatarioType = {
   id?: number;
   nombre: string;
@@ -27,11 +25,14 @@ export type InmuebleType = {
   id?: number;
   calle: string;
   altura?: string;
+  torre?: string;
   localidad: string;
   piso?: string;
   departamento?: string;
   locadorId: number;
-};
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 //Este se usa para cuando hacemos el get(join) con locador, saca el campo id y agrega el objeto Locador
 export type InmuebleJoin = Omit<InmuebleType, "locadorId"> & {

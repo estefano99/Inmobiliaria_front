@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { InmuebleJoin } from "@/types/types";
-import { Trash } from "lucide-react";
+import { Trash2, TriangleAlert } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { eliminarInmueble } from "@/api/InmuebleApi";
@@ -53,35 +53,52 @@ const Delete = ({ inmueble }: props) => {
     },
   });
 
-  const handleDelete = async (data: any) => {
+  const handleDelete = async (data: InmuebleJoin) => {
     console.log(data)
     await mutation.mutateAsync(data);
   };
   return (
-    <div>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Trash color="red" className="hover:cursor-pointer" />
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {`¿Estás seguro que deseas eliminar a ${inmueble.localidad} - ${inmueble.calle} ${inmueble.altura}?`}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Al eliminarlo se borrara de la base de datos de forma permanente.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {handleDelete(inmueble)}}
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <div 
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={(e) => e.stopPropagation()}
+        >
+          <Trash2 className="w-5 h-5" />
+          <p>Eliminar Inmueble</p>
+        </div>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-xl mb-2">
+            ¿Estás seguro que deseas eliminar el siguiente inmueble?
+          </AlertDialogTitle>
+          <AlertDialogDescription className="flex flex-col gap-0.5">
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Localidad:</span> {`${inmueble.localidad || "-"}`}</span>
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Calle:</span> {`${inmueble.calle || "-"}`}</span>
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Altura:</span> {`${inmueble.altura || "-"}`}</span>
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Torre:</span> {`${inmueble.torre || "-"}`}</span>
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Piso:</span> {`${inmueble.piso || "-"}`}</span>
+            <span className="block"><span className="font-bold text-slate-400 mr-1">Departamento:</span> {`${inmueble.departamento || "-"}`}</span>
+            <span className="block">
+              <span className="font-bold text-slate-400 mr-1">Locador:</span>
+              {`${inmueble.locador.apellido || "Sin Apellido"} ${inmueble.locador.nombre || "Sin Nombre"}`}
+            </span>
+            <span className="flex bg-red-500/25 px-3 py-2 rounded-lg mt-6 text-red-300/80">
+            <TriangleAlert className="w-5 h-5 mr-1" />
+            Al eliminarlo se borrará de la base de datos de forma permanente.
+            </span>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction onClick={() => { handleDelete(inmueble) }}
           >
-              Continuar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+            Continuar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

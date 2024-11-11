@@ -8,6 +8,7 @@ const obtenerLocatarios = async () => {
     const { data } = await clienteAxios.get(locatarioRoute);
     return data;
   } catch (error) {
+    console.log("[ERROR] obtenerLocatarios: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -20,6 +21,7 @@ const crearLocatario = async (locatario: LocatarioType) => {
     const { data } = await clienteAxios.post(locatarioRoute, locatario);
     return data;
   } catch (error) {
+    console.log("[ERROR] crearLocatario: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -33,6 +35,7 @@ const editarLocatario = async (locatario: LocatarioType) => {
     const { data } = await clienteAxios.put(`${locatarioRoute}/${id}`, {nombre, apellido, dni, telefono});
     return data;
   } catch (error) {
+    console.log("[ERROR] editarLocatario: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -47,6 +50,7 @@ const eliminarLocatario = async (locatario: LocatarioType) => {
     const { data } = await clienteAxios.delete(`${locatarioRoute}/${id}`);
     return data;
   } catch (error) {
+    console.log("[ERROR] eliminarLocatario: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
 import SidebarNav from "./SidebarNav";
 import { Button } from "../ui/button";
+import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
   return (
@@ -20,7 +21,7 @@ const Sidebar = () => {
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
-            <span className="">Inmobiliaria</span>
+            <span className="text-xl">Inmobiliaria</span>
           </Link>
         </div>
         <div className="flex-1">
@@ -32,10 +33,17 @@ const Sidebar = () => {
               { title: "Inmuebles", icon: LineChart },
               { title: "Contratos", icon: Users },
               { title: "Tipo Contrato", icon: Users },
-              { title: "Cerrar sesion", icon: LogOut  },
             ]}
           />
         </div>
+        <div className="w-full flex flex-col justify-center h-20">
+          <SidebarLink
+              key={`cerrar-sesion`}
+              linkTitle={`Cerrar sesión`}
+              linkIcon={LogOut}
+              redirectTo={`cerrar-sesion`}
+            />
+          </div>
       </div>
       {/* Menu hamburguesa para mobile */}
       <div className="flex flex-col md:hidden">
@@ -65,6 +73,7 @@ const Sidebar = () => {
               />
             </SheetContent>
           </Sheet>
+      
         </header>
       </div>
     </div>
