@@ -200,6 +200,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: { pagination: { pageSize: 5 } },
     state: {
       sorting,
       columnFilters,
@@ -208,6 +209,8 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
     },
   })
 
+  console.log("Cantidad de filas inicial:", inmuebles.length);
+  console.log("Filas:", inmuebles);
   return (
     <div className="w-11/12 mx-auto">
       <div className="flex items-center py-4 gap-5">

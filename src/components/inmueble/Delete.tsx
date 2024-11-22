@@ -27,9 +27,9 @@ const Delete = ({ inmueble }: props) => {
     onError: (error) => {
       console.log(error);
       toast({
-        title: `Error al eliminar el locatario`,
+        title: `Error al eliminar el inmueble`,
         variant: "destructive",
-        description: error.message || "Error inoportuno al editar un locatario",
+        description: error.message || "Error inoportuno al eliminar un inmueble",
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
       });

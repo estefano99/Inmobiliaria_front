@@ -31,7 +31,7 @@ export function ComboboxLocador({ setValue, defaultValue }: ComboboxLocadorProps
   const [open, setOpen] = React.useState(false);
   const [value, setInternalValue] = React.useState("");
   const { data: locadores, isLoading, isError } = useQuery<LocadorType[]>({
-    queryKey: ["locadores"],
+    queryKey: ["comboboxLocadores"],
     queryFn: obtenerLocadores,
   });
 
