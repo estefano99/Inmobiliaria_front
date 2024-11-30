@@ -101,9 +101,9 @@ const FormAlta = () => {
   }
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button className="flex gap-2" variant="outline">
-          <HousePlus />
+      <AlertDialogTrigger asChild className="h-8.5 2xl:h-10">
+        <Button className="flex gap-2 text-xs 2xl:text-sm" variant="secondary">
+          <HousePlus className="h-4 w-4 2xl:h-5 2xl:w-5" />
           Crear Inmueble</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -115,7 +115,7 @@ const FormAlta = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8"
+              className="space-y-6 pt-4"
             >
               <FormField
                 control={form.control}

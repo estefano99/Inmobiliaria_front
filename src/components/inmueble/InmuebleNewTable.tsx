@@ -33,6 +33,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableHeaderRow,
   TableRow,
 } from "@/components/ui/table"
 import { InmuebleJoin } from "@/types/types"
@@ -40,14 +41,6 @@ import FormEditar from "./FormEditar"
 import FormAlta from "./FormAlta"
 import Delete from "./Delete"
 import DetailsModal from "./DetailsModal"
-
-const flipIcon = (iconName: string) => {
-  const icon = document.getElementById(iconName)
-
-  if (icon) {
-    icon.classList.toggle("rotate-180")
-  }
-}
 
 type InmuebleNewTableProps = {
   inmuebles: InmuebleJoin[]
@@ -60,6 +53,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [isEdit, setIsEdit] = React.useState(false);
   const [inmuebleEditar, setInmuebleEditar] = React.useState<InmuebleJoin | null>(null);
+  const [sortDirections, setSortDirections] = React.useState<Record<string, boolean>>({});
 
   const handleEdit = (inmueble: InmuebleJoin) => {
     setIsEdit(true);
@@ -89,18 +83,44 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
     {
       accessorKey: "localidad",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => { column.toggleSorting(column.getIsSorted() === "asc"); flipIcon("icon-localidad") }}>
+        <Button
+          className="text-xs 2xl:text-sm"
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+            setSortDirections(prev => ({
+              ...prev,
+              localidad: !prev.localidad
+            }));
+          }}
+        >
           Localidad
-          <ArrowDown id="icon-localidad" className="ml-2 h-4 w-4" />
+          <ArrowDown
+            className={`ml-2 h-4 w-4 transition-all ${sortDirections.localidad ? 'rotate-180' : ''
+              }`}
+          />
         </Button>
       ),
     },
     {
       accessorKey: "calle",
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => { column.toggleSorting(column.getIsSorted() === "asc"); flipIcon("icon-calle") }}>
+        <Button
+          className="text-xs 2xl:text-sm"
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+            setSortDirections(prev => ({
+              ...prev,
+              calle: !prev.calle
+            }));
+          }}
+        >
           Calle
-          <ArrowDown id="icon-calle" className="ml-2 h-4 w-4" />
+          <ArrowDown
+            className={`ml-2 h-4 w-4 transition-transform duration-200 ${sortDirections.calle ? 'rotate-180' : ''
+              }`}
+          />
         </Button>
       ),
     },
@@ -136,9 +156,21 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
       id: "locador",
       accessorFn: row => `${row.locador.nombre} ${row.locador.apellido}`,
       header: ({ column }) => (
-        <Button variant="ghost" onClick={() => { column.toggleSorting(column.getIsSorted() === "asc"); flipIcon("icon-locador") }}>
+        <Button
+          className="text-xs 2xl:text-sm"
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+            setSortDirections(prev => ({
+              ...prev,
+              localidad: !prev.localidad
+            }));
+          }}
+        >
           Locador
-          <ArrowDown id="icon-locador" className="ml-2 h-4 w-4" />
+          <ArrowDown
+            className={`ml-2 h-4 w-4 transition-transform duration-200 ${sortDirections.localidad ? 'rotate-180' : ''}`}
+          />
         </Button>
       ),
       cell: ({ row }) => (
@@ -153,7 +185,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
       header: () => "Acciones",
       cell: ({ row }) => {
         const inmueble = row.original;
-  
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -200,7 +232,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: { pagination: { pageSize: 5 } },
+    initialState: { pagination: { pageSize: 10 } },
     state: {
       sorting,
       columnFilters,
@@ -209,8 +241,6 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
     },
   })
 
-  console.log("Cantidad de filas inicial:", inmuebles.length);
-  console.log("Filas:", inmuebles);
   return (
     <div className="w-11/12 mx-auto">
       <div className="flex items-center py-4 gap-5">
@@ -220,7 +250,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("localidad")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por calle..."
@@ -228,7 +258,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("calle")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por altura..."
@@ -236,7 +266,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("altura")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por locador..."
@@ -244,7 +274,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("locador")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         {isEdit && inmuebleEditar && (
           <FormEditar
@@ -255,7 +285,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           />
         )}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="h-8.5 2xl:h-10">
             <Button variant="outline" className="ml-auto">
               <BetweenVerticalStart className="h-4 w-4" />
             </Button>
@@ -286,7 +316,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableHeaderRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -299,7 +329,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
                     </TableHead>
                   )
                 })}
-              </TableRow>
+              </TableHeaderRow>
             ))}
           </TableHeader>
           <TableBody>
@@ -308,10 +338,9 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className=""
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="py-[5px]" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -333,7 +362,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-2">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
@@ -344,6 +373,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="text-xs 2xl:text-sm h-7"
           >
             Anterior
           </Button>
@@ -352,6 +382,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="text-xs 2xl:text-sm h-7"
           >
             Siguiente
           </Button>

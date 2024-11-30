@@ -150,32 +150,32 @@ const FormAlta = () => {
   }
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button className="flex gap-2" variant="outline">
-          <ReceiptText />
+      <AlertDialogTrigger asChild className="h-8.5 2xl:h-10">
+        <Button className="flex gap-2 text-xs 2xl:text-sm" variant="secondary">
+          <ReceiptText className="h-4 w-4 2xl:h-5 2xl:w-5" />
           Crear contrato
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-2/5">
         <AlertDialogHeader>
-          <AlertDialogTitle>Crear Contrato</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl font-bold">Crear Contrato</AlertDialogTitle>
           <AlertDialogDescription>
             Complete los campos para crear un nuevo Contrato
           </AlertDialogDescription>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 max-w-full"
+              className="space-y-6 pt-4 w-full"
             >
               <FormField
                 control={form.control}
                 name="id_locatario"
                 render={() => (
-                  <FormItem className="flex flex-col">
+                  <FormItem>
                     <FormLabel>
                       Locatario <span className="text-red-500">*</span>
                     </FormLabel>
-                    <FormControl className="w-full">
+                    <FormControl>
                       <ComboboxLocatarios setValue={form.setValue} />
                     </FormControl>
                     <FormMessage />
@@ -183,16 +183,17 @@ const FormAlta = () => {
                 )}
               />
 
-              <div className="flex flex-wrap gap-5">
+              {/* Inmueble y Estado  */}
+              <div className="w-full flex flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="id_inmueble"
                   render={() => (
-                    <FormItem className="flex-grow min-w-[200px]">
+                    <FormItem className="grow">
                       <FormLabel>
                         Inmueble <span className="text-red-500">*</span>
                       </FormLabel>
-                      <FormControl className="w-full">
+                      <FormControl>
                         <ComboboxInmueble setValue={form.setValue} />
                       </FormControl>
                       <FormMessage />
@@ -201,14 +202,14 @@ const FormAlta = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="importe"
-                  render={({ field }) => (
-                    <FormItem className="flex-grow min-w-[200px]">
+                  name="estado"
+                  render={() => (
+                    <FormItem className="grow">
                       <FormLabel>
-                        Importe <span className="text-red-500">*</span>
+                        Estado <span className="text-red-500">*</span>
                       </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ingresar importe" {...field} />
+                      <FormControl className="">
+                        <ComboboxEstados setValue={form.setValue} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -216,12 +217,13 @@ const FormAlta = () => {
                 />
               </div>
 
-              <div className="flex flex-wrap gap-5">
+              {/* Fecha inicio y Fecha fin */}
+              <div className="w-full flex flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="fecha_inicio"
                   render={() => (
-                    <FormItem className="flex flex-col flex-grow min-w-[200px]">
+                    <FormItem className="flex flex-col grow">
                       <FormLabel>Fecha inicio <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Calendario
@@ -237,7 +239,7 @@ const FormAlta = () => {
                   control={form.control}
                   name="fecha_fin"
                   render={() => (
-                    <FormItem className="flex flex-col flex-grow min-w-[200px]">
+                    <FormItem className="flex flex-col grow">
                       <FormLabel>Fecha fin <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Calendario
@@ -249,38 +251,41 @@ const FormAlta = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-wrap gap-5">
-                  <FormField
-                    control={form.control}
-                    name="estado"
-                    render={() => (
-                      <FormItem className="flex-grow min-w-[200px]">
-                        <FormLabel>
-                          Estado <span className="text-red-500">*</span>
-                        </FormLabel>
-                        <FormControl className="w-full">
-                          <ComboboxEstados setValue={form.setValue} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+              </div>
+
+              {/* Importe y Alarma de aumento */}
+              <div className="w-full flex flex-row justify-between gap-10">
+                <FormField
+                  control={form.control}
+                  name="importe"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>
+                        Importe <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingresar importe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
                   name="alerta_vencimiento"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Alarma aumento <span className="text-red-500">*</span></FormLabel>
+                    <FormItem className="grow">
+                      <FormLabel>Alarma de vencimiento <i className="text-muted-foreground text-xs">(dias)</i> <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
-                        <Input placeholder="Alerta vencimiento" {...field} />
+                        <Input placeholder="Alarma de vencimiento" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+
               <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => form.reset()}>
                   Cancelar

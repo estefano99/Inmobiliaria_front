@@ -53,12 +53,12 @@ export function Calendario({setValue, defaultValue, valueForm}: calendarioProps)
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "text-left font-normal justify-start",
             !date && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "dd/MM/yyyy", { locale: es }) : <span>Selecciona una fecha</span>}
+          {date ? format(date, "dd/MM/yyyy", { locale: es }) : <span>Selecciona una fecha...</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

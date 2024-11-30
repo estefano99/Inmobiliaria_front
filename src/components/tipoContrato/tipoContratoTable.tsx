@@ -69,11 +69,11 @@ export function TipoContratoTable({ tipoContratos }: props) {
         <TableBody>
           {filteredTipoContratos.length > 0 ? (
             filteredTipoContratos.map((tipoContrato) => (
-              <TableRow key={tipoContrato.id}>
+              <TableRow className="h-10" key={tipoContrato.id}>
                 <TableCell>{formatDuracion(tipoContrato.duracion)}</TableCell>
-                <TableCell>{tipoContrato.plazo_aumento} Meses</TableCell>
+                <TableCell>{tipoContrato.plazo_aumento} meses</TableCell>
                 <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
-                <TableCell className="flex items-center gap-4">
+                <TableCell className="flex pt-2 items-center gap-4">
                   <SquarePen
                     color="green"
                     onClick={() => handleEditar(tipoContrato)}

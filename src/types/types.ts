@@ -58,7 +58,6 @@ export enum Estado {
   PROXIMO_A_VENCER = "proximo_a_vencer",
 }
 
-
 export type contrato = {
   id?: number;
   id_locatario: number;

@@ -1,12 +1,13 @@
 import {
   Home,
-  LineChart,
   Menu,
-  Package,
   Package2,
-  ShoppingCart,
-  Users,
-  LogOut
+  LogOut,
+  House,
+  SquareUserRound,
+  UserRoundSearch,
+  FileText,
+  FileDigit
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link } from "react-router-dom";
@@ -16,8 +17,8 @@ import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
   return (
-    <div className="h-14 md:h-full md:border-r md:bg-muted/40 md:block">
-      <div className="hidden md:flex h-full w-[300px] flex-col gap-2">
+    <div className="h-14 md:h-full w-1/5 2xl:w-1/4 md:border-r md:bg-muted/40 md:block">
+      <div className="hidden md:flex h-full flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
@@ -28,22 +29,22 @@ const Sidebar = () => {
           <SidebarNav
             links={[
               { title: "Inicio", icon: Home },
-              { title: "Locador", icon: ShoppingCart },
-              { title: "Locatario", icon: Package },
-              { title: "Inmuebles", icon: LineChart },
-              { title: "Contratos", icon: Users },
-              { title: "Tipo Contrato", icon: Users },
+              { title: "Locador", icon: SquareUserRound },
+              { title: "Locatario", icon: UserRoundSearch },
+              { title: "Inmuebles", icon: House },
+              { title: "Contratos", icon: FileText },
+              { title: "Tipo Contrato", icon: FileDigit },
             ]}
           />
         </div>
         <div className="w-full flex flex-col justify-center h-20">
           <SidebarLink
-              key={`cerrar-sesion`}
-              linkTitle={`Cerrar sesión`}
-              linkIcon={LogOut}
-              redirectTo={`cerrar-sesion`}
-            />
-          </div>
+            key={`cerrar-sesion`}
+            linkTitle={`Cerrar sesión`}
+            linkIcon={LogOut}
+            redirectTo={`cerrar-sesion`}
+          />
+        </div>
       </div>
       {/* Menu hamburguesa para mobile */}
       <div className="flex flex-col md:hidden">
@@ -63,17 +64,17 @@ const Sidebar = () => {
               <SidebarNav
                 links={[
                   { title: "Inicio", icon: Home },
-                  { title: "Locador", icon: ShoppingCart },
-                  { title: "Locatario", icon: Package },
-                  { title: "Inmuebles", icon: LineChart },
-                  { title: "Contratos", icon: Users },
-                  { title: "Tipo Contrato", icon: Users },
-                  { title: "Cerrar sesion", icon: LogOut  },
+                  { title: "Locador", icon: SquareUserRound },
+                  { title: "Locatario", icon: UserRoundSearch },
+                  { title: "Inmuebles", icon: House },
+                  { title: "Contratos", icon: FileText },
+                  { title: "Tipo Contrato", icon: FileDigit },
+                  { title: "Cerrar sesion", icon: LogOut },
                 ]}
               />
             </SheetContent>
           </Sheet>
-      
+
         </header>
       </div>
     </div>

@@ -39,13 +39,14 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableHeaderRow,
   TableRow,
 } from "@/components/ui/table";
 import { contratoJoin } from "@/types/types";
 import FormEditar from "./FormEditar";
 import FormAlta from "./FormAlta";
+import ContractDetailsModal from "./DetailsModal";
 // import Delete from "./Delete"
-// import DetailsModal from "./DetailsModal"
 
 const flipIcon = (iconName: string) => {
   const icon = document.getElementById(iconName);
@@ -106,6 +107,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
       accessorFn: (row) => `${row.locatario.nombre} ${row.locatario.apellido}`,
       header: ({ column }) => (
         <Button
+          className="text-xs 2xl:text-sm"
           variant="ghost"
           onClick={() => {
             column.toggleSorting(column.getIsSorted() === "asc");
@@ -127,6 +129,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
       accessorFn: (row) => `${row.inmueble.localidad} ${row.inmueble.calle} ${row.inmueble.altura ?? ""}`,
       header: ({ column }) => (
         <Button
+          className="text-xs 2xl:text-sm"
           variant="ghost"
           onClick={() => {
             column.toggleSorting(column.getIsSorted() === "asc");
@@ -175,11 +178,11 @@ export function ContratoTable({ contratos }: ContratoProps) {
       header: () => <div className="text-center">Estado</div>,
       cell: ({ row }) => {
         const estado = row.getValue("estado") as string;
-        
+
         // Filtra o convierte el `estado` a un tipo válido de `variant`
-        const estadoVariant: EstadoBadgeVariant = 
+        const estadoVariant: EstadoBadgeVariant =
           (estado.replace(/\s+/g, "_") as EstadoBadgeVariant) || "default";
-        
+
         return (
           <div className="text-center">
             <Badge variant={estadoVariant}>
@@ -194,7 +197,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
       header: () => <div className="text-center">Alerta vencimiento</div>,
       cell: ({ row }) => (
         <div className="text-center">
-          {row.getValue("alerta_vencimiento") ?`${row.getValue("alerta_vencimiento")} días` : "-"}
+          {row.getValue("alerta_vencimiento") ? `${row.getValue("alerta_vencimiento")} días` : "-"}
         </div>
       ),
     },
@@ -203,7 +206,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
       enableHiding: false,
       header: () => "Acciones",
       cell: ({ row }) => {
-        const inmueble = row.original;
+        const contrato = row.original;
 
         return (
           <DropdownMenu>
@@ -219,11 +222,11 @@ export function ContratoTable({ contratos }: ContratoProps) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="focus:bg-yellow-300/30 flex items-center gap-2">
-                {/* <DetailsModal inmueble={inmueble} /> */}
+                <ContractDetailsModal contrato={contrato} />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="focus:bg-blue-500/30 flex items-center gap-2"
-                onClick={() => handleEdit(inmueble)}
+                onClick={() => handleEdit(contrato)}
               >
                 <Pencil className="w-5 h-5" />
                 Editar inmueble
@@ -249,7 +252,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: { pagination: { pageSize: 5 } },
+    initialState: { pagination: { pageSize: 10 } },
     state: {
       sorting,
       columnFilters,
@@ -269,7 +272,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           onChange={(event) =>
             table.getColumn("locatario")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por inmueble..."
@@ -279,7 +282,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           onChange={(event) =>
             table.getColumn("inmueble")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por fecha inicio..."
@@ -287,7 +290,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           onChange={(event) =>
             table.getColumn("fecha_inicio")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por fecha fin..."
@@ -295,7 +298,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           onChange={(event) =>
             table.getColumn("fecha_fin")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por estado..."
@@ -303,7 +306,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           onChange={(event) =>
             table.getColumn("estado")?.setFilterValue(event.target.value)
           }
-          className="w-1/6"
+          className="w-1/6 text-xs 2xl:text-sm"
         />
         {isEdit && contratoEditar && (
           <FormEditar
@@ -314,7 +317,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           />
         )}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="h-8.5 2xl:h-10">
             <Button variant="outline" className="ml-auto">
               <BetweenVerticalStart className="h-4 w-4" />
             </Button>
@@ -345,20 +348,20 @@ export function ContratoTable({ contratos }: ContratoProps) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableHeaderRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
-              </TableRow>
+              </TableHeaderRow>
             ))}
           </TableHeader>
           <TableBody>
@@ -370,7 +373,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
                   className=""
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="py-[5px]" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -389,7 +392,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-2">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
@@ -400,6 +403,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="text-xs 2xl:text-sm h-7"
           >
             Anterior
           </Button>
@@ -408,6 +412,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="text-xs 2xl:text-sm h-7"
           >
             Siguiente
           </Button>

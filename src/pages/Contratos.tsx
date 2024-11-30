@@ -9,7 +9,7 @@ const Contratos = () => {
     queryKey: ["contratos"],
     queryFn: obtenerContratos,
   });
-  console.log(data)
+
   return (
     <div className='w-full'>
       <HeaderPages title="Contrato" />
