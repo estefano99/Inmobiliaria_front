@@ -58,7 +58,7 @@ export default function ContractDetailsModal({ contrato }: { contrato: contratoJ
             </div>
             <Separator className="h-[1px] bg-muted"/>
             <div className="flex items-center">
-              <span className="font-medium w-2/4">Días de alerta de vencimiento:</span>
+              <span className="font-medium w-2/4">Alerta de vencimiento:</span>
               <span className="w-2/4">{contrato.alerta_vencimiento} días</span>
             </div>
             <Separator className="h-[1px] bg-muted"/>
@@ -99,6 +99,21 @@ export default function ContractDetailsModal({ contrato }: { contrato: contratoJ
             <div className="flex items-center">
               <span className="font-medium w-2/4">Piso:</span>
               <span className="w-2/4">{contrato.inmueble.piso || '-'}</span>
+            </div>
+            <Separator className="h-[1px] bg-muted"/>
+            <div className="flex items-center">
+              <span className="font-medium w-2/4">Duracion (Tipo):</span>
+              <span className="w-2/4">{contrato.tipo_contrato.duracion ? `${contrato.tipo_contrato.duracion} meses`  : '-'}</span>
+            </div>
+            <Separator className="h-[1px] bg-muted"/>
+            <div className="flex items-center">
+              <span className="font-medium w-2/4">Plazo aumento (Tipo):</span>
+              <span className="w-2/4">{contrato.tipo_contrato.plazo_aumento ? `${contrato.tipo_contrato.plazo_aumento} meses`  : '-'}</span>
+            </div>
+            <Separator className="h-[1px] bg-muted"/>
+            <div className="flex items-center">
+              <span className="font-medium w-2/4">alarma aumento(Tipo):</span>
+              <span className="w-2/4">{contrato.tipo_contrato.alarma_aumento ? `${contrato.tipo_contrato.alarma_aumento} dia`  : '-'}</span>
             </div>
             <Separator className="h-[1px] bg-muted"/>
           </div>

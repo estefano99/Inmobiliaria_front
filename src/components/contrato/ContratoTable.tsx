@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   ColumnDef,
@@ -31,7 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -46,7 +44,8 @@ import { contratoJoin } from "@/types/types";
 import FormEditar from "./FormEditar";
 import FormAlta from "./FormAlta";
 import ContractDetailsModal from "./DetailsModal";
-// import Delete from "./Delete"
+import Delete from "./Delete";
+import { ContratoSwitch } from "./ContratoSwitch";
 
 const flipIcon = (iconName: string) => {
   const icon = document.getElementById(iconName);
@@ -56,13 +55,26 @@ const flipIcon = (iconName: string) => {
   }
 };
 
-type EstadoBadgeVariant = "default" | "secondary" | "finalizado" | "rescindido" | "vigente" | "proximo_a_vencer" | "info";
+type EstadoBadgeVariant =
+  | "default"
+  | "secondary"
+  | "finalizado"
+  | "rescindido"
+  | "vigente"
+  | "proximo_a_vencer"
+  | "info";
 
 type ContratoProps = {
   contratos: contratoJoin[];
+  switchEstado: boolean;
+  setSwitchEstado: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function ContratoTable({ contratos }: ContratoProps) {
+export function ContratoTable({
+  contratos,
+  switchEstado,
+  setSwitchEstado,
+}: ContratoProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -126,7 +138,10 @@ export function ContratoTable({ contratos }: ContratoProps) {
     },
     {
       id: "inmueble",
-      accessorFn: (row) => `${row.inmueble.localidad} ${row.inmueble.calle} ${row.inmueble.altura ?? ""}`,
+      accessorFn: (row) =>
+        `${row.inmueble.localidad} ${row.inmueble.calle} ${
+          row.inmueble.altura ?? ""
+        }`,
       header: ({ column }) => (
         <Button
           className="text-xs 2xl:text-sm"
@@ -142,7 +157,8 @@ export function ContratoTable({ contratos }: ContratoProps) {
       ),
       cell: ({ row }) => (
         <div>
-          {row.original.inmueble.localidad} {row.original.inmueble.calle} {row.original.inmueble.altura ?? ""}
+          {row.original.inmueble.localidad} {row.original.inmueble.calle}{" "}
+          {row.original.inmueble.altura ?? ""}
         </div>
       ),
     },
@@ -151,7 +167,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
       header: () => <div className="text-center">Importe</div>,
       cell: ({ row }) => (
         <div className="text-center">
-          {row.getValue("importe") ? row.getValue("importe") : "-"}
+          ${row.getValue("importe") ? row.getValue("importe") : "-"}
         </div>
       ),
     },
@@ -185,9 +201,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
 
         return (
           <div className="text-center">
-            <Badge variant={estadoVariant}>
-              {estado || "-"}
-            </Badge>
+            <Badge variant={estadoVariant}>{estado || "-"}</Badge>
           </div>
         );
       },
@@ -197,7 +211,9 @@ export function ContratoTable({ contratos }: ContratoProps) {
       header: () => <div className="text-center">Alerta vencimiento</div>,
       cell: ({ row }) => (
         <div className="text-center">
-          {row.getValue("alerta_vencimiento") ? `${row.getValue("alerta_vencimiento")} días` : "-"}
+          {row.getValue("alerta_vencimiento")
+            ? `${row.getValue("alerta_vencimiento")} días`
+            : "-"}
         </div>
       ),
     },
@@ -229,10 +245,10 @@ export function ContratoTable({ contratos }: ContratoProps) {
                 onClick={() => handleEdit(contrato)}
               >
                 <Pencil className="w-5 h-5" />
-                Editar inmueble
+                Editar contrato
               </DropdownMenuItem>
               <DropdownMenuItem className="focus:bg-red-500/30 flex items-center gap-2">
-                {/* <Delete inmueble={inmueble} /> */}
+                <Delete contrato={contrato} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -260,7 +276,6 @@ export function ContratoTable({ contratos }: ContratoProps) {
       rowSelection,
     },
   });
-
   return (
     <div className="w-11/12 mx-auto">
       <div className="flex items-center py-4 gap-5">
@@ -286,7 +301,9 @@ export function ContratoTable({ contratos }: ContratoProps) {
         />
         <Input
           placeholder="Filtrar por fecha inicio..."
-          value={(table.getColumn("fecha_inicio")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("fecha_inicio")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("fecha_inicio")?.setFilterValue(event.target.value)
           }
@@ -294,7 +311,9 @@ export function ContratoTable({ contratos }: ContratoProps) {
         />
         <Input
           placeholder="Filtrar por fecha fin..."
-          value={(table.getColumn("fecha_fin")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("fecha_fin")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("fecha_fin")?.setFilterValue(event.target.value)
           }
@@ -344,6 +363,10 @@ export function ContratoTable({ contratos }: ContratoProps) {
         </DropdownMenu>
         <FormAlta />
       </div>
+      <ContratoSwitch
+        switchEstado={switchEstado}
+        setSwitchEstado={setSwitchEstado}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -355,9 +378,9 @@ export function ContratoTable({ contratos }: ContratoProps) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -373,7 +396,7 @@ export function ContratoTable({ contratos }: ContratoProps) {
                   className=""
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="py-[5px]" key={cell.id}>
+                    <TableCell className="" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

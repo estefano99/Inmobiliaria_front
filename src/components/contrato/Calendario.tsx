@@ -27,6 +27,7 @@ interface calendarioProps {
     estado: Estado; 
     alerta_vencimiento: number; 
     id?: number;
+    id_tipo_contrato: number;
   }>;
   defaultValue?: Date;
 }

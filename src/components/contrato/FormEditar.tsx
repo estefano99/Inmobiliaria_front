@@ -30,6 +30,7 @@ import { ComboboxEstados } from "./combobox/ComboboxEstado";
 import { Calendario } from "./Calendario";
 import { ComboboxInmueble } from "./combobox/ComboboxInmueble";
 import { ComboboxLocatarios } from "./combobox/ComboboxLocatario";
+import { ComboboxTipoContratoComponent } from "./combobox/ComboboxTipoContrato";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -49,6 +50,14 @@ const formSchema = z.object({
     .min(1, {
       message: "El inmueble debe ser seleccionado.",
     }),
+  id_tipo_contrato: z
+    .number({
+      required_error: "Debe seleccionar un tipo de contrato.",
+      invalid_type_error: "Tipo de contrato incorrecto",
+    })
+    .min(1, {
+      message: "El tipo de contrato debe ser seleccionado.",
+    }),
   importe: z.preprocess(
     (val) => {
       const num = parseInt(val as string, 10);
@@ -64,14 +73,16 @@ const formSchema = z.object({
       })
   ),
   fecha_inicio: z.preprocess(
-    (val) => (typeof val === "string" || val instanceof Date ? new Date(val) : val),
+    (val) =>
+      typeof val === "string" || val instanceof Date ? new Date(val) : val,
     z.date({
       required_error: "Debe seleccionar una fecha.",
       invalid_type_error: "Fecha incorrecta",
     })
   ),
   fecha_fin: z.preprocess(
-    (val) => (typeof val === "string" || val instanceof Date ? new Date(val) : val),
+    (val) =>
+      typeof val === "string" || val instanceof Date ? new Date(val) : val,
     z.date({
       required_error: "Debe seleccionar una fecha.",
       invalid_type_error: "Fecha incorrecta",
@@ -110,7 +121,7 @@ const FormEditar = ({
   isEdit,
   setContratoEditar,
 }: props) => {
-  console.log(contrato)
+  console.log(contrato);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -118,6 +129,7 @@ const FormEditar = ({
     defaultValues: {
       id_locatario: contrato.locatario.id,
       id_inmueble: contrato.inmueble.id,
+      id_tipo_contrato: contrato.tipo_contrato.id,
       importe: contrato.importe,
       fecha_inicio: contrato.fecha_inicio,
       fecha_fin: contrato.fecha_fin,
@@ -141,15 +153,17 @@ const FormEditar = ({
       });
     },
     onSuccess: (respuesta) => {
-      console.log(respuesta);
       toast({
         title: "Contrato editado exitosamente!",
         description: (
           <span>
             Se ha editado el Contrato{" "}
             <span className="underline underline-offset-2">
-              {String(respuesta.contrato.fecha_inicio)} - {String(respuesta.contrato.fecha_fin)} |{" "}
-              {respuesta.contrato.inmueble.localidad} - {respuesta.contrato.inmueble.calle} - {respuesta.contrato.inmueble.altura}
+              {String(respuesta.contrato.fecha_inicio)} -{" "}
+              {String(respuesta.contrato.fecha_fin)} |{" "}
+              {respuesta.contrato.inmueble.localidad} -{" "}
+              {respuesta.contrato.inmueble.calle} -{" "}
+              {respuesta.contrato.inmueble.altura}
             </span>
             .
           </span>
@@ -165,11 +179,11 @@ const FormEditar = ({
       }, 500);
     },
   });
-  console.log(form.getValues())
+  console.log(form.getValues());
   // console.log(form.formState.errors);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log(values);
     const data: contrato = {
       id: contrato?.id,
       ...values,
@@ -181,34 +195,54 @@ const FormEditar = ({
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Editar Inmueble</AlertDialogTitle>
+          <AlertDialogTitle>Editar Contrato</AlertDialogTitle>
           <AlertDialogDescription>
             Edita los campos que deseas modificar.
           </AlertDialogDescription>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 max-w-full"
+              className="space-y-6 pt-4 w-full"
             >
-              <FormField
-                control={form.control}
-                name="id_locatario"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>
-                      Locatario <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxLocatarios
-                        setValue={form.setValue}
-                        defaultValue={`${contrato.locatario.nombre} ${contrato.locatario.apellido}`}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-wrap">
+                <FormField
+                  control={form.control}
+                  name="id_locatario"
+                  render={() => (
+                    <FormItem className="flex-grow min-w-[200px]">
+                      <FormLabel>
+                        Locatario <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl className="w-full">
+                        <ComboboxLocatarios
+                          setValue={form.setValue}
+                          defaultValue={`${contrato.locatario.nombre} ${contrato.locatario.apellido}`}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
+                <FormField
+                  control={form.control}
+                  name="id_tipo_contrato"
+                  render={() => (
+                    <FormItem className="flex-grow min-w-[200px]">
+                      <FormLabel>
+                        Tipo contrato <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl className="w-full">
+                        <ComboboxTipoContratoComponent
+                          setValue={form.setValue}
+                          defaultValue={`${contrato.tipo_contrato.duracion} ${contrato.tipo_contrato.plazo_aumento} ${contrato.tipo_contrato.alarma_aumento}`}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <div className="flex flex-wrap gap-5">
                 <FormField
                   control={form.control}

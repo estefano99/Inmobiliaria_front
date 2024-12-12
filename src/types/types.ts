@@ -62,6 +62,7 @@ export type contrato = {
   id?: number;
   id_locatario: number;
   id_inmueble: number;
+  id_tipo_contrato: number;
   fecha_inicio: Date;
   fecha_fin: Date;
   estado: Estado;
@@ -69,9 +70,10 @@ export type contrato = {
   importe: number;
 }
 
-export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble"> & {
+export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & {
   locatario: LocatarioType;
   inmueble: InmuebleJoin;
+  tipo_contrato: TipoContratoType;
 };
 
 export interface contratoResponseGet {

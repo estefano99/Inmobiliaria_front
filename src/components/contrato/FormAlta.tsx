@@ -33,6 +33,7 @@ import { ComboboxInmueble } from "./combobox/ComboboxInmueble";
 import { ComboboxLocatarios } from "./combobox/ComboboxLocatario";
 import { ComboboxEstados } from "./combobox/ComboboxEstado";
 import { Calendario } from "./Calendario";
+import { ComboboxTipoContratoComponent } from "./combobox/ComboboxTipoContrato";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -43,6 +44,14 @@ const formSchema = z.object({
     })
     .min(1, {
       message: "El locatario debe ser seleccionado.",
+    }),
+  id_tipo_contrato: z
+    .number({
+      required_error: "Debe seleccionar un tipo de contrato.",
+      invalid_type_error: "Tipo de contrato incorrecto",
+    })
+    .min(1, {
+      message: "El tipo de contrato debe ser seleccionado.",
     }),
   id_inmueble: z
     .number({
@@ -158,7 +167,9 @@ const FormAlta = () => {
       </AlertDialogTrigger>
       <AlertDialogContent className="w-2/5">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-bold">Crear Contrato</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl font-bold">
+            Crear Contrato
+          </AlertDialogTitle>
           <AlertDialogDescription>
             Complete los campos para crear un nuevo Contrato
           </AlertDialogDescription>
@@ -167,21 +178,39 @@ const FormAlta = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 pt-4 w-full"
             >
-              <FormField
-                control={form.control}
-                name="id_locatario"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>
-                      Locatario <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <ComboboxLocatarios setValue={form.setValue} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* Locatario y Tipo de contrato  */}
+              <div className="w-full flex flex-row justify-between gap-10">
+                <FormField
+                  control={form.control}
+                  name="id_locatario"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>
+                        Locatario <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <ComboboxLocatarios setValue={form.setValue} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="id_tipo_contrato"
+                  render={() => (
+                    <FormItem className="grow">
+                      <FormLabel>
+                        Tipo contrato <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <ComboboxTipoContratoComponent setValue={form.setValue} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* Inmueble y Estado  */}
               <div className="w-full flex flex-row justify-between gap-10">
@@ -224,7 +253,9 @@ const FormAlta = () => {
                   name="fecha_inicio"
                   render={() => (
                     <FormItem className="flex flex-col grow">
-                      <FormLabel>Fecha inicio <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Fecha inicio <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Calendario
                           valueForm="fecha_inicio"
@@ -240,7 +271,9 @@ const FormAlta = () => {
                   name="fecha_fin"
                   render={() => (
                     <FormItem className="flex flex-col grow">
-                      <FormLabel>Fecha fin <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Fecha fin <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Calendario
                           valueForm="fecha_fin"
@@ -276,7 +309,11 @@ const FormAlta = () => {
                   name="alerta_vencimiento"
                   render={({ field }) => (
                     <FormItem className="grow">
-                      <FormLabel>Alarma de vencimiento <i className="text-muted-foreground text-xs">(dias)</i> <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Alarma de vencimiento{" "}
+                        <i className="text-muted-foreground text-xs">(dias)</i>{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Alarma de vencimiento" {...field} />
                       </FormControl>
