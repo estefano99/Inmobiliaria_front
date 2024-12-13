@@ -63,7 +63,7 @@ export function ComboboxTipoContrato({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-[200px] justify-between text-sm font-light"
           >
             {selectedValue
               ? `${selectedValue} ${isDuracion ? "Años" : "Meses"}`

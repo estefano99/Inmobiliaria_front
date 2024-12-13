@@ -12,7 +12,7 @@ type SidebarNavProps = {
 
 const SidebarNav = ({ links }: SidebarNavProps) => {
   return (
-    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+    <nav className="grid items-start px-2 lg:px-4">
       {links.map((link) => {
         const formattedLink = link.title.toLowerCase().replace(/\s/g, "-");
         return (

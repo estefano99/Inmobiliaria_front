@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { crearTipoContrato } from "@/api/TipoContratoApi";
 import { ComboboxTipoContrato } from "./ComboboxTipoContrato";
+import { FilePlus2 } from "lucide-react";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -52,8 +54,8 @@ const formSchema = z.object({
     },
     z
       .number({
-        required_error: "Alarma aumento es obligatorio.",
         invalid_type_error: "Alarma aumento debe ser un número.",
+        required_error: "Alarma aumento es obligatorio.",
       })
       .min(1, {
         message: "Alarma aumento debe ser al menos 1.",
@@ -114,12 +116,15 @@ const FormAlta = () => {
   }
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Crear Tipo de contrato</Button>
+      <AlertDialogTrigger asChild className="h-8.5 2xl:h-10">
+        <Button className="flex gap-2 text-xs 2xl:text-sm" variant="secondary">
+          <FilePlus2 className="h-4 w-4 2xl:h-5 2xl:w-5" />
+          Crear Tipo de contrato
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Crear Tipo de contrato</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl font-bold">Crear Tipo de contrato</AlertDialogTitle>
           <AlertDialogDescription>
             Complete los campos para crear un nuevo Tipo de contrato
           </AlertDialogDescription>
@@ -129,8 +134,8 @@ const FormAlta = () => {
                 control={form.control}
                 name="duracion"
                 render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Duracion</FormLabel>
+                  <FormItem className="flex flex-col mt-4">
+                    <FormLabel>Duracion del contrato</FormLabel>
                     <FormControl className="w-full">
                       <ComboboxTipoContrato
                         isDuracion={true}
@@ -148,7 +153,8 @@ const FormAlta = () => {
                 name="plazo_aumento"
                 render={() => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Plazo aumento</FormLabel>
+                    <FormLabel>Plazo de aumento</FormLabel>
+                    <FormDescription>El plazo de aumento indica la frecuencia con la que se ajustará el valor del alquiler mensual.</FormDescription>
                     <FormControl className="w-full">
                       <ComboboxTipoContrato
                         isDuracion={false}
@@ -166,9 +172,14 @@ const FormAlta = () => {
                 name="alarma_aumento"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Alarma aumento</FormLabel>
+                    <FormLabel>Alarma de aumento <i className="text-xs text-gray-400">(en dias)</i></FormLabel>
+                    <FormDescription>
+                      La alarma de aumento establece cuántos días antes se notificará al administrador que
+                      se aproxima un ajuste en el alquiler. Por ejemplo, si configuras "15", recibirás
+                      una alerta 15 días antes del próximo aumento.
+                    </FormDescription>
                     <FormControl>
-                      <Input placeholder="Alarma aumento" {...field} />
+                      <Input type="number" placeholder="Alarma aumento" {...field} className="w-[200px]" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

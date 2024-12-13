@@ -5,6 +5,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableHeaderRow,
   TableRow,
 } from "@/components/ui/table";
 import { SquarePen } from "lucide-react";
@@ -97,24 +98,24 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
       </div>
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableHeaderRow>
             <TableHead>Nombre</TableHead>
             <TableHead>Apellido</TableHead>
             <TableHead>DNI</TableHead>
             <TableHead>Telefono</TableHead>
             <TableHead>Acciones</TableHead>
-          </TableRow>
+          </TableHeaderRow>
         </TableHeader>
         <TableBody>
           {isLocatario ? (
             filteredLocatarios.length > 0 ? (
               filteredLocatarios.map((locatario) => (
-                <TableRow key={locatario.id}>
+                <TableRow className="h-10" key={locatario.id}>
                   <TableCell>{locatario.nombre}</TableCell>
                   <TableCell>{locatario.apellido}</TableCell>
                   <TableCell>{locatario.dni}</TableCell>
                   <TableCell>{locatario.telefono}</TableCell>
-                  <TableCell className="flex items-center gap-4">
+                  <TableCell className="flex items-center gap-4 pt-2">
                     <SquarePen
                       color="green"
                       onClick={() => handleEditar(locatario)}
@@ -131,12 +132,12 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
             )
           ) : filteredLocadores.length > 0 ? (
             filteredLocadores.map((locador) => (
-              <TableRow key={locador.id}>
+              <TableRow className="h-10" key={locador.id}>
                 <TableCell>{locador.nombre}</TableCell>
                 <TableCell>{locador.apellido}</TableCell>
                 <TableCell>{locador.dni}</TableCell>
                 <TableCell>{locador.telefono}</TableCell>
-                <TableCell className="flex items-center gap-4">
+                <TableCell className="flex items-center gap-4 pt-2">
                   <SquarePen
                     color="green"
                     onClick={() => handleEditarLocador(locador)}

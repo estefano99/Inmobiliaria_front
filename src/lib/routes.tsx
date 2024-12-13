@@ -17,5 +17,5 @@ export {
   loginRoute,
   obtenerUsuarioRoute,
   tipoContratoRoute,
-  tipoContratoRouteFront
+  tipoContratoRouteFront,
 }

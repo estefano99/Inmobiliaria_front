@@ -27,6 +27,7 @@ import { useToast } from "@/hooks/use-toast";
 import { crearLocatario } from "@/api/LocatarioApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { crearLocador } from "@/api/LocadorApi";
+import { UserRoundPlus } from "lucide-react";
 
 const formSchema = z.object({
   nombre: z.string().min(1, {
@@ -70,8 +71,7 @@ const FormAlta = ({ isLocatario }: props) => {
         variant: "destructive",
         description:
           error.message ||
-          `Error inoportuno al crear un ${
-            isLocatario ? "locatario" : "locador"
+          `Error inoportuno al crear un ${isLocatario ? "locatario" : "locador"
           }`,
         className:
           "from-red-600 to-red-800 bg-gradient-to-tr bg-opacity-80 backdrop-blur-sm",
@@ -105,8 +105,9 @@ const FormAlta = ({ isLocatario }: props) => {
   }
   return (
     <AlertDialog onOpenChange={setOpen} open={open}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">
+      <AlertDialogTrigger asChild className="h-8.5 2xl:h-10">
+        <Button className="flex gap-2 text-xs 2xl:text-sm" variant="secondary">
+          <UserRoundPlus className="h-4 w-4 2xl:h-5 2xl:w-5" />
           {isLocatario ? "Crear Locatario" : "Crear Locador"}
         </Button>
       </AlertDialogTrigger>

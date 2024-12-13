@@ -51,3 +51,36 @@ export interface tipoContratoResponse {
   tipoContrato: TipoContratoType
 }
 
+export enum Estado {
+  VIGENTE = "vigente",
+  FINALIZADO = "finalizado",
+  RESCINDIDO = "rescindido",
+  PROXIMO_A_VENCER = "proximo_a_vencer",
+}
+
+export type contrato = {
+  id?: number;
+  id_locatario: number;
+  id_inmueble: number;
+  id_tipo_contrato: number;
+  fecha_inicio: Date;
+  fecha_fin: Date;
+  estado: Estado;
+  alerta_vencimiento: number;
+  importe: number;
+}
+
+export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & {
+  locatario: LocatarioType;
+  inmueble: InmuebleJoin;
+  tipo_contrato: TipoContratoType;
+};
+
+export interface contratoResponseGet {
+  contratos: contratoJoin[];
+}
+
+export interface contratoResponsePostPut {
+  contrato: contratoJoin;
+  message: string;
+}
