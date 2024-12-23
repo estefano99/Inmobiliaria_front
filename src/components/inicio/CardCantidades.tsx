@@ -1,6 +1,6 @@
 import { dashboardObtenerTotalDatos } from "@/api/Dashboard";
 import { useQuery } from "@tanstack/react-query";
-import { FileText, HouseIcon, SquareUserRound, UserRoundPenIcon, UserRoundSearch } from "lucide-react";
+import { FileText, HouseIcon, SquareUserRound, UserRoundSearch } from "lucide-react";
 
 type TotalDatos = {
   totalLocatarios: number;
