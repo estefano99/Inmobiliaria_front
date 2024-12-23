@@ -10,20 +10,19 @@ import {
   FileDigit
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link } from "react-router-dom";
 import SidebarNav from "./SidebarNav";
 import { Button } from "../ui/button";
 import SidebarLink from "./SidebarLink";
 
 const Sidebar = () => {
   return (
-    <div className="h-14 md:h-full w-1/5 2xl:w-1/4 md:border-r md:bg-muted/40 md:block">
+    <div className="h-14 md:h-full w-1/5 2xl:w-[22%] md:border-r md:bg-muted/40 md:block">
       <div className="hidden md:flex h-full flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-          <Link to="/" className="flex items-center gap-2 font-semibold">
+          <p className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
-            <span className="text-xl">Inmobiliaria Giacinti</span>
-          </Link>
+            <span className="text-base md:text-xl">Inmobiliaria Giacinti</span>
+          </p>
         </div>
         <div className="flex-1">
           <SidebarNav
