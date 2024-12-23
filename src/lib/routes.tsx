@@ -7,6 +7,9 @@ const tipoContratoRoute: string = '/tipoContrato';
 const tipoContratoRouteFront: string = '/tipo-contrato';
 const loginRoute: string = '/login';
 const obtenerUsuarioRoute: string = '/usuario';
+const dashboardRoute: string = '/dashboard';
+const dashboardRouteTotalDatos: string = `${dashboardRoute}/total-datos`;
+const dashboardRouteEstadosContratos: string = `${dashboardRoute}/estados-contratos`;
 
 export {
   inicioRoute,
@@ -18,4 +21,7 @@ export {
   obtenerUsuarioRoute,
   tipoContratoRoute,
   tipoContratoRouteFront,
+  dashboardRoute,
+  dashboardRouteTotalDatos,
+  dashboardRouteEstadosContratos
 }

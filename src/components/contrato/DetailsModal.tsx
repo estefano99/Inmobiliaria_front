@@ -103,7 +103,7 @@ export default function ContractDetailsModal({ contrato }: { contrato: contratoJ
             <Separator className="h-[1px] bg-muted"/>
             <div className="flex items-center">
               <span className="font-medium w-2/4">Duracion (Tipo):</span>
-              <span className="w-2/4">{contrato.tipo_contrato.duracion ? `${contrato.tipo_contrato.duracion} meses`  : '-'}</span>
+              <span className="w-2/4">{contrato.tipo_contrato.duracion ? `${contrato.tipo_contrato.duracion / 365} años`  : '-'}</span>
             </div>
             <Separator className="h-[1px] bg-muted"/>
             <div className="flex items-center">

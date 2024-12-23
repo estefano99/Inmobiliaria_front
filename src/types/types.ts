@@ -84,3 +84,17 @@ export interface contratoResponsePostPut {
   contrato: contratoJoin;
   message: string;
 }
+
+export type estadosContratosGrafico = {
+  month: string;
+  vigentes: number;
+  finalizados: number;
+  proximo_a_vencer: number;
+  rescindidos: number;
+}
+
+export type dataGraficos = {
+  mes: string;
+  estado: Estado;
+  cantidad: number;
+}

@@ -278,7 +278,7 @@ export function ContratoTable({
   });
   return (
     <div className="w-11/12 mx-auto">
-      <div className="flex items-center py-4 gap-5">
+      <div className="grid grid-cols-3 md:grid-cols-7 items-center py-4 gap-5">
         <Input
           placeholder="Filtrar por locatario..."
           value={
@@ -287,7 +287,7 @@ export function ContratoTable({
           onChange={(event) =>
             table.getColumn("locatario")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por inmueble..."
@@ -297,7 +297,7 @@ export function ContratoTable({
           onChange={(event) =>
             table.getColumn("inmueble")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por fecha inicio..."
@@ -307,7 +307,7 @@ export function ContratoTable({
           onChange={(event) =>
             table.getColumn("fecha_inicio")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por fecha fin..."
@@ -317,7 +317,7 @@ export function ContratoTable({
           onChange={(event) =>
             table.getColumn("fecha_fin")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por estado..."
@@ -325,7 +325,7 @@ export function ContratoTable({
           onChange={(event) =>
             table.getColumn("estado")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         {isEdit && contratoEditar && (
           <FormEditar

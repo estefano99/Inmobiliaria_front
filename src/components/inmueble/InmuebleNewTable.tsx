@@ -243,14 +243,14 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
 
   return (
     <div className="w-11/12 mx-auto">
-      <div className="flex items-center py-4 gap-5">
+      <div className="grid grid-cols-2 md:grid-cols-6 items-center py-4 gap-5">
         <Input
           placeholder="Filtrar por localidad..."
           value={(table.getColumn("localidad")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("localidad")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por calle..."
@@ -258,7 +258,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("calle")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por altura..."
@@ -266,7 +266,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("altura")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         <Input
           placeholder="Filtrar por locador..."
@@ -274,7 +274,7 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
           onChange={(event) =>
             table.getColumn("locador")?.setFilterValue(event.target.value)
           }
-          className="w-1/6 text-xs 2xl:text-sm"
+          className="w-full text-xs 2xl:text-sm"
         />
         {isEdit && inmuebleEditar && (
           <FormEditar

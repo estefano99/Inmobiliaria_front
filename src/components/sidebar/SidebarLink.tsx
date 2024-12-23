@@ -31,7 +31,7 @@ const SidebarLink = ({
             isActive,
           "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary cursor-pointer":
             !isActive,
-          "mx-3 flex justify-center items-center gap-3 bg-red-400 rounded-lg px-3 py-2 text-black transition-all hover:text-black hover:bg-red-500 cursor-pointer": redirectTo === "cerrar-sesion" && !isActive,
+          "mx-3 flex justify-center items-center gap-3 bg-red-500 rounded-lg px-3 py-2 text-black transition-all hover:text-black hover:bg-red-700 cursor-pointer": redirectTo === "cerrar-sesion" && !isActive,
         },
         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium 2xl:text-lg transition-all"
       )}

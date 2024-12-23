@@ -58,17 +58,17 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
 
   return (
     <div className="md:w-[90%] mx-auto mt-5">
-      <div className="w-full my-5 flex justify-between">
+      <div className="w-full my-5 flex justify-between gap-2 md:gap-0">
         {isLocatario ? (
           <Input
-            className="w-1/4"
+            className="w-full md:w-1/4"
             placeholder="Filtrar..."
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
         ) : (
           <Input
-            className="w-1/4"
+            className="w-full md:w-1/4"
             placeholder="Filtrar..."
             value={filterLocador}
             onChange={(e) => setFilterLocador(e.target.value)}

@@ -22,23 +22,23 @@ import { contratoJoin } from "@/types/types";
 import { ScrollArea } from "../ui/scroll-area";
 
 interface props {
-  contratosPorVencer: contratoJoin[];
-  openModal: boolean;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  contratosPorAumentar: contratoJoin[];
+  openModalAumento: boolean;
+  setOpenModalAumento: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AlertaVencimientos = ({
-  contratosPorVencer,
-  openModal,
-  setOpenModal,
+const AlarmaAumentos = ({
+  contratosPorAumentar,
+  openModalAumento,
+  setOpenModalAumento,
 }: props) => {
   return (
-    <AlertDialog open={openModal} onOpenChange={setOpenModal}>
+    <AlertDialog open={openModalAumento} onOpenChange={setOpenModalAumento}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl">¡Atención!</AlertDialogTitle>
           <TableCaption className="pb-5 text-xl font-bold text-red-500 ">
-            Los siguientes contratos están por vencer
+            Los siguientes contratos necesitan aumento de importes
           </TableCaption>
           <AlertDialogDescription>
             <ScrollArea className="h-[300px] w-full">
@@ -56,7 +56,7 @@ const AlertaVencimientos = ({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {contratosPorVencer.map((contrato) => (
+                  {contratosPorAumentar.map((contrato) => (
                     <TableRow key={contrato.id}>
                       <TableCell>{String(contrato.fecha_inicio)}</TableCell>
                       <TableCell>{String(contrato.fecha_fin)}</TableCell>
@@ -85,4 +85,4 @@ const AlertaVencimientos = ({
   );
 };
 
-export default AlertaVencimientos;
+export default AlarmaAumentos;
