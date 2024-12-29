@@ -10,6 +10,8 @@ const obtenerUsuarioRoute: string = '/usuario';
 const dashboardRoute: string = '/dashboard';
 const dashboardRouteTotalDatos: string = `${dashboardRoute}/total-datos`;
 const dashboardRouteEstadosContratos: string = `${dashboardRoute}/estados-contratos`;
+const historialContratoRoute: string = '/historial-contratos';
+const nuevoHistorialContratoRoute: string = '/nuevo-historial';
 
 export {
   inicioRoute,
@@ -23,5 +25,7 @@ export {
   tipoContratoRouteFront,
   dashboardRoute,
   dashboardRouteTotalDatos,
-  dashboardRouteEstadosContratos
+  dashboardRouteEstadosContratos,
+  historialContratoRoute,
+  nuevoHistorialContratoRoute
 }

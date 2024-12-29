@@ -30,14 +30,20 @@ import { editarTipoContrato } from "@/api/TipoContratoApi";
 
 const formSchema = z.object({
   id: z.number().optional(),
-  duracion: z
-    .number({
-      invalid_type_error: "Duracion debe ser un número.",
-      required_error: "Duracion es obligatorio.",
-    })
-    .min(1, {
-      message: "Duracion es obligatorio.",
-    }),
+  duracion: z.preprocess(
+    (val) => {
+      const num = parseInt(val as string, 10);
+      return isNaN(num) ? undefined : num;
+    },
+    z
+      .number({
+        required_error: "Duracion es obligatorio.",
+        invalid_type_error: "Duracion debe ser un número.",
+      })
+      .min(1, {
+        message: "Duracion debe ser al menos 1.",
+      })
+  ),
   plazo_aumento: z
     .number({
       invalid_type_error: "Plazo aumento debe ser un número.",
@@ -80,7 +86,7 @@ const FormEditar = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: tipoContrato.id, 
+      id: tipoContrato.id,
       duracion: tipoContrato.duracion,
       plazo_aumento: tipoContrato.plazo_aumento,
       alarma_aumento: tipoContrato.alarma_aumento,
@@ -106,7 +112,7 @@ const FormEditar = ({
           <span>
             Se ha editado{" "}
             <span className="underline underline-offset-2">
-              Duracion: {respuesta.tipoContrato.duracion} días - Plazo aumento:{" "}
+              Duracion: {respuesta.tipoContrato.duracion} meses - Plazo aumento:{" "}
               {respuesta.tipoContrato.plazo_aumento} meses - Alarma aumento:{" "}
               {respuesta.tipoContrato.alarma_aumento} días
             </span>
@@ -130,9 +136,9 @@ const FormEditar = ({
 
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent>
+      <AlertDialogContent className="h-full md:h-auto w-full items-center">
         <AlertDialogHeader>
-          <AlertDialogTitle>Editar Inmueble</AlertDialogTitle>
+          <AlertDialogTitle>Editar Tipo de contrato</AlertDialogTitle>
           <AlertDialogDescription>
             Edita los campos que deseas modificar.
           </AlertDialogDescription>
@@ -141,16 +147,11 @@ const FormEditar = ({
               <FormField
                 control={form.control}
                 name="duracion"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Duracion</FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxTipoContrato
-                        isDuracion={true}
-                        setValue={form.setValue}
-                        initialValue={tipoContrato.duracion}
-                        isEdit={isEdit}
-                      />
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Duración del contrato <i className="text-xs text-gray-400">(en meses)</i></FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="Duración contrato" {...field} className="w-[200px]" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

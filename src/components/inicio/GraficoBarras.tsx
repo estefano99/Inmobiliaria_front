@@ -74,7 +74,7 @@ export function GraficoBarras() {
   return (
     <div className="flex flex-col gap-4">
       {isLoading ? (<p>Cargando...</p>) : (
-        <ChartContainer config={chartConfig} className="min-h-[200px] max-h-[450px] w-full border-2 border-slate-800 rounded-md">
+        <ChartContainer config={chartConfig} className="min-h-[200px] max-h-[450px] w-full border-2 dark:border-slate-800 border-slate-200 rounded-md">
           <BarChart accessibilityLayer data={chartData}>
             <XAxis
               dataKey="mes"

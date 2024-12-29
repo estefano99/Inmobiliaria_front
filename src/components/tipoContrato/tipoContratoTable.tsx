@@ -13,7 +13,6 @@ import { useState } from "react";
 import FormEditar from "./FormEditar";
 import Delete from "./Delete";
 import { Input } from "../ui/input";
-import { formatDuracion } from "@/lib/funciones";
 
 interface props {
   tipoContratos: TipoContratoType[];
@@ -70,7 +69,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
           {filteredTipoContratos.length > 0 ? (
             filteredTipoContratos.map((tipoContrato) => (
               <TableRow className="h-10" key={tipoContrato.id}>
-                <TableCell>{formatDuracion(tipoContrato.duracion)}</TableCell>
+                <TableCell>{tipoContrato.duracion} meses</TableCell>
                 <TableCell>{tipoContrato.plazo_aumento} meses</TableCell>
                 <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
                 <TableCell className="flex pt-2 items-center gap-4">

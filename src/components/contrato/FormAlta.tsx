@@ -25,7 +25,6 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { ComboboxLocador } from "./ComboboxLocador";
 import { ReceiptText } from "lucide-react";
 import { Estado } from "@/types/types";
 import { crearContrato } from "@/api/ContratoApi";
@@ -165,7 +164,7 @@ const FormAlta = () => {
           Crear contrato
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="w-2/5">
+      <AlertDialogContent className="h-full md:h-auto w-full md:w-2/5">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl font-bold">
             Crear Contrato
@@ -179,7 +178,7 @@ const FormAlta = () => {
               className="space-y-6 pt-4 w-full"
             >
               {/* Locatario y Tipo de contrato  */}
-              <div className="w-full flex flex-row justify-between gap-10">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="id_locatario"
@@ -213,7 +212,7 @@ const FormAlta = () => {
               </div>
 
               {/* Inmueble y Estado  */}
-              <div className="w-full flex flex-row justify-between gap-10">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="id_inmueble"
@@ -247,7 +246,7 @@ const FormAlta = () => {
               </div>
 
               {/* Fecha inicio y Fecha fin */}
-              <div className="w-full flex flex-row justify-between gap-10">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="fecha_inicio"
@@ -287,7 +286,7 @@ const FormAlta = () => {
               </div>
 
               {/* Importe y Alarma de aumento */}
-              <div className="w-full flex flex-row justify-between gap-10">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-10">
                 <FormField
                   control={form.control}
                   name="importe"

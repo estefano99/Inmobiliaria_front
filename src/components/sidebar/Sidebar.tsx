@@ -1,7 +1,7 @@
 import {
   Home,
   Menu,
-  Package2,
+  // Package2,
   LogOut,
   House,
   SquareUserRound,
@@ -20,7 +20,7 @@ const Sidebar = () => {
       <div className="hidden md:flex h-full flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <p className="flex items-center gap-2 font-semibold">
-            <Package2 className="h-6 w-6" />
+            {/* <Package2 className="h-6 w-6" /> */}
             <span className="text-base md:text-xl">Inmobiliaria Giacinti</span>
           </p>
         </div>
@@ -46,7 +46,7 @@ const Sidebar = () => {
         </div>
       </div>
       {/* Menu hamburguesa para mobile */}
-      <div className="flex flex-col md:hidden">
+      <div className="flex flex-col md:hidden absolute z-50">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>

@@ -41,7 +41,7 @@ const Delete = ({ tipoContrato }: props) => {
           <span>
             Se ha eliminado{" "}
             <span className="underline underline-offset-2">
-              {tipoContrato.duracion / 365} Años - {tipoContrato.plazo_aumento} Meses - {tipoContrato.plazo_aumento} Días
+              {tipoContrato.duracion } Meses - {tipoContrato.plazo_aumento} Meses - {tipoContrato.plazo_aumento} Días
             </span>
           </span>
         ),
@@ -62,10 +62,10 @@ const Delete = ({ tipoContrato }: props) => {
         <AlertDialogTrigger asChild>
           <Trash color="red" className="hover:cursor-pointer" />
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-full">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {`¿Estás seguro que deseas eliminar a Duracion: ${tipoContrato.duracion / 365} Años - Plazo aumento: ${tipoContrato.plazo_aumento} Meses - alarma Venc.: ${tipoContrato.alarma_aumento} Días?`}
+              {`¿Estás seguro que deseas eliminar a Duracion: ${tipoContrato.duracion} Meses - Plazo aumento: ${tipoContrato.plazo_aumento} Meses - alarma Venc.: ${tipoContrato.alarma_aumento} Días?`}
             </AlertDialogTitle>
             <AlertDialogDescription>
               Al eliminarlo se borrara de la base de datos de forma permanente.

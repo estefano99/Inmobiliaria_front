@@ -122,27 +122,19 @@ const FormAlta = () => {
           Crear Tipo de contrato
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="h-full md:h-auto w-full sm:w-2/5">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-bold">Crear Tipo de contrato</AlertDialogTitle>
-          <AlertDialogDescription>
-            Complete los campos para crear un nuevo Tipo de contrato
-          </AlertDialogDescription>
+          <AlertDialogTitle className="text-xl font-bold mb-2">Crear Tipo de contrato</AlertDialogTitle>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
                 name="duracion"
-                render={() => (
-                  <FormItem className="flex flex-col mt-4">
-                    <FormLabel>Duracion del contrato</FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxTipoContrato
-                        isDuracion={true}
-                        setValue={form.setValue}
-                        initialValue={undefined}
-                        isEdit={false}
-                      />
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Duración del contrato <i className="text-xs text-gray-400">(en meses)</i></FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="Duración contrato" {...field} className="w-[200px]" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

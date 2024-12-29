@@ -70,7 +70,7 @@ const Delete = ({ contrato }: props) => {
           <p>Eliminar contrato</p>
         </div>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full md:w-auto">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl mb-2">
             ¿Estás seguro que deseas eliminar el siguiente contrato?
@@ -96,15 +96,9 @@ const Delete = ({ contrato }: props) => {
             </span>
             <span className="block">
               <span className="font-bold text-slate-400 mr-1">
-                Locatario nombre:
+                Locatario:
               </span>{" "}
-              {`${contrato.locatario.nombre || "-"}`}
-            </span>
-            <span className="block">
-              <span className="font-bold text-slate-400 mr-1">
-                Locatario apellido:
-              </span>{" "}
-              {`${contrato.locatario.apellido || "-"}`}
+              {`${contrato.locatario.nombre || "-"}`}  {`${contrato.locatario.apellido || "-"}`}
             </span>
             <span className="flex bg-red-500/25 px-3 py-2 rounded-lg mt-6 text-red-300/80">
               <TriangleAlert className="w-5 h-5 mr-1" />

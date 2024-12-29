@@ -193,7 +193,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent>
+      <AlertDialogContent className="h-full md:h-auto w-full md:w-2/5">
         <AlertDialogHeader>
           <AlertDialogTitle>Editar Contrato</AlertDialogTitle>
           <AlertDialogDescription>
