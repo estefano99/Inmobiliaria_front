@@ -31,14 +31,20 @@ import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 const formSchema = z.object({
   id: z.number().optional(),
-  duracion: z
-    .number({
-      invalid_type_error: "Duracion debe ser un número.",
-      required_error: "Duracion es obligatorio.",
-    })
-    .min(1, {
-      message: "Duracion es obligatorio.",
-    }),
+  duracion: z.preprocess(
+    (val) => {
+      const num = parseInt(val as string, 10);
+      return isNaN(num) ? undefined : num;
+    },
+    z
+      .number({
+        invalid_type_error: "Duracion debe ser un número.",
+        required_error: "Duracion es obligatorio.",
+      })
+      .min(1, {
+        message: "Duracion debe ser al menos 1.",
+      })
+  ),
   plazo_aumento: z
     .number({
       invalid_type_error: "Plazo aumento debe ser un número.",
@@ -138,13 +144,7 @@ const FormAlta = () => {
                 <FormItem>
                   <FormLabel>Duración del contrato <i className="text-xs text-gray-400">(en meses)</i></FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Duración contrato"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                      className="w-[200px]"
-                    />
+                    <Input type="number" placeholder="Duracion contrato" {...field} className="w-[200px]" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

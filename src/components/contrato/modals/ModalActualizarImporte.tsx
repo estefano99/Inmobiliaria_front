@@ -122,7 +122,7 @@ const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenCo
             <span className="text-lg flex justify-between items-center">
               <span className="max-w-36">Importe actual: <span className="text-white">${contratoConHistorial?.importe}</span></span>
               <ArrowBigRight className="h-8 w-8" />
-              <span className="max-w-44">Importe actualizado: <span className="text-white">${nuevo_importe}</span></span>
+              <span className="max-w-44">Importe actualizado: <span className="text-white">${nuevo_importe}.00</span></span>
             </span>
           </AlertDialogDescription>
           <AlertDialogFooter>

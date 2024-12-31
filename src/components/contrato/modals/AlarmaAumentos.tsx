@@ -89,8 +89,7 @@ const AlarmaAumentos = ({
             </TableBody>
           </Table>
         </ScrollArea>
-
-
+        
         <AlertDialogFooter>
           <AlertDialogAction>Cerrar</AlertDialogAction>
         </AlertDialogFooter>

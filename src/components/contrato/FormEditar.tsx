@@ -137,6 +137,7 @@ const FormEditar = ({
       alerta_vencimiento: contrato.alerta_vencimiento,
     },
   });
+  console.log("[Contrato props]:", contrato);
 
   const mutation = useMutation({
     mutationFn: editarContrato,
@@ -193,7 +194,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent className="h-full md:h-auto w-full md:w-2/5">
+      <AlertDialogContent className="h-full md:h-auto w-full md:w-2/5 2xl:w-[35%]">
         <AlertDialogHeader>
           <AlertDialogTitle>Editar Contrato</AlertDialogTitle>
           <AlertDialogDescription>
@@ -268,10 +269,10 @@ const FormEditar = ({
                   render={({ field }) => (
                     <FormItem className="flex-grow min-w-[200px]">
                       <FormLabel>
-                        Importe <span className="text-red-500">*</span>
+                        Importe
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Ingresar importe" {...field} />
+                        <Input disabled placeholder="Ingresar importe" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -345,7 +346,7 @@ const FormEditar = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Alarma aumento <span className="text-red-500">*</span>
+                        Alerta vencimiento <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Alerta vencimiento" {...field} />
