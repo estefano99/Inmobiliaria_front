@@ -4,6 +4,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableHeaderRow,
   TableRow,
 } from "@/components/ui/table";
 import { SquarePen } from "lucide-react";
@@ -26,7 +27,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
   const [filter, setFilter] = useState("");
 
   const handleEditar = async (tipoContrato: TipoContratoType) => {
-    setTipoContratoEditar(tipoContrato);  
+    setTipoContratoEditar(tipoContrato);
     setIsEdit(true);
   };
 
@@ -58,12 +59,12 @@ export function TipoContratoTable({ tipoContratos }: props) {
       </div>
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableHeaderRow>
             <TableHead>Duración</TableHead>
             <TableHead>Plazo aumento</TableHead>
             <TableHead>Alarma aumento</TableHead>
             <TableHead>Acciones</TableHead>
-          </TableRow>
+          </TableHeaderRow>
         </TableHeader>
         <TableBody>
           {filteredTipoContratos.length > 0 ? (
@@ -83,9 +84,11 @@ export function TipoContratoTable({ tipoContratos }: props) {
               </TableRow>
             ))
           ) : (
-            <TableCell colSpan={5} className="text-center">
-              No se encontraron Tipo de contratos.
-            </TableCell>
+            <TableHeaderRow className="h-10">
+              <TableCell colSpan={5} className="text-center">
+                No se encontraron Tipo de contratos.
+              </TableCell>
+            </TableHeaderRow>
           )}
         </TableBody>
       </Table>

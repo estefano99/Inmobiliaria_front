@@ -126,9 +126,11 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
                 </TableRow>
               ))
             ) : (
-              <TableCell colSpan={5} className="text-center">
-                No se encontraron locatores.
-              </TableCell>
+              <TableHeaderRow className="h-10">
+                <TableCell colSpan={5} className="text-center">
+                  No se encontraron locatarios.
+                </TableCell>
+              </TableHeaderRow>
             )
           ) : filteredLocadores.length > 0 ? (
             filteredLocadores.map((locador) => (
@@ -148,9 +150,11 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
               </TableRow>
             ))
           ) : (
-            <TableCell colSpan={5} className="text-center">
-              No se encontraron locadores.
-            </TableCell>
+            <TableHeaderRow className="h-10">
+              <TableCell colSpan={5} className="text-center">
+                No se encontraron locadores.
+              </TableCell>
+            </TableHeaderRow>
           )}
         </TableBody>
       </Table>

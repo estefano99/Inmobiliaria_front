@@ -18,6 +18,7 @@ import {
 
 import { contratoJoin } from "@/types/types";
 import { ScrollArea } from "../../ui/scroll-area";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 interface props {
   contratosPorVencer: contratoJoin[];
@@ -34,11 +35,11 @@ const AlertaVencimientos = ({
     <AlertDialog open={openModal} onOpenChange={setOpenModal}>
       <AlertDialogContent className="w-full">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl">¡Atención!</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl">¡Atención!</AlertDialogTitle>
         </AlertDialogHeader>
-        <p className="pb-2 text-center text-xl font-bold text-red-500 ">
-          Los siguientes contratos están por vencer
-        </p>
+        <AlertDialogDescription className="pb-2 text-center text-xl font-bold text-slate-400">
+          Los siguientes contratos están <span className="font-black text-red-500 underline underline-offset-4">por vencer</span>
+        </AlertDialogDescription>
         <ScrollArea className="h-[300px] w-full">
           <Table>
             <TableHeader>

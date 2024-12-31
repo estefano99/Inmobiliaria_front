@@ -70,7 +70,7 @@ export type contrato = {
   importe: number;
 }
 
-export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & {
+export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & Pick<contrato, "id"> &{
   locatario: LocatarioType;
   inmueble: InmuebleJoin;
   tipo_contrato: TipoContratoType;

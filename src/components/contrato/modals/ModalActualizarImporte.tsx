@@ -10,6 +10,7 @@ import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogContentSmall,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -17,7 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { historialFiltrados } from "@/types/types";
-import { ReceiptText } from "lucide-react";
+import { ArrowBigRight, ReceiptText } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { actualizarImporte } from "@/api/HistorialContratoApi";
@@ -25,13 +26,20 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface props {
   contratoConHistorial: historialFiltrados | null;
   openConfirmar: boolean;
   setOpenConfirmar: Dispatch<SetStateAction<boolean>>;
+}
+
+interface ConfirmarActualizacionProps {
+  contratoConHistorial: historialFiltrados | null;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  nuevo_importe: number;
 }
 
 const formSchema = z.object({
@@ -51,7 +59,9 @@ const formSchema = z.object({
   ),
 });
 
+
 const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenConfirmar }: props) => {
+  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,6 +103,39 @@ const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenCo
     },
   });
 
+  const ConfirmarActualizacion = ({ contratoConHistorial, open, setOpen, nuevo_importe }: ConfirmarActualizacionProps) => {
+    return (
+      <AlertDialog onOpenChange={setOpen} open={open}>
+        <AlertDialogTrigger asChild>
+          <Button className="flex gap-2 text-xs 2xl:text-sm" variant="default">
+            Confirmar
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContentSmall className="w-1/2">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="mb-2"><span className="text-2xl font-bold">Confirmar actualización</span></AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription className="pb-4">
+            ¿Está seguro que desea actualizar el importe del contrato?
+          </AlertDialogDescription>
+          <AlertDialogDescription className="pb-4">
+            <span className="text-lg flex justify-between items-center">
+              <span className="max-w-36">Importe actual: <span className="text-white">${contratoConHistorial?.importe}</span></span>
+              <ArrowBigRight className="h-8 w-8" />
+              <span className="max-w-44">Importe actualizado: <span className="text-white">${nuevo_importe}</span></span>
+            </span>
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <Button onClick={form.handleSubmit(onSubmit)} disabled={mutation.isPending}>
+              {mutation.isPending ? "Cargando..." : "Guardar"}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContentSmall>
+      </AlertDialog>
+    );
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const data_a_actualizar = {
       id_historial: contratoConHistorial?.historial.id,
@@ -100,7 +143,7 @@ const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenCo
       importe_actualizado: values.importe,
       plazo_aumento: contratoConHistorial?.tipo_contrato.plazo_aumento,
     };
-    
+
     await mutation.mutateAsync(data_a_actualizar);
   }
   return (
@@ -122,7 +165,7 @@ const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenCo
         </AlertDialogHeader>
 
         <p className="text-normal">Datos del contrato</p>
-        <div className="space-y-2 border-2 rounded-lg p-2">
+        <div className="space-y-3 border-2 rounded-lg p-2">
           <p className="text-slate-400">Importe actual: <span className="text-white">${contratoConHistorial?.importe}</span></p>
           <p className="text-slate-400">Fecha actualizacion: <span className="text-white">{String(contratoConHistorial?.historial.fecha_actualizacion)}</span></p>
           <p className="text-slate-400">Duracion del contrato: <span className="text-white">{String(contratoConHistorial?.fecha_inicio) + " - " + String(contratoConHistorial?.fecha_fin)}</span></p>
@@ -157,9 +200,13 @@ const ModalActualizarImporte = ({ contratoConHistorial, openConfirmar, setOpenCo
               <AlertDialogCancel onClick={() => form.reset()}>
                 Cancelar
               </AlertDialogCancel>
-              <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? "Cargando..." : "Guardar"}
-              </Button>
+              <ConfirmarActualizacion
+                open={open}
+                setOpen={setOpen}
+                contratoConHistorial={contratoConHistorial}
+                nuevo_importe={form.getValues().importe}
+              />
+
             </AlertDialogFooter>
           </form>
         </Form>

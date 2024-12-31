@@ -410,11 +410,11 @@ export function ContratoTable({
                 </TableRow>
               ))
             ) : (
-              <TableRow>
+              <TableHeaderRow className="h-10">
                 <TableCell colSpan={columns.length} className="text-center">
                   No se encontraron resultados.
                 </TableCell>
-              </TableRow>
+              </TableHeaderRow>
             )}
           </TableBody>
         </Table>

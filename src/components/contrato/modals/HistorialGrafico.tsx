@@ -44,9 +44,9 @@ export default function HistorialGrafico({ contrato }: { contrato: contratoJoin 
         </DialogHeader>
         <Separator className='bg-muted-foreground h-0.5' />
         <div>
-          <p className='text-slate-400'>Duración: <span className='dark:text-white text-black'>{String(contrato.fecha_inicio)} / {String(contrato.fecha_fin)}</span></p>
-          <p className='text-slate-400'>Locatario: <span className='dark:text-white text-black'>{contrato.locatario.nombre} {contrato.locatario.apellido}</span></p>
-          <p className='text-slate-400'>Dirección: <span className='dark:text-white text-black'>{contrato.inmueble.localidad} {contrato.inmueble?.calle} {contrato.inmueble?.altura}</span></p>
+          <p className='text-slate-400'>- Duración: <span className='dark:text-white text-black'>{String(contrato.fecha_inicio)} / {String(contrato.fecha_fin)}</span></p>
+          <p className='text-slate-400'>- Locatario: <span className='dark:text-white text-black'>{contrato.locatario.nombre} {contrato.locatario.apellido}</span></p>
+          <p className='text-slate-400'>- Dirección: <span className='dark:text-white text-black'>{contrato.inmueble.localidad} {contrato.inmueble?.calle} {contrato.inmueble?.altura}</span></p>
         </div>
         <div className="flex flex-col gap-3 py-4">
           {isLoading ? (

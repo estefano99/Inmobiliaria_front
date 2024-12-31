@@ -19,6 +19,7 @@ import {
 import { historialFiltrados } from "@/types/types";
 import { ScrollArea } from "../../ui/scroll-area";
 import ModalActualizarImporte from "./ModalActualizarImporte";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 interface props {
   contratosParaAumento: historialFiltrados[];
@@ -45,11 +46,11 @@ const AlarmaAumentos = ({
           openConfirmar && <ModalActualizarImporte contratoConHistorial={contratoConHistorial} openConfirmar={openConfirmar} setOpenConfirmar={setOpenConfirmar} />
         }
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl">¡Atención!</AlertDialogTitle>
+          <AlertDialogTitle className="text-2xl">¡Atención!</AlertDialogTitle>
         </AlertDialogHeader>
-        <p className="pb-5 text-center text-xl font-bold text-red-500 ">
-          Los siguientes contratos necesitan aumento de importes
-        </p>
+        <AlertDialogDescription className="pb-5 text-center text-xl font-bold text-slate-400 ">
+          Los siguientes contratos necesitan un <span className="underline underline-offset-4 font-black text-yellow-600">aumento de importe</span>
+        </AlertDialogDescription>
         <ScrollArea className="h-[300px] w-full">
           <Table>
             <TableHeader>
