@@ -43,9 +43,10 @@ import {
 import { contratoJoin } from "@/types/types";
 import FormEditar from "./FormEditar";
 import FormAlta from "./FormAlta";
-import ContractDetailsModal from "./DetailsModal";
+import ContractDetailsModal from "./modals/DetailsModal";
 import Delete from "./Delete";
 import { ContratoSwitch } from "./ContratoSwitch";
+import HistorialGrafico from "./modals/HistorialGrafico";
 
 const flipIcon = (iconName: string) => {
   const icon = document.getElementById(iconName);
@@ -240,6 +241,9 @@ export function ContratoTable({
               <DropdownMenuItem className="focus:bg-yellow-300/30 flex items-center gap-2">
                 <ContractDetailsModal contrato={contrato} />
               </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-yellow-300/30 flex items-center gap-2">
+                <HistorialGrafico contrato={contrato} />
+              </DropdownMenuItem>
               <DropdownMenuItem
                 className="focus:bg-blue-500/30 flex items-center gap-2"
                 onClick={() => handleEdit(contrato)}
@@ -278,7 +282,7 @@ export function ContratoTable({
   });
   return (
     <div className="w-11/12 mx-auto">
-      <div className="grid grid-cols-3 md:grid-cols-7 items-center py-4 gap-5">
+      <div className="grid grid-cols-3 md:grid-cols-7 items-center pt-4 gap-5">
         <Input
           placeholder="Filtrar por locatario..."
           value={
@@ -406,11 +410,11 @@ export function ContratoTable({
                 </TableRow>
               ))
             ) : (
-              <TableRow>
+              <TableHeaderRow className="h-10">
                 <TableCell colSpan={columns.length} className="text-center">
                   No se encontraron resultados.
                 </TableCell>
-              </TableRow>
+              </TableHeaderRow>
             )}
           </TableBody>
         </Table>

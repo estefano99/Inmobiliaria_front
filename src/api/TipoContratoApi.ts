@@ -8,6 +8,7 @@ const obtenerTipoContratos = async () => {
     const { data } = await clienteAxios.get(tipoContratoRoute);
     return data;
   } catch (error) {
+    console.error("[ERROR] Error al obtener los tipos de contrato: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -23,9 +24,9 @@ const crearTipoContrato = async (
       tipoContratoRoute,
       tipoContrato
     );
-    console.log(data);
     return data;
   } catch (error) {
+    console.error("[ERROR] Error al crear el tipo de contrato: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -42,9 +43,9 @@ const editarTipoContrato = async (
       `${tipoContratoRoute}/${id}`,
       tipoContrato
     );
-    console.log(data);
     return data;
   } catch (error) {
+    console.error("[ERROR] Error al editar el tipo de contrato: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }
@@ -58,6 +59,7 @@ const eliminarTipoContrato = async (tipoContrato: TipoContratoType) => {
     const {data} = await clienteAxios.delete(`${tipoContratoRoute}/${id}`)
     return data;
   } catch (error) {
+    console.error("[ERROR] Error al eliminar el tipo de contrato: ", error);
     if (isAxiosError(error) && error.response) {
       throw new Error(error.response.data.message);
     }

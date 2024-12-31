@@ -102,7 +102,7 @@ export function ComboboxTipoContratoComponent({
                           : "opacity-0"
                       )}
                     />
-                    Duracion: {tipo_contrato.duracion / 365} años<br />
+                    Duracion: {tipo_contrato.duracion} meses<br />
                     Aumento: {tipo_contrato.plazo_aumento} meses<br />
                     Alarma: {tipo_contrato.alarma_aumento} dias
                   </CommandItem>

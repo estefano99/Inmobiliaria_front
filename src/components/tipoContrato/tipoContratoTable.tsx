@@ -4,6 +4,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
+  TableHeaderRow,
   TableRow,
 } from "@/components/ui/table";
 import { SquarePen } from "lucide-react";
@@ -13,7 +14,6 @@ import { useState } from "react";
 import FormEditar from "./FormEditar";
 import Delete from "./Delete";
 import { Input } from "../ui/input";
-import { formatDuracion } from "@/lib/funciones";
 
 interface props {
   tipoContratos: TipoContratoType[];
@@ -27,7 +27,7 @@ export function TipoContratoTable({ tipoContratos }: props) {
   const [filter, setFilter] = useState("");
 
   const handleEditar = async (tipoContrato: TipoContratoType) => {
-    setTipoContratoEditar(tipoContrato);  
+    setTipoContratoEditar(tipoContrato);
     setIsEdit(true);
   };
 
@@ -59,18 +59,18 @@ export function TipoContratoTable({ tipoContratos }: props) {
       </div>
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableHeaderRow>
             <TableHead>Duración</TableHead>
             <TableHead>Plazo aumento</TableHead>
             <TableHead>Alarma aumento</TableHead>
             <TableHead>Acciones</TableHead>
-          </TableRow>
+          </TableHeaderRow>
         </TableHeader>
         <TableBody>
           {filteredTipoContratos.length > 0 ? (
             filteredTipoContratos.map((tipoContrato) => (
               <TableRow className="h-10" key={tipoContrato.id}>
-                <TableCell>{formatDuracion(tipoContrato.duracion)}</TableCell>
+                <TableCell>{tipoContrato.duracion} meses</TableCell>
                 <TableCell>{tipoContrato.plazo_aumento} meses</TableCell>
                 <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
                 <TableCell className="flex pt-2 items-center gap-4">
@@ -84,9 +84,11 @@ export function TipoContratoTable({ tipoContratos }: props) {
               </TableRow>
             ))
           ) : (
-            <TableCell colSpan={5} className="text-center">
-              No se encontraron Tipo de contratos.
-            </TableCell>
+            <TableHeaderRow className="h-10">
+              <TableCell colSpan={5} className="text-center">
+                No se encontraron Tipo de contratos.
+              </TableCell>
+            </TableHeaderRow>
           )}
         </TableBody>
       </Table>

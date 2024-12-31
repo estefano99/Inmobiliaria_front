@@ -37,11 +37,7 @@ export function ComboboxTipoContrato({
   let initialDisplayValue = undefined; //Inicializa los select con los valores de la row seleccionada, ej: 2 anios, 3 meses, 
 
   if (isEdit && initialValue) {
-    if (isDuracion) {
-      initialDisplayValue = initialValue / 365; // Convierte el valor inicial a años si es duración
-    } else {
-      initialDisplayValue = initialValue; // Usa el valor inicial tal cual si no es duración
-    }
+    initialDisplayValue = initialValue; // Usa el valor inicial tal cual si no es duración
   }
   const [selectedValue, setSelectedValue] = React.useState<number | undefined>(
     initialDisplayValue
@@ -49,27 +45,26 @@ export function ComboboxTipoContrato({
 
   // Maneja la selección de valor, convirtiendo solo los años a días antes de setear en el formulario
   const handleSelect = (actualValue: number) => {
-    const value = isDuracion ? actualValue * 365 : actualValue; // Convierte años a días si es duración
-    setValue(isDuracion ? "duracion" : "plazo_aumento", value);
+    setValue(isDuracion ? "duracion" : "plazo_aumento", actualValue);
     setSelectedValue(actualValue);
     setOpen(false);
   };
 
   return (
-    <div>
+    <div >
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between text-sm font-light"
+            className="w-full justify-between text-sm font-light"
           >
             {selectedValue
-              ? `${selectedValue} ${isDuracion ? "Años" : "Meses"}`
+              ? `${selectedValue} Meses`
               : isDuracion
-              ? "Seleccionar duración..."
-              : "Seleccionar plazo..."}
+                ? "Seleccionar duración..."
+                : "Seleccionar plazo..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

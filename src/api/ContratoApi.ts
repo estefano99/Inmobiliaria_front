@@ -1,6 +1,6 @@
 import clienteAxios from "@/config/axios";
 import { contratosRoute } from "@/lib/routes";
-import { contrato, contratoJoin, contratoResponsePostPut} from "@/types/types";
+import { contrato, contratoJoin, contratoResponsePostPut, Estado} from "@/types/types";
 import { isAxiosError } from "axios";
 
 const obtenerContratos = async (estadoSwitch: boolean) => {
@@ -60,9 +60,23 @@ const eliminarContrato = async (contrato: contratoJoin) => {
   }
 }
 
+const actualizarEstadoContrato = async (id: number, estado: Estado): Promise<void> => {
+  try {
+    const {data} = await clienteAxios.patch(`${contratosRoute}/${id}`, {estado});
+    console.log("API - Actualizar estado: ", data)
+  } catch (error) {
+    console.log("[ERROR] actualizarEstadoContratos: ", error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+}
+
 export {
   obtenerContratos,
   crearContrato,
   editarContrato,
   eliminarContrato,
+  actualizarEstadoContrato,
 }

@@ -70,7 +70,7 @@ export type contrato = {
   importe: number;
 }
 
-export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & {
+export type contratoJoin = Omit<contrato, "id_locatario" & "id_inmueble" & "id_tipo_contrato"> & Pick<contrato, "id"> &{
   locatario: LocatarioType;
   inmueble: InmuebleJoin;
   tipo_contrato: TipoContratoType;
@@ -97,4 +97,28 @@ export type dataGraficos = {
   mes: string;
   estado: Estado;
   cantidad: number;
+}
+
+export type historialContratos = {
+  id: number;
+  importe_actualizado: Date;
+  fecha_actualizacion: Date;
+  estado: string;
+  id_contrato: number;
+}
+
+export type historialFiltrados = {
+  id?: number;
+  id_locatario: number;
+  id_inmueble: number;
+  id_tipo_contrato: number;
+  fecha_inicio: Date;
+  fecha_fin: Date;
+  estado: Estado;
+  alerta_vencimiento: number;
+  importe: number;
+  historial: historialContratos;
+  inmueble: InmuebleJoin;
+  locatario: LocatarioType;
+  tipo_contrato: TipoContratoType;
 }

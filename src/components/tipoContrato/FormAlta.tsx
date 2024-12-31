@@ -12,7 +12,6 @@ import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -28,17 +27,24 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { crearTipoContrato } from "@/api/TipoContratoApi";
 import { ComboboxTipoContrato } from "./ComboboxTipoContrato";
 import { FilePlus2 } from "lucide-react";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 const formSchema = z.object({
   id: z.number().optional(),
-  duracion: z
-    .number({
-      invalid_type_error: "Duracion debe ser un número.",
-      required_error: "Duracion es obligatorio.",
-    })
-    .min(1, {
-      message: "Duracion es obligatorio.",
-    }),
+  duracion: z.preprocess(
+    (val) => {
+      const num = parseInt(val as string, 10);
+      return isNaN(num) ? undefined : num;
+    },
+    z
+      .number({
+        invalid_type_error: "Duracion debe ser un número.",
+        required_error: "Duracion es obligatorio.",
+      })
+      .min(1, {
+        message: "Duracion debe ser al menos 1.",
+      })
+  ),
   plazo_aumento: z
     .number({
       invalid_type_error: "Plazo aumento debe ser un número.",
@@ -70,7 +76,7 @@ const FormAlta = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      duracion: undefined,
+      duracion: 0,
       plazo_aumento: undefined,
       alarma_aumento: 0,
     },
@@ -122,80 +128,76 @@ const FormAlta = () => {
           Crear Tipo de contrato
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="h-full md:h-auto w-full sm:w-2/5">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-bold">Crear Tipo de contrato</AlertDialogTitle>
-          <AlertDialogDescription>
-            Complete los campos para crear un nuevo Tipo de contrato
-          </AlertDialogDescription>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="duracion"
-                render={() => (
-                  <FormItem className="flex flex-col mt-4">
-                    <FormLabel>Duracion del contrato</FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxTipoContrato
-                        isDuracion={true}
-                        setValue={form.setValue}
-                        initialValue={undefined}
-                        isEdit={false}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="plazo_aumento"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Plazo de aumento</FormLabel>
-                    <FormDescription>El plazo de aumento indica la frecuencia con la que se ajustará el valor del alquiler mensual.</FormDescription>
-                    <FormControl className="w-full">
-                      <ComboboxTipoContrato
-                        isDuracion={false}
-                        setValue={form.setValue}
-                        initialValue={undefined}
-                        isEdit={false}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="alarma_aumento"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Alarma de aumento <i className="text-xs text-gray-400">(en dias)</i></FormLabel>
-                    <FormDescription>
-                      La alarma de aumento establece cuántos días antes se notificará al administrador que
-                      se aproxima un ajuste en el alquiler. Por ejemplo, si configuras "15", recibirás
-                      una alerta 15 días antes del próximo aumento.
-                    </FormDescription>
-                    <FormControl>
-                      <Input type="number" placeholder="Alarma aumento" {...field} className="w-[200px]" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => form.reset()}>
-                  Cancelar
-                </AlertDialogCancel>
-                <Button type="submit" disabled={mutation.isPending}>
-                  {mutation.isPending ? "Cargando..." : "Guardar"}
-                </Button>
-              </AlertDialogFooter>
-            </form>
-          </Form>
+          <AlertDialogTitle className="text-xl font-bold mb-2">Crear Tipo de contrato</AlertDialogTitle>
         </AlertDialogHeader>
+        <AlertDialogDescription>
+          Ingresa los datos para crear un nuevo tipo de contrato
+        </AlertDialogDescription>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="duracion"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Duración del contrato <i className="text-xs text-gray-400">(en meses)</i></FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Duracion contrato" {...field} className="w-[200px]" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="plazo_aumento"
+              render={() => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Plazo de aumento</FormLabel>
+                  <FormDescription>El plazo de aumento indica la frecuencia con la que se ajustará el valor del alquiler mensual.</FormDescription>
+                  <FormControl className="w-full">
+                    <ComboboxTipoContrato
+                      isDuracion={false}
+                      setValue={form.setValue}
+                      initialValue={undefined}
+                      isEdit={false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="alarma_aumento"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Alarma de aumento <i className="text-xs text-gray-400">(en dias)</i></FormLabel>
+                  <FormDescription>
+                    La alarma de aumento establece cuántos días antes se notificará al administrador que
+                    se aproxima un ajuste en el alquiler. Por ejemplo, si configuras "15", recibirás
+                    una alerta 15 días antes del próximo aumento.
+                  </FormDescription>
+                  <FormControl>
+                    <Input type="number" placeholder="Alarma aumento" {...field} className="w-[200px]" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => form.reset()}>
+                Cancelar
+              </AlertDialogCancel>
+              <Button type="submit" disabled={mutation.isPending}>
+                {mutation.isPending ? "Cargando..." : "Guardar"}
+              </Button>
+            </AlertDialogFooter>
+          </form>
+        </Form>
+
       </AlertDialogContent>
     </AlertDialog>
   );
