@@ -41,7 +41,7 @@ const AlarmaAumentos = ({
   }
   return (
     <AlertDialog open={openModalAumento} onOpenChange={setOpenModalAumento}>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         {
           openConfirmar && <ModalActualizarImporte contratoConHistorial={contratoConHistorial} openConfirmar={openConfirmar} setOpenConfirmar={setOpenConfirmar} />
         }

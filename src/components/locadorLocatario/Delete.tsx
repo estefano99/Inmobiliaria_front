@@ -64,7 +64,7 @@ const Delete = ({ locatario, locador }: props) => {
         <AlertDialogTrigger asChild>
           <Trash color="red" className="hover:cursor-pointer" />
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-full">
           <AlertDialogHeader>
             <AlertDialogTitle>
               {`¿Estás seguro que deseas eliminar a ${locatario ? locatario?.nombre : locador?.nombre}?`}

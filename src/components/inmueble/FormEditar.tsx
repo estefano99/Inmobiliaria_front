@@ -123,7 +123,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Editar Inmueble</AlertDialogTitle>
           <AlertDialogDescription>

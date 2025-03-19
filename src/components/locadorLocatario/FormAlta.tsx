@@ -111,7 +111,7 @@ const FormAlta = ({ isLocatario }: props) => {
           {isLocatario ? "Crear Locatario" : "Crear Locador"}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>
             {isLocatario ? "Crear Locatario" : "Crear Locador"}

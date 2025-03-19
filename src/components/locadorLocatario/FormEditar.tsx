@@ -132,7 +132,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>{`${locatario ? "Editar Locatario" : "Editar Locador"}`}</AlertDialogTitle>
           <AlertDialogDescription>

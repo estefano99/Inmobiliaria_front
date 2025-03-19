@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { format } from "date-fns"
-// import { es } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -62,7 +61,7 @@ export function Calendario({setValue, defaultValue, valueForm}: calendarioProps)
           {date ? format(date, "yyyy/MM/dd") : <span>Selecciona una fecha...</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0 min-h-[300px] max-h-[300px] overflow-y-hidden">
         <Calendar
           mode="single"
           selected={date}

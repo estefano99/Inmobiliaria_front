@@ -60,15 +60,15 @@ const Delete = ({ inmueble }: props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <div 
-        className="flex items-center gap-2 cursor-pointer"
-        onClick={(e) => e.stopPropagation()}
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
         >
           <Trash2 className="w-5 h-5" />
           <p>Eliminar Inmueble</p>
         </div>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl mb-2">
             ¿Estás seguro que deseas eliminar el siguiente inmueble?
@@ -85,8 +85,8 @@ const Delete = ({ inmueble }: props) => {
               {`${inmueble.locador.apellido || "Sin Apellido"} ${inmueble.locador.nombre || "Sin Nombre"}`}
             </span>
             <span className="flex bg-red-500/25 px-3 py-2 rounded-lg mt-6 text-red-300/80">
-            <TriangleAlert className="w-5 h-5 mr-1" />
-            Al eliminarlo se borrará de la base de datos de forma permanente.
+              <TriangleAlert className="w-5 h-5 mr-1" />
+              Al eliminarlo se borrará de la base de datos de forma permanente.
             </span>
           </AlertDialogDescription>
         </AlertDialogHeader>

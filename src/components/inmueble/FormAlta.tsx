@@ -106,7 +106,7 @@ const FormAlta = () => {
           <HousePlus className="h-4 w-4 2xl:h-5 2xl:w-5" />
           Crear Inmueble</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Crear Inmueble</AlertDialogTitle>
           <AlertDialogDescription>
