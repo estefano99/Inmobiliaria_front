@@ -3,9 +3,9 @@ import { contratosRoute } from "@/lib/routes";
 import { contrato, contratoJoin, contratoResponsePostPut, Estado } from "@/types/types";
 import { isAxiosError } from "axios";
 
-const obtenerContratos = async (estadoSwitch: boolean) => {
+const obtenerContratos = async () => {
   try {
-    const { data } = await clienteAxios.get(`${contratosRoute}?finalizados=${estadoSwitch}`);
+    const { data } = await clienteAxios.get(contratosRoute);
     return data;
   } catch (error) {
     console.log("[ERROR] obtenerContratos: ", error);

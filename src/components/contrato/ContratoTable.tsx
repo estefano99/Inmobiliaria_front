@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -45,7 +44,6 @@ import FormEditar from "./FormEditar";
 import FormAlta from "./FormAlta";
 import ContractDetailsModal from "./modals/DetailsModal";
 import Delete from "./Delete";
-import { ContratoSwitch } from "./ContratoSwitch";
 import HistorialGrafico from "./modals/HistorialGrafico";
 
 const flipIcon = (iconName: string) => {
@@ -67,14 +65,10 @@ type EstadoBadgeVariant =
 
 type ContratoProps = {
   contratos: contratoJoin[];
-  switchEstado: boolean;
-  setSwitchEstado: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function ContratoTable({
   contratos,
-  switchEstado,
-  setSwitchEstado,
 }: ContratoProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -93,28 +87,6 @@ export function ContratoTable({
   };
 
   const columns: ColumnDef<contratoJoin>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       id: "locatario",
       accessorFn: (row) => `${row.locatario.nombre} ${row.locatario.apellido}`,
@@ -282,7 +254,7 @@ export function ContratoTable({
   });
   return (
     <div className="w-11/12 mx-auto">
-      <div className="grid grid-cols-3 md:grid-cols-7 items-center pt-4 gap-5">
+      <div className="grid grid-cols-3 md:grid-cols-7 items-center pt-4 gap-5 mb-3">
         <Input
           placeholder="Filtrar por locatario..."
           value={
@@ -367,10 +339,6 @@ export function ContratoTable({
         </DropdownMenu>
         <FormAlta />
       </div>
-      <ContratoSwitch
-        switchEstado={switchEstado}
-        setSwitchEstado={setSwitchEstado}
-      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -420,10 +388,6 @@ export function ContratoTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-2">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

@@ -11,7 +11,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { toast } from "sonner";
 
 const Contratos = () => {
-  const [switchEstado, setSwitchEstado] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalAumento, setOpenModalAumento] = useState(false);
   const [contratosPorVencer, setContratosPorVencer] = useState<contratoJoin[]>(
@@ -23,8 +22,8 @@ const Contratos = () => {
   const queryClient = useQueryClient();
 
   const { data: contratos, isLoading } = useQuery<contratoJoin[]>({
-    queryKey: ["contratos", switchEstado],
-    queryFn: () => obtenerContratos(switchEstado),
+    queryKey: ["contratos"],
+    queryFn: obtenerContratos,
   });
 
   const { data: historialContratos } = useQuery<historialContratos[]>({
@@ -68,7 +67,7 @@ const Contratos = () => {
     setContratosParaAumento(contratosConAumento);
     setOpenModalAumento(contratosConAumento.length > 0);
 
-  }, [contratos, historialContratos, switchEstado]);
+  }, [contratos, historialContratos]);
 
   useEffect(() => {
     if (contratosPorVencer.length > 0) {
@@ -146,8 +145,6 @@ const Contratos = () => {
         : contratos && (
           <ContratoTable
             contratos={contratos}
-            switchEstado={switchEstado}
-            setSwitchEstado={setSwitchEstado}
           />
         )}
       <Toaster />
