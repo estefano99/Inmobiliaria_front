@@ -20,7 +20,6 @@ const obtenerHistorial = async (id: number) => {
     if (!id) {
       throw new Error("No se puede obtener el historial de un contrato sin id");
     }
-    console.log("api historial" , id)
     const { data } = await clienteAxios.get(`${historialContratoRoute}/${id}`);
     return data;
   } catch (error) {
@@ -35,7 +34,6 @@ const obtenerHistorial = async (id: number) => {
 const actualizarImporte = async (historial_actualizar: { id_historial: number | undefined, id_contrato: number | undefined, importe_actualizado: number | undefined, plazo_aumento: number | undefined }) => {
   try {
     const { data } = await clienteAxios.put(nuevoHistorialContratoRoute, historial_actualizar);
-    console.log("NUEVO HISTORIAL:", data);
     return data;
   } catch (error) {
     console.log("[ERROR] obtener Historiales: ", error);

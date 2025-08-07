@@ -8,7 +8,7 @@ import { contratoJoin, Estado, historialContratos, historialFiltrados } from "@/
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 const Contratos = () => {
   const [switchEstado, setSwitchEstado] = useState(false);
@@ -49,6 +49,7 @@ const Contratos = () => {
   useEffect(() => {
     const hoy = new Date();
 
+    //Filtra los contratos a vencer
     if (contratos) {
       const contratosFiltrados = [...contratos].filter((contrato) => {
         const fechaFin = new Date(contrato.fecha_fin);
@@ -70,15 +71,15 @@ const Contratos = () => {
   }, [contratos, historialContratos, switchEstado]);
 
   useEffect(() => {
-    if(contratosPorVencer.length > 0) {
+    if (contratosPorVencer.length > 0) {
       actualizarEstadoContratos(contratosPorVencer)
     }
   }, [contratosPorVencer])
 
+  //Actualiza los contratos vigentes a proximos a vencer previamente evaluados en el primer useEffect.
   const actualizarEstadoContratos = (contratos_por_vencer: contratoJoin[]) => {
-    console.log("Actualizar estado de contratos a próximos a vencer.");
     contratos_por_vencer.forEach((contrato) => {
-      if(contrato.estado === Estado.VIGENTE && contrato.id) {
+      if (contrato.estado === Estado.VIGENTE && contrato.id) {
         mutation.mutate({ id: contrato.id, estado: Estado.PROXIMO_A_VENCER });
       }
     });
@@ -111,13 +112,13 @@ const Contratos = () => {
     if (!contratosFiltrados) return [];
 
     const contratosRangoAumento = contratosFiltrados.filter(contratos => {
+      if (contratos.estado == Estado.RESCINDIDO || contratos.estado == Estado.FINALIZADO) return false;
       const hoy = new Date();
       const fechaActualizacion = new Date(contratos.historial.fecha_actualizacion);
       const alarmaAumento = contratos.tipo_contrato.alarma_aumento;
 
       const rangoInicio = new Date(fechaActualizacion);
       rangoInicio.setDate(fechaActualizacion.getDate() - alarmaAumento);
-
       return hoy >= rangoInicio;
     })
     return contratosRangoAumento
@@ -149,7 +150,7 @@ const Contratos = () => {
             setSwitchEstado={setSwitchEstado}
           />
         )}
-        <Toaster />
+      <Toaster />
     </div>
   );
 };

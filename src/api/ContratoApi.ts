@@ -1,6 +1,6 @@
 import clienteAxios from "@/config/axios";
 import { contratosRoute } from "@/lib/routes";
-import { contrato, contratoJoin, contratoResponsePostPut, Estado} from "@/types/types";
+import { contrato, contratoJoin, contratoResponsePostPut, Estado } from "@/types/types";
 import { isAxiosError } from "axios";
 
 const obtenerContratos = async (estadoSwitch: boolean) => {
@@ -19,7 +19,6 @@ const obtenerContratos = async (estadoSwitch: boolean) => {
 const crearContrato = async (contrato: contrato) => {
   try {
     const { data } = await clienteAxios.post(contratosRoute, contrato);
-    console.log(data)
     return data;
   } catch (error) {
     console.log("[ERROR] crearContrato: ", error);
@@ -34,7 +33,6 @@ const editarContrato = async (contrato: contrato): Promise<contratoResponsePostP
   const { id } = contrato;
   try {
     const { data } = await clienteAxios.put(`${contratosRoute}/${id}`, contrato);
-    console.log(data)
     return data;
   } catch (error) {
     console.log("[ERROR] editarContrato: ", error);
@@ -46,10 +44,9 @@ const editarContrato = async (contrato: contrato): Promise<contratoResponsePostP
 }
 
 const eliminarContrato = async (contrato: contratoJoin) => {
-  const {id} = contrato
-  try{
-    const {data} = await clienteAxios.delete(`${contratosRoute}/${id}`)
-    console.log(data)
+  const { id } = contrato
+  try {
+    const { data } = await clienteAxios.delete(`${contratosRoute}/${id}`)
     return data;
   } catch (error) {
     console.log("[ERROR] eliminarContrato: ", error);
@@ -62,8 +59,7 @@ const eliminarContrato = async (contrato: contratoJoin) => {
 
 const actualizarEstadoContrato = async (id: number, estado: Estado): Promise<void> => {
   try {
-    const {data} = await clienteAxios.patch(`${contratosRoute}/${id}`, {estado});
-    console.log("API - Actualizar estado: ", data)
+    await clienteAxios.patch(`${contratosRoute}/${id}`, { estado });
   } catch (error) {
     console.log("[ERROR] actualizarEstadoContratos: ", error);
     if (isAxiosError(error) && error.response) {
