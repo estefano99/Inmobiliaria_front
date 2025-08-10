@@ -96,68 +96,73 @@ export function LocLotTable({ locatarios, locadores, isLocatario }: props) {
           />
         )}
       </div>
-      <Table>
-        <TableHeader>
-          <TableHeaderRow>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Apellido</TableHead>
-            <TableHead>DNI</TableHead>
-            <TableHead>Telefono</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableHeaderRow>
-        </TableHeader>
-        <TableBody>
-          {isLocatario ? (
-            filteredLocatarios.length > 0 ? (
-              filteredLocatarios.map((locatario) => (
-                <TableRow className="h-10" key={locatario.id}>
-                  <TableCell>{locatario.nombre}</TableCell>
-                  <TableCell>{locatario.apellido}</TableCell>
-                  <TableCell>{locatario.dni}</TableCell>
-                  <TableCell>{locatario.telefono}</TableCell>
-                  <TableCell className="flex items-center gap-4 pt-2">
-                    <SquarePen
-                      color="green"
-                      onClick={() => handleEditar(locatario)}
-                      className="hover:cursor-pointer"
-                    />
-                    <Delete locatario={locatario} locador={null} />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableHeaderRow className="h-10">
-                <TableCell colSpan={5} className="text-center">
-                  No se encontraron locatarios.
-                </TableCell>
+      <div className="rounded-md border">
+        {/* alto fijo = viewport - (alto barra superior, filtros, márgenes). Ajustá 240px a tu layout */}
+        <div className="h-[calc(100vh-200px)] overflow-y-auto">
+          <Table className="min-w-full">
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Apellido</TableHead>
+                <TableHead>DNI</TableHead>
+                <TableHead>Telefono</TableHead>
+                <TableHead>Acciones</TableHead>
               </TableHeaderRow>
-            )
-          ) : filteredLocadores.length > 0 ? (
-            filteredLocadores.map((locador) => (
-              <TableRow className="h-10" key={locador.id}>
-                <TableCell>{locador.nombre}</TableCell>
-                <TableCell>{locador.apellido}</TableCell>
-                <TableCell>{locador.dni}</TableCell>
-                <TableCell>{locador.telefono}</TableCell>
-                <TableCell className="flex items-center gap-4 pt-2">
-                  <SquarePen
-                    color="green"
-                    onClick={() => handleEditarLocador(locador)}
-                    className="hover:cursor-pointer"
-                  />
-                  <Delete locatario={null} locador={locador} />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableHeaderRow className="h-10">
-              <TableCell colSpan={5} className="text-center">
-                No se encontraron locadores.
-              </TableCell>
-            </TableHeaderRow>
-          )}
-        </TableBody>
-      </Table>
+            </TableHeader>
+            <TableBody>
+              {isLocatario ? (
+                filteredLocatarios.length > 0 ? (
+                  filteredLocatarios.map((locatario) => (
+                    <TableRow className="h-10" key={locatario.id}>
+                      <TableCell>{locatario.nombre}</TableCell>
+                      <TableCell>{locatario.apellido}</TableCell>
+                      <TableCell>{locatario.dni}</TableCell>
+                      <TableCell>{locatario.telefono}</TableCell>
+                      <TableCell className="flex items-center gap-4 pt-2">
+                        <SquarePen
+                          color="green"
+                          onClick={() => handleEditar(locatario)}
+                          className="hover:cursor-pointer"
+                        />
+                        <Delete locatario={locatario} locador={null} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableHeaderRow className="h-10">
+                    <TableCell colSpan={5} className="text-center">
+                      No se encontraron locatarios.
+                    </TableCell>
+                  </TableHeaderRow>
+                )
+              ) : filteredLocadores.length > 0 ? (
+                filteredLocadores.map((locador) => (
+                  <TableRow className="h-10" key={locador.id}>
+                    <TableCell>{locador.nombre}</TableCell>
+                    <TableCell>{locador.apellido}</TableCell>
+                    <TableCell>{locador.dni}</TableCell>
+                    <TableCell>{locador.telefono}</TableCell>
+                    <TableCell className="flex items-center gap-4 pt-2">
+                      <SquarePen
+                        color="green"
+                        onClick={() => handleEditarLocador(locador)}
+                        className="hover:cursor-pointer"
+                      />
+                      <Delete locatario={null} locador={locador} />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableHeaderRow className="h-10">
+                  <TableCell colSpan={5} className="text-center">
+                    No se encontraron locadores.
+                  </TableCell>
+                </TableHeaderRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -48,21 +48,21 @@ export function ComboboxLocatarios({ setValue, defaultValue }: LocatarioProps) {
   }, [defaultValue]);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-full justify-between"
           >
             {value ? value : "Seleccionar locatario..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
-          <Command>
+        <PopoverContent className="w-full p-0">
+          <Command className="w-full">
             <CommandInput placeholder="Buscar locatario..." />
             <CommandList>
               {isLoading && <CommandEmpty>Cargando...</CommandEmpty>}

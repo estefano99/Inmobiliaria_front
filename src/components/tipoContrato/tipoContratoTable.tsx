@@ -57,41 +57,46 @@ export function TipoContratoTable({ tipoContratos }: props) {
           />
         )}
       </div>
-      <Table>
-        <TableHeader>
-          <TableHeaderRow>
-            <TableHead>Duración</TableHead>
-            <TableHead>Plazo aumento</TableHead>
-            <TableHead>Alarma aumento</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableHeaderRow>
-        </TableHeader>
-        <TableBody>
-          {filteredTipoContratos.length > 0 ? (
-            filteredTipoContratos.map((tipoContrato) => (
-              <TableRow className="h-10" key={tipoContrato.id}>
-                <TableCell>{tipoContrato.duracion} meses</TableCell>
-                <TableCell>{tipoContrato.plazo_aumento} meses</TableCell>
-                <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
-                <TableCell className="flex pt-2 items-center gap-4">
-                  <SquarePen
-                    color="green"
-                    onClick={() => handleEditar(tipoContrato)}
-                    className="hover:cursor-pointer"
-                  />
-                  <Delete tipoContrato={tipoContrato} />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableHeaderRow className="h-10">
-              <TableCell colSpan={5} className="text-center">
-                No se encontraron Tipo de contratos.
-              </TableCell>
-            </TableHeaderRow>
-          )}
-        </TableBody>
-      </Table>
+      <div className="rounded-md border">
+        {/* alto fijo = viewport - (alto barra superior, filtros, márgenes). Ajustá 240px a tu layout */}
+        <div className="h-[calc(100vh-200px)] overflow-y-auto">
+          <Table className="min-w-full">
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHead>Duración</TableHead>
+                <TableHead>Plazo aumento</TableHead>
+                <TableHead>Alarma aumento</TableHead>
+                <TableHead>Acciones</TableHead>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {filteredTipoContratos.length > 0 ? (
+                filteredTipoContratos.map((tipoContrato) => (
+                  <TableRow className="h-10" key={tipoContrato.id}>
+                    <TableCell>{tipoContrato.duracion} meses</TableCell>
+                    <TableCell>{tipoContrato.plazo_aumento} meses</TableCell>
+                    <TableCell>{tipoContrato.alarma_aumento} dias</TableCell>
+                    <TableCell className="flex pt-2 items-center gap-4">
+                      <SquarePen
+                        color="green"
+                        onClick={() => handleEditar(tipoContrato)}
+                        className="hover:cursor-pointer"
+                      />
+                      <Delete tipoContrato={tipoContrato} />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableHeaderRow className="h-10">
+                  <TableCell colSpan={5} className="text-center">
+                    No se encontraron Tipo de contratos.
+                  </TableCell>
+                </TableHeaderRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -5,3 +5,12 @@ export const formatDuracion = (dias: number) => {
     return `${Math.floor(dias / 30)} ${Math.floor(dias / 30) > 1 ? "meses" : "mes"}`;
   }
 };
+
+export const formatearImporte = (importe: number): string => {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(importe);
+};

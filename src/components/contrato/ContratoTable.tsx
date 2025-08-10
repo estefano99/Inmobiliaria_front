@@ -45,6 +45,7 @@ import FormAlta from "./FormAlta";
 import ContractDetailsModal from "./modals/DetailsModal";
 import Delete from "./Delete";
 import HistorialGrafico from "./modals/HistorialGrafico";
+import { formatearImporte } from "@/lib/funciones";
 
 const flipIcon = (iconName: string) => {
   const icon = document.getElementById(iconName);
@@ -140,7 +141,7 @@ export function ContratoTable({
       header: () => <div className="text-center">Importe</div>,
       cell: ({ row }) => (
         <div className="text-center">
-          ${row.getValue("importe") ? row.getValue("importe") : "-"}
+          {row.getValue("importe") ? formatearImporte(row.getValue("importe")) : "-"}
         </div>
       ),
     },

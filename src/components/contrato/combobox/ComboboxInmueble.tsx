@@ -47,7 +47,7 @@ export function ComboboxInmueble({ setValue, defaultValue }: inmuebleProps) {
   }, [defaultValue]);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button
@@ -60,8 +60,8 @@ export function ComboboxInmueble({ setValue, defaultValue }: inmuebleProps) {
             <ChevronsUpDown className="h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0">
-          <Command>
+        <PopoverContent className="w-full p-0">
+          <Command className="w-full">
             <CommandInput placeholder="Buscar inmueble..." />
             <CommandList>
               {isLoading && <CommandEmpty>Cargando...</CommandEmpty>}
