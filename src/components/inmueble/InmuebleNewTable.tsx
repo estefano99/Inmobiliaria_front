@@ -16,7 +16,6 @@ import {
 import { ArrowDown, BetweenVerticalStart, CircleEllipsis, Pencil } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -61,25 +60,6 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
   };
 
   const columns: ColumnDef<InmuebleJoin>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       accessorKey: "localidad",
       header: ({ column }) => (
@@ -363,10 +343,6 @@ export function InmuebleNewTable({ inmuebles }: InmuebleNewTableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-2">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

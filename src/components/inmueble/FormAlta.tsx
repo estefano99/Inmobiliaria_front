@@ -117,61 +117,72 @@ const FormAlta = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 pt-4"
             >
-              <FormField
-                control={form.control}
-                name="localidad"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Localidad <span className="text-red-500">*</span></FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingresar localidad" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-row gap-5 justify-between">
-                <FormField
-                  control={form.control}
-                  name="calle"
-                  render={({ field }) => (
-                    <FormItem className="grow">
-                      <FormLabel>Calle <span className="text-red-500">*</span></FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ingresar calle" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="altura"
-                  render={({ field }) => (
-                    <FormItem className="grow">
-                      <FormLabel>Altura</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ingresar altura (opcional)" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="localidad"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Localidad <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ingresar localidad" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="locadorId"
+                    render={() => (
+                      <FormItem className="w-full">
+                        <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
+                        <FormControl className="w-full">
+                          <ComboboxLocador setValue={form.setValue} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
               <div className="flex flex-row gap-5 justify-between">
-              <FormField
-                  control={form.control}
-                  name="torre"
-                  render={({ field }) => (
-                    <FormItem className="grow">
-                      <FormLabel>Torre</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ingresar torre (opcional)" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="calle"
+                    render={({ field }) => (
+                      <FormItem className="grow">
+                        <FormLabel>Calle <span className="text-red-500">*</span></FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ingresar calle" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="altura"
+                    render={({ field }) => (
+                      <FormItem className="grow">
+                        <FormLabel>Altura</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Ingresar altura (opcional)" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-row gap-5 justify-between">
+
                 <FormField
                   control={form.control}
                   name="piso"
@@ -199,20 +210,21 @@ const FormAlta = () => {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="locadorId"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxLocador setValue={form.setValue} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+              <div className="flex flex-row gap-5 justify-between">
+                <FormField
+                  control={form.control}
+                  name="torre"
+                  render={({ field }) => (
+                    <FormItem className="grow">
+                      <FormLabel>Torre</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingresar torre (opcional)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => form.reset()}>Cancelar</AlertDialogCancel>
                 <Button type="submit" disabled={mutation.isPending}>

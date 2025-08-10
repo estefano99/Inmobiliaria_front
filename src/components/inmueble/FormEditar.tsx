@@ -97,7 +97,7 @@ const FormEditar = ({
           <span>
             Se ha editado el Inmueble{" "}
             <span className="underline underline-offset-2">
-              {inmueble.localidad} | {inmueble.calle} | {inmueble.altura ? inmueble.altura : "s/altura"} | {inmueble.torre ? inmueble.torre : "s/torre"} | {inmueble.piso ? inmueble.piso : "s/piso"} | {inmueble.departamento ? inmueble.departamento : "s/departamento"} 
+              {inmueble.localidad} | {inmueble.calle} | {inmueble.altura ? inmueble.altura : "s/altura"} | {inmueble.torre ? inmueble.torre : "s/torre"} | {inmueble.piso ? inmueble.piso : "s/piso"} | {inmueble.departamento ? inmueble.departamento : "s/departamento"}
             </span>
           </span>
         ),
@@ -114,7 +114,7 @@ const FormEditar = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const data: InmuebleType= {
+    const data: InmuebleType = {
       id: inmueble?.id,
       ...values
     };
@@ -123,7 +123,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent className="w-full">
+      <AlertDialogContent className="h-full md:h-auto w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Editar Inmueble</AlertDialogTitle>
           <AlertDialogDescription>
@@ -131,20 +131,38 @@ const FormEditar = ({
           </AlertDialogDescription>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="localidad"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Localidad</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ingesar localidad" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-row gap-5 justify-between">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
+                <FormField
+                  control={form.control}
+                  name="localidad"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Localidad</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar localidad" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="locadorId"
+                  render={() => (
+                    <FormItem className="w-full">
+                      <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
+                      <FormControl className="w-full">
+                        <ComboboxLocador
+                          setValue={form.setValue}
+                          defaultValue={`${inmueble.locador.apellido} ${inmueble.locador.nombre}`}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
                 <FormField
                   control={form.control}
                   name="calle"
@@ -165,35 +183,22 @@ const FormEditar = ({
                     <FormItem className="grow">
                       <FormLabel>Altura</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ingesar altura" {...field} />
+                        <Input placeholder="Ingesar altura (opcional)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <div className="flex flex-row gap-5 justify-between">
-                <FormField
-                  control={form.control}
-                  name="torre"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Torre</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ingesar torre" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
                 <FormField
                   control={form.control}
                   name="piso"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormLabel>Piso</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ingesar piso" {...field} />
+                        <Input placeholder="Ingesar piso (opcional)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -203,32 +208,31 @@ const FormEditar = ({
                   control={form.control}
                   name="departamento"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormLabel>Departamento</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ingesar departamento" {...field} />
+                        <Input placeholder="Ingesar departamento (opcional)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="locadorId"
-                render={() => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Locador <span className="text-red-500">*</span></FormLabel>
-                    <FormControl className="w-full">
-                      <ComboboxLocador 
-                      setValue={form.setValue} 
-                      defaultValue={`${inmueble.locador.apellido} ${inmueble.locador.nombre}`}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
+                <FormField
+                  control={form.control}
+                  name="torre"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Torre</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ingesar torre (opcional)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <Button type="submit" disabled={mutation.isPending}>

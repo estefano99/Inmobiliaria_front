@@ -20,6 +20,7 @@ import { historialFiltrados } from "@/types/types";
 import { ScrollArea } from "../../ui/scroll-area";
 import ModalActualizarImporte from "./ModalActualizarImporte";
 import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
+import { formatearImporte } from "@/lib/funciones";
 
 interface props {
   contratosParaAumento: historialFiltrados[];
@@ -81,7 +82,7 @@ const AlarmaAumentos = ({
                   <TableCell>
                     {String(contrato.locatario.apellido)}
                   </TableCell>
-                  <TableCell>{String(contrato.importe)}</TableCell>
+                  <TableCell>{formatearImporte(contrato.importe)}</TableCell>
                   <TableCell className="font-bold text-slate-100">{String(contrato.historial.fecha_actualizacion)}</TableCell>
                   <TableCell onClick={() => handleClickAumento(contrato)} className="cursor-pointer text-yellow-400 hover:bg-yellow-300/20 transition-all">Actualizar</TableCell>
                 </TableHeaderRow>

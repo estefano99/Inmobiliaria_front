@@ -41,21 +41,21 @@ export function ComboboxEstados({ setValue, defaultValue }: EstadoProps) {
   }, [defaultValue]);
 
   return (
-    <div>
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between"
+            className="w-full justify-between"
           >
             {value ? value : "Seleccionar estado..."}
             <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0">
-          <Command>
+        <PopoverContent className="w-full p-0">
+          <Command className="w-full">
             <CommandInput placeholder="Buscar estado..." />
             <CommandList>
               <CommandGroup>

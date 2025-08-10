@@ -31,6 +31,7 @@ import { Calendario } from "./Calendario";
 import { ComboboxInmueble } from "./combobox/ComboboxInmueble";
 import { ComboboxLocatarios } from "./combobox/ComboboxLocatario";
 import { ComboboxTipoContratoComponent } from "./combobox/ComboboxTipoContrato";
+import { formatearImporte } from "@/lib/funciones";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -121,7 +122,6 @@ const FormEditar = ({
   isEdit,
   setContratoEditar,
 }: props) => {
-  console.log(contrato);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -137,7 +137,6 @@ const FormEditar = ({
       alerta_vencimiento: contrato.alerta_vencimiento,
     },
   });
-  console.log("[Contrato props]:", contrato);
 
   const mutation = useMutation({
     mutationFn: editarContrato,
@@ -180,11 +179,8 @@ const FormEditar = ({
       }, 500);
     },
   });
-  console.log(form.getValues());
-  // console.log(form.formState.errors);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     const data: contrato = {
       id: contrato?.id,
       ...values,
@@ -194,7 +190,7 @@ const FormEditar = ({
   }
   return (
     <AlertDialog onOpenChange={setIsEdit} open={isEdit}>
-      <AlertDialogContent className="h-full md:h-auto w-full md:w-2/5 2xl:w-[35%]">
+      <AlertDialogContent className="h-full md:h-auto w-full">
         <AlertDialogHeader>
           <AlertDialogTitle>Editar Contrato</AlertDialogTitle>
           <AlertDialogDescription>
@@ -205,12 +201,12 @@ const FormEditar = ({
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-6 pt-4 w-full"
             >
-              <div className="flex flex-wrap">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
                 <FormField
                   control={form.control}
                   name="id_locatario"
                   render={() => (
-                    <FormItem className="flex-grow min-w-[200px]">
+                    <FormItem className="w-full">
                       <FormLabel>
                         Locatario <span className="text-red-500">*</span>
                       </FormLabel>
@@ -229,7 +225,7 @@ const FormEditar = ({
                   control={form.control}
                   name="id_tipo_contrato"
                   render={() => (
-                    <FormItem className="flex-grow min-w-[200px]">
+                    <FormItem className="w-full">
                       <FormLabel>
                         Tipo contrato <span className="text-red-500">*</span>
                       </FormLabel>
@@ -244,43 +240,47 @@ const FormEditar = ({
                   )}
                 />
               </div>
-              <div className="flex flex-wrap gap-5">
-                <FormField
-                  control={form.control}
-                  name="id_inmueble"
-                  render={() => (
-                    <FormItem className="flex-grow min-w-[200px]">
-                      <FormLabel>
-                        Inmueble <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl className="w-full">
-                        <ComboboxInmueble
-                          setValue={form.setValue}
-                          defaultValue={`${contrato.inmueble.localidad} ${contrato.inmueble.calle} ${contrato.inmueble.altura}`}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="importe"
-                  render={({ field }) => (
-                    <FormItem className="flex-grow min-w-[200px]">
-                      <FormLabel>
-                        Importe
-                      </FormLabel>
-                      <FormControl>
-                        <Input disabled placeholder="Ingresar importe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="id_inmueble"
+                    render={() => (
+                      <FormItem className="w-full">
+                        <FormLabel>
+                          Inmueble <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <ComboboxInmueble
+                            setValue={form.setValue}
+                            defaultValue={`${contrato.inmueble.localidad} ${contrato.inmueble.calle} ${contrato.inmueble.altura}`}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="importe"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>
+                          Importe
+                        </FormLabel>
+                        <FormControl>
+                          <Input disabled placeholder="Ingresar importe" {...field} value={formatearImporte(field.value)} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-5">
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
                 <FormField
                   control={form.control}
                   name="fecha_inicio"
@@ -319,7 +319,9 @@ const FormEditar = ({
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-wrap gap-5">
+              </div>
+              <div className="w-full flex flex-col md:flex-row justify-between gap-5">
+                <div className="flex flex-1">
                   <FormField
                     control={form.control}
                     name="estado"
@@ -339,22 +341,23 @@ const FormEditar = ({
                     )}
                   />
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="alerta_vencimiento"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Alerta vencimiento <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="Alerta vencimiento" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-1">
+                  <FormField
+                    control={form.control}
+                    name="alerta_vencimiento"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>
+                          Alerta vencimiento <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="Alerta vencimiento" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
               <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => form.reset()}>

@@ -19,6 +19,7 @@ import {
 import { contratoJoin } from "@/types/types";
 import { ScrollArea } from "../../ui/scroll-area";
 import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
+import { formatearImporte } from "@/lib/funciones";
 
 interface props {
   contratosPorVencer: contratoJoin[];
@@ -68,7 +69,7 @@ const AlertaVencimientos = ({
                     <TableCell>
                       {String(contrato.locatario.apellido)}
                     </TableCell>
-                    <TableCell>{String(contrato.importe)}</TableCell>
+                    <TableCell>{formatearImporte(contrato.importe)}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
