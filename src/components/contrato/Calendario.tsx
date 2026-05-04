@@ -43,7 +43,15 @@ export function Calendario({setValue, defaultValue, valueForm}: calendarioProps)
 
   React.useEffect(() => {
     if (defaultValue) {
-      setDate(defaultValue);
+      // Convertir fecha UTC a fecha local
+      const isoString = (defaultValue instanceof Date) 
+        ? defaultValue.toISOString().split("T")[0]
+        : String(defaultValue).split("T")[0];
+      
+      const [year, month, day] = isoString.split("-").map(Number);
+      const localDate = new Date(year, month - 1, day);
+      
+      setDate(localDate);
     }
   }, [defaultValue]);
 

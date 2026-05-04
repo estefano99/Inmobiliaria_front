@@ -51,10 +51,10 @@ const Contratos = () => {
     //Filtra los contratos a vencer
     if (contratos) {
       const contratosFiltrados = [...contratos].filter((contrato) => {
+        if (contrato.estado === Estado.RESCINDIDO || contrato.estado === Estado.FINALIZADO) return false;
         const fechaFin = new Date(contrato.fecha_fin);
         const rangoMaximo = new Date();
         rangoMaximo.setDate(hoy.getDate() + contrato.alerta_vencimiento);
-
         return fechaFin >= hoy && fechaFin <= rangoMaximo;
       });
 

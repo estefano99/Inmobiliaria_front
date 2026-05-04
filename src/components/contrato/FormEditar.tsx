@@ -31,7 +31,7 @@ import { Calendario } from "./Calendario";
 import { ComboboxInmueble } from "./combobox/ComboboxInmueble";
 import { ComboboxLocatarios } from "./combobox/ComboboxLocatario";
 import { ComboboxTipoContratoComponent } from "./combobox/ComboboxTipoContrato";
-import { formatearImporte } from "@/lib/funciones";
+import { formatearImporte, parseDateLocal } from "@/lib/funciones";
 
 const formSchema = z.object({
   id: z.number().optional(),
@@ -74,16 +74,14 @@ const formSchema = z.object({
       })
   ),
   fecha_inicio: z.preprocess(
-    (val) =>
-      typeof val === "string" || val instanceof Date ? new Date(val) : val,
+    (val) => parseDateLocal(val as string | Date),
     z.date({
       required_error: "Debe seleccionar una fecha.",
       invalid_type_error: "Fecha incorrecta",
     })
   ),
   fecha_fin: z.preprocess(
-    (val) =>
-      typeof val === "string" || val instanceof Date ? new Date(val) : val,
+    (val) => parseDateLocal(val as string | Date),
     z.date({
       required_error: "Debe seleccionar una fecha.",
       invalid_type_error: "Fecha incorrecta",
