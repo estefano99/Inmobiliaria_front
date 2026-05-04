@@ -14,3 +14,24 @@ export const formatearImporte = (importe: number): string => {
     maximumFractionDigits: 2,
   }).format(importe);
 };
+
+/**
+ * Parsea una fecha (string o Date) manteniendo la zona horaria local
+ * Convierte fechas UTC a fechas locales correctamente
+ */
+export const parseDateLocal = (dateInput: string | Date): Date => {
+  if (typeof dateInput === "string") {
+    // Si es string formato YYYY-MM-DD, crear fecha en hora local
+    const [year, month, day] = dateInput.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+  
+  if (dateInput instanceof Date) {
+    // Si es una Date (probablemente en UTC del servidor), convertirla a hora local
+    const isoString = dateInput.toISOString().split("T")[0]; // Obtener "YYYY-MM-DD"
+    const [year, month, day] = isoString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+  
+  return new Date();
+};
